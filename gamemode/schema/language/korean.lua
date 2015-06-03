@@ -67,9 +67,13 @@ catherine.language.Merge( "korean", {
 	[ "Item_Notify_FreqSet_PR" ] = "당신은 라디오 주파수를 %s 로 설정하셨습니다.",
 	[ "Item_Notify_Error01_PR" ] = "라디오 주파수의 범위는 101.1 ~ 199.9 입니다!",
 	[ "Item_Notify_Error02_PR" ] = "라디오 주파수 형식은 XXX.X 가 되어야 합니다!",
+	[ "Item_Notify_Error03_PR" ] = "당신은 휴대용 라디오가 없습니다!",
+	[ "Item_Notify_Error04_PR" ] = "휴대용 라디오의 전원을 키십시오!",
+	[ "Item_Notify_Error05_PR" ] = "휴대용 라디오의 주파수를 설정하십시오!",
 	
 	[ "Item_Name_RD" ] = "신고 장치",
 	[ "Item_Desc_RD" ] = "이것을 사용하면 콤바인에게 신고를 할 수 있습니다.",
+	[ "Item_Notify_Error01_RD" ] = "당신은 신고 장치가 없습니다!",
 	
 	[ "Item_Name_SC" ] = "스프래이 캔",
 	[ "Item_Desc_SC" ] = "누르면 페인트가 나와서 벽에다 그릴 수 있습니다.",
@@ -168,6 +172,9 @@ catherine.language.Merge( "korean", {
 	[ "Chat_Dispatch" ] = "콤바인 방송 - %s",
 	[ "Chat_Radio" ] = "%s 님의 라디오 말 %s",
 	[ "Chat_Request" ] = "%s 님의 신고 %s",
+	
+	// Basic
+	[ "Basic_Notify_IsNotCombine" ] = "당신은 콤바인이 아닙니다!",
 	
 	// Combine Overlay
 	[ "CombineOverlay_Str01" ] = "바이오 시그널을 기다리는 중 ...",

@@ -30,16 +30,16 @@ catherine.command.Register( {
 					if ( itemData.freq != "xxx.x" and itemData.freq != "" ) then
 						Schema:SayRadio( pl, args )
 					else
-						catherine.util.Notify( pl, "You have not set the radio freq!" )
+						catherine.util.NotifyLang( pl, "Item_Notify_Error05_PR" )
 					end
 				else
-					catherine.util.Notify( pl, "Please turn on the radio!" )
+					catherine.util.NotifyLang( pl, "Item_Notify_Error04_PR" )
 				end
 			else
-				catherine.util.Notify( pl, "You don't have a Portable radio!" )
+				catherine.util.NotifyLang( pl, "Item_Notify_Error03_PR" )
 			end
 		else
-			catherine.util.Notify( pl, "Please input a message!" )
+			catherine.util.NotifyLang( pl, "Basic_Notify_InputText" )
 		end
 	end
 } )
@@ -54,10 +54,10 @@ catherine.command.Register( {
 			if ( pl:HasItem( "request_device" ) ) then
 				Schema:SayRequest( pl, args )
 			else
-				catherine.util.Notify( pl, "You don't have a Request device!" )
+				catherine.util.NotifyLang( pl, "Item_Notify_Error01_RD" )
 			end
 		else
-			catherine.util.Notify( pl, "Please input a message!" )
+			catherine.util.NotifyLang( pl, "Basic_Notify_InputText" )
 		end
 	end
 } )
@@ -73,13 +73,13 @@ catherine.command.Register( {
 				if ( args != "" ) then
 					Schema:SayDispatch( pl, args )
 				else
-					catherine.util.Notify( pl, "Please input message!" )
+					catherine.util.NotifyLang( pl, "Basic_Notify_InputText" )
 				end
 			else
-				catherine.util.Notify( pl, "You don't have permission using Dispatch!" )
+				catherine.util.NotifyLang( pl, "Player_Message_HasNotPermission" )
 			end
 		else
-			catherine.util.Notify( pl, "You are not combine!" )
+			catherine.util.NotifyLang( pl, "Basic_Notify_IsNotCombine" )
 		end
 	end
 } )

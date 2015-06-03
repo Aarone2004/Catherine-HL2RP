@@ -67,9 +67,13 @@ catherine.language.Merge( "english", {
 	[ "Item_Notify_FreqSet_PR" ] = "You are set portable radio frequency to %s.",
 	[ "Item_Notify_Error01_PR" ] = "Radio frequency is must be 101.1 ~ 199.9!",
 	[ "Item_Notify_Error02_PR" ] = "Radio frequency is must be XXX.X!",
+	[ "Item_Notify_Error03_PR" ] = "You don't have a Portable Radio!",
+	[ "Item_Notify_Error04_PR" ] = "Please turn on a Portable Radio!",
+	[ "Item_Notify_Error05_PR" ] = "Please set a Portable Radio frequency!",
 	
 	[ "Item_Name_RD" ] = "Request Device",
 	[ "Item_Desc_RD" ] = "If you have this, your can request it to combine.",
+	[ "Item_Notify_Error01_RD" ] = "You don't have a Request Device!",
 
 	[ "Item_Name_SC" ] = "Spray Can",
 	[ "Item_Desc_SC" ] = "If you have this, your can spray it to wall.",
@@ -168,6 +172,9 @@ catherine.language.Merge( "english", {
 	[ "Chat_Dispatch" ] = "Combine Dispatch - %s",
 	[ "Chat_Radio" ] = "%s radio says %s",
 	[ "Chat_Request" ] = "%s reqeust says %s",
+	
+	// Basic
+	[ "Basic_Notify_IsNotCombine" ] = "You are a not Combine!",
 	
 	// Combine Overlay
 	[ "CombineOverlay_Str01" ] = "Waiting for biosignal ...",

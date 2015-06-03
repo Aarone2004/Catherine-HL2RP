@@ -117,7 +117,7 @@ function Schema:ChatPrefix( pl, classTable )
 	end
 end
 
-function Schema:OnChatControl( chatInformation ) // need rebuild :(.
+function Schema:OnChatControl( chatInformation )
 	local pl = chatInformation.pl
 	local uniqueID = chatInformation.uniqueID
 
