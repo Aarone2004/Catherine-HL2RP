@@ -205,7 +205,7 @@ function Schema:ChatPosted( chatInformation )
 			if ( !IsValid( pl ) or !pl:Alive( ) ) then return end
 			
 			if ( type( v.vol ) == "boolean" and v.vol == true ) then
-				catherine.util.PlaySound( nil, v.dir )
+				catherine.util.PlaySimpleSound( nil, v.dir )
 			else
 				pl:EmitSound( v.dir, v.vol )
 			end

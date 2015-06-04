@@ -18,7 +18,7 @@ along with Catherine.  If not, see <http://www.gnu.org/licenses/>.
 
 catherine.language.Merge( "korean", {
 	// Basic
-	[ "Basic_Schema_Title" ] = "하프 - 라이프 2 롤 플레잉",
+	[ "Basic_Schema_Title" ] = "하프 - 라이프 2",
 	[ "Basic_Schema_Desc" ] = "이곳은 안전합니다.",
 	[ "Basic_Schema_IntroTitle" ] = "2016 년, 18번 지구",
 	[ "Basic_Schema_IntroDesc" ] = "이곳은 안전합니다.",

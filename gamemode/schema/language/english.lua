@@ -18,7 +18,7 @@ along with Catherine.  If not, see <http://www.gnu.org/licenses/>.
 
 catherine.language.Merge( "english", {
 	// Basic
-	[ "Basic_Schema_Title" ] = "Half - Life 2 Role Play",
+	[ "Basic_Schema_Title" ] = "HALF - LIFE 2",
 	[ "Basic_Schema_Desc" ] = "This place is safe.",
 	[ "Basic_Schema_IntroTitle" ] = "City 18, 2016",
 	[ "Basic_Schema_IntroDesc" ] = "This place is safe.",
