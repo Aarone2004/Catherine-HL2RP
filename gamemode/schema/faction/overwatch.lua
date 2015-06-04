@@ -20,6 +20,7 @@ local FACTION = catherine.faction.New( "ow" )
 FACTION.name = "^Faction_Name_OW"
 FACTION.color = Color( 181, 94, 94 )
 FACTION.desc = "^Faction_Desc_OW"
+FACTION.salary = 300
 FACTION.isWhitelist = true
 FACTION.alwaysRecognized = true
 FACTION.models = {
