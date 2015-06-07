@@ -57,6 +57,19 @@ function PLUGIN:DataSave( )
 	catherine.data.Set( "comlock", data )
 end
 
+function PLUGIN:PlayerUseDoor( pl, ent )
+	if ( pl:PlayerIsCombine( ) and pl:KeyDown( IN_SPEED ) ) then
+		local partner = catherine.util.GetDoorPartner( ent )
+		local lock = ent.lock or ( IsValid( partner ) and partner.lock )
+
+		if ( IsValid( lock ) ) then
+			lock:Toggle( )
+			
+			return false
+		end
+	end
+end
+
 function PLUGIN:DataLoad( )
 	for k, v in pairs( ents.GetAll( ) ) do
 		for k1, v1 in pairs( catherine.data.Get( "comlock", { } ) ) do

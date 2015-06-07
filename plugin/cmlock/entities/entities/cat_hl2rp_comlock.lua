@@ -71,17 +71,33 @@ if ( SERVER ) then
 		end )
 	end
 	
-	function ENT:Toggle( ) // need partner!
+	function ENT:Toggle( )
+		if ( !IsValid( self.doorParent ) ) then return end
+		
+		if ( ( self.CAT_HL2RP_nextToggle or CurTime( ) ) > CurTime( ) ) then
+			return
+		end
+		
+		local partner = catherine.util.GetDoorPartner( self.doorParent )
+
 		if ( self:GetLocked( ) ) then
 			self:EmitSound( "buttons/combine_button7.wav" )
+			
 			self.doorParent:Fire( "UnLock" )
+			partner:Fire( "UnLock" )
+			
 			self:SetLocked( false )
 		else
 			self:EmitSound( "buttons/combine_button2.wav" )
 			self.doorParent:Fire( "Close" )
 			self.doorParent:Fire( "Lock" )
+			partner:Fire( "Close" )
+			partner:Fire( "Lock" )
+			
 			self:SetLocked( true )
 		end
+		
+		self.CAT_HL2RP_nextToggle = CurTime( ) + 2
 	end
 	
 	function ENT:GetPlacePosition( pl, ent )
