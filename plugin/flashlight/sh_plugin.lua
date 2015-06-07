@@ -38,7 +38,7 @@ catherine.language.Merge( "korean", {
 if ( CLIENT ) then return end
 
 function PLUGIN:PlayerSwitchFlashlight( pl )
-	if ( pl:FlashlightIsOn( ) and !pl:HasItem( "flashlight" ) ) then
+	if ( pl:PlayerIsCombine( ) or pl:FlashlightIsOn( ) and !pl:HasItem( "flashlight" ) ) then
 		return true
 	end
 	

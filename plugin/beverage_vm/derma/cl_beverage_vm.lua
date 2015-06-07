@@ -77,9 +77,9 @@ function PANEL:Init( )
 	self.close:SetPos( self.w - 30, 0 )
 	self.close:SetSize( 30, 25 )
 	self.close:SetStr( "X" )
-	self.close:SetStrFont( "catherine_normal30" )
-	self.close:SetStrColor( Color( 255, 150, 150, 255 ) )
-	self.close:SetGradientColor( Color( 255, 150, 150, 255 ) )
+	self.close:SetStrFont( "catherine_normal35" )
+	self.close:SetStrColor( Color( 255, 255, 255, 255 ) )
+	self.close:SetGradientColor( Color( 255, 255, 255, 255 ) )
 	self.close.Click = function( )
 		if ( self.closing ) then return end
 		

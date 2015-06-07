@@ -55,10 +55,6 @@ function Schema:PlayerCanSpray( pl )
 	return pl:HasItem( "spray_can" )
 end
 
-function Schema:PlayerSwitchFlashlight( pl, bool )
-	return pl:PlayerIsCombine( )
-end
-
 function Schema:GetRationCash( pl )
 	return math.random( 20, 40 )
 end
