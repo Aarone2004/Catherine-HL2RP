@@ -57,7 +57,7 @@ function PLUGIN:DataSave( )
 	catherine.data.Set( "comlock", data )
 end
 
-function PLUGIN:PlayerUseDoor( pl, ent )
+function PLUGIN:PlayerCanUseDoor( pl, ent )
 	if ( pl:PlayerIsCombine( ) and pl:KeyDown( IN_SPEED ) ) then
 		local partner = catherine.util.GetDoorPartner( ent )
 		local lock = ent.lock or ( IsValid( partner ) and partner.lock )

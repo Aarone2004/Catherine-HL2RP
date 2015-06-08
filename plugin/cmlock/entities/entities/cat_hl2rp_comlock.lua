@@ -34,6 +34,7 @@ end
 
 if ( SERVER ) then
 	function ENT:Initialize( )
+		self:SetHealth( 800 )
 		self:SetModel( "models/props_combine/combine_lock01.mdl" )
 		self:SetSolid( SOLID_VPHYSICS )
 		self:PhysicsInit( SOLID_VPHYSICS )
@@ -79,20 +80,33 @@ if ( SERVER ) then
 		end
 		
 		local partner = catherine.util.GetDoorPartner( self.doorParent )
-
+		local typ = 0
+		
 		if ( self:GetLocked( ) ) then
+			typ = 1
+		else
+			typ = 2
+		end
+		
+		if ( typ == 1 ) then
 			self:EmitSound( "buttons/combine_button7.wav" )
 			
 			self.doorParent:Fire( "UnLock" )
-			partner:Fire( "UnLock" )
+			
+			if ( IsValid( partner ) ) then
+				partner:Fire( "UnLock" )
+			end
 			
 			self:SetLocked( false )
-		else
+		elseif ( typ == 2 ) then
 			self:EmitSound( "buttons/combine_button2.wav" )
 			self.doorParent:Fire( "Close" )
 			self.doorParent:Fire( "Lock" )
-			partner:Fire( "Close" )
-			partner:Fire( "Lock" )
+			
+			if ( IsValid( partner ) ) then
+				partner:Fire( "Close" )
+				partner:Fire( "Lock" )
+			end
 			
 			self:SetLocked( true )
 		end
@@ -129,6 +143,25 @@ if ( SERVER ) then
 	function ENT:OnRemove( )
 		if ( IsValid( self.doorParent ) ) then
 			self.doorParent:Fire( "UnLock" )
+		end
+	end
+	
+	function ENT:Bomb( )
+		local eff = EffectData( )
+		eff:SetStart( self:GetPos( ) )
+		eff:SetOrigin( self:GetPos( ) )
+		eff:SetScale( 1 )
+		util.Effect( "Explosion", eff, true, true )
+		
+		self:EmitSound( "physics/body/body_medium_impact_soft" .. math.random( 1, 7 ) .. ".wav" )
+	end
+
+	function ENT:OnTakeDamage( dmg )
+		self:SetHealth( math.max( self:Health( ) - dmg:GetDamage( ), 0 ) )
+		
+		if ( self:Health( ) <= 0 ) then
+			self:Bomb( )
+			self:Remove( )
 		end
 	end
 else
