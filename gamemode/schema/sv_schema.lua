@@ -150,11 +150,13 @@ function Schema:OnChatControl( chatInformation )
 						sound = sound:gsub( "male01", "female01" )
 					end
 					
-					tab.sounds[ #tab.sounds + 1 ] = {
+					local sounds = {
 						dir = sound,
 						len = SoundDuration( sound ),
 						vol = vol
 					}
+
+					tab.sounds[ #tab.sounds + 1 ] = sounds
 					tab.text = k1 == 1 and ( v.output ) or ( tab.text .. ", " .. v.output )
 				end
 			end
@@ -193,15 +195,16 @@ function Schema:ChatPosted( chatInformation )
 	if ( !chatInformation.voice ) then return end
 	local pl = chatInformation.pl
 	local len = 0
-	
+
 	for k, v in pairs( chatInformation.voice ) do
 		len = len + ( k == 1 and 0 or v.len + 0.3 )
 		
 		timer.Simple( len, function( )
 			if ( !IsValid( pl ) or !pl:Alive( ) ) then return end
 			
-			if ( type( v.vol ) == "boolean" and v.vol == true ) then
-				catherine.util.PlaySimpleSound( nil, v.dir )
+			if ( v.vol == true ) then
+				pl:EmitSound( v.dir, 70 )
+				catherine.util.PlaySimpleSound( chatInformation.target and chatInformation.target or nil, v.dir )
 			else
 				pl:EmitSound( v.dir, v.vol )
 			end
@@ -210,6 +213,16 @@ function Schema:ChatPosted( chatInformation )
 end
 
 function Schema:PlayerUseDoor( pl, ent )
+	local partner = catherine.util.GetDoorPartner( ent )
+
+	if ( IsValid( ent.lock ) or ( IsValid( partner ) and IsValid( partner.lock ) ) and !ent:HasSpawnFlags( 256 ) and !ent:HasSpawnFlags( 1024 ) ) then
+		if ( ( IsValid( ent.lock ) and !ent.lock:GetLocked( ) ) or ( IsValid( partner ) and IsValid( partner.lock ) and !partner.lock:GetLocked( ) ) ) then
+			ent:Fire( "Open", "", 0 )
+		
+			return true
+		end
+	end
+	
 	if ( pl:PlayerIsCombine( ) and !ent:HasSpawnFlags( 256 ) and !ent:HasSpawnFlags( 1024 ) ) then
 		ent:Fire( "Open", "", 0 )
 		
