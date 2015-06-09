@@ -1,6 +1,8 @@
 AddCSLuaFile( )
 
-SWEP.PrintName = "Stunstick"
+SWEP.PrintName = "^Weapon_Stunstick_Name"
+SWEP.Instructions = "^Weapon_Stunstick_Instructions"
+SWEP.Purpose = "^Weapon_Stunstick_Purpose"
 SWEP.Author = "Chessnut"
 SWEP.HoldType = "melee"
 SWEP.ViewModelFOV = 47

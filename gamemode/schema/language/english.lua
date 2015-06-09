@@ -204,5 +204,10 @@ catherine.language.Merge( "english", {
 	[ "Jump_Desc" ] = "",
 	
 	// Help Category
-	[ "Help_Category_CombineVoice" ] = "Combine Voice"
+	[ "Help_Category_CombineVoice" ] = "Combine Voice",
+	
+	// Weapon
+	[ "Weapon_Stunstick_Name" ] = "Stunstick",
+	[ "Weapon_Stunstick_Instructions" ] = "Primary Fire : Attack.\nSecondary Fire : Push/Knock.\nAlt + Primary Fire : Turn on, off.",
+	[ "Weapon_Stunstick_Purpose" ] = "Stunning disobedient characters, pushing them away and knocking on doors."
 } )

@@ -204,5 +204,10 @@ catherine.language.Merge( "korean", {
 	[ "Jump_Desc" ] = "높을 경우 높이 점프를 뛸 수 있습니다.",
 	
 	// Help Category
-	[ "Help_Category_CombineVoice" ] = "콤바인 보이스"
+	[ "Help_Category_CombineVoice" ] = "콤바인 보이스",
+	
+	// Weapon
+	[ "Weapon_Stunstick_Name" ] = "전기봉",
+	[ "Weapon_Stunstick_Instructions" ] = "왼쪽 키 : 때리기.\n오른쪽 키 : 밀치기/노크.\nAlt + 왼쪽 키 : 전기 키기, 끄기",
+	[ "Weapon_Stunstick_Purpose" ] = "사람을 때려서 기절시키거나, 문을 노크할 수 있습니다."
 } )
