@@ -59,7 +59,7 @@ catherine.command.Register( {
 		end
 		
 		if ( ent:GetClass( ) == "prop_ragdoll" ) then
-			ent = ent:GetNetVar( "player" )
+			ent = catherine.entity.GetPlayer( ent )
 		end
 	
 		if ( IsValid( ent ) and ent:IsPlayer( ) ) then

@@ -28,7 +28,6 @@ CAT_SCHEMA_COMBINEOVERLAY_GLOBAL_NOLOCAL = 3
 
 function Schema:ShowSpare1( pl )
 	if ( !pl:HasItem( "zip_tie" ) ) then return end
-	
 	local data = { }
 	data.start = pl:GetShootPos( )
 	data.endpos = data.start + pl:GetAimVector( ) * 160
@@ -41,7 +40,7 @@ function Schema:ShowSpare1( pl )
 	end
 	
 	if ( ent:GetClass( ) == "prop_ragdoll" ) then
-		ent = ent:GetNetVar( "player" )
+		ent = catherine.entity.GetPlayer( ent )
 	end
 	
 	if ( IsValid( ent ) and ent:IsPlayer( ) ) then

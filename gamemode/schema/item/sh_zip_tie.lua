@@ -28,12 +28,11 @@ ITEM.func.tie = {
 	text = "^Item_FuncStr01_ZT",
 	canShowIsMenu = true,
 	func = function( pl, itemTable )
-		local tr = { }
-		tr.start = pl:GetShootPos( )
-		tr.endpos = tr.start + pl:GetAimVector( ) * 160
-		tr.filter = pl
-		
-		local ent = util.TraceLine( tr ).Entity
+		local data = { }
+		data.start = pl:GetShootPos( )
+		data.endpos = data.start + pl:GetAimVector( ) * 160
+		data.filter = pl
+		local ent = util.TraceLine( data ).Entity
 		
 		if ( !IsValid( ent ) ) then
 			catherine.util.NotifyLang( pl, "Entity_Notify_NotPlayer" )
@@ -41,7 +40,7 @@ ITEM.func.tie = {
 		end
 		
 		if ( ent:GetClass( ) == "prop_ragdoll" ) then
-			ent = ent:GetNetVar( "player" )
+			ent = catherine.entity.GetPlayer( ent )
 		end
 		
 		if ( IsValid( ent ) and ent:IsPlayer( ) ) then
@@ -51,6 +50,5 @@ ITEM.func.tie = {
 		end
 	end
 }
-
 
 catherine.item.Register( ITEM )
