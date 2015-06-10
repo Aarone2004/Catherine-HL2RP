@@ -3,7 +3,7 @@ AddCSLuaFile( )
 SWEP.PrintName = "^Weapon_Stunstick_Name"
 SWEP.Instructions = "^Weapon_Stunstick_Instructions"
 SWEP.Purpose = "^Weapon_Stunstick_Purpose"
-SWEP.Author = "Chessnut"
+SWEP.Author = "L7D, Chessnut"
 SWEP.HoldType = "melee"
 SWEP.ViewModelFOV = 47
 SWEP.ViewModelFlip = false
@@ -43,6 +43,16 @@ function SWEP:Precache( )
 	util.PrecacheSound( "weapons/stunstick/stunstick_impact2.wav" )
 end
 
+function SWEP:PreDrawViewModel( viewMdl, wep, pl )
+	local info = player_manager.TranslatePlayerHands( player_manager.TranslateToPlayerModelName( pl:GetModel( ) ) )
+	
+	if ( info and info.model ) then
+		viewMdl:SetModel( info.model )
+		viewMdl:SetSkin( info.skin )
+		viewMdl:SetBodyGroups( info.body )
+	end
+end
+
 function SWEP:Initialize( )
 	self:SetHoldType( self.HoldType )
 end
@@ -57,6 +67,12 @@ function SWEP:PrimaryAttack( )
 	self:SetNextPrimaryFire( CurTime( ) + self.Primary.Delay )
 	
 	if ( !pl:GetWeaponRaised( ) ) then return end
+	
+	local stamina = catherine.character.GetCharVar( pl, "stamina", 100 )
+	
+	if ( stamina < 10 ) then
+		return
+	end
 	
 	if ( pl:KeyDown( IN_WALK ) ) then
 		if ( SERVER ) then
@@ -86,6 +102,8 @@ function SWEP:PrimaryAttack( )
 	
 	pl:SetAnimation( PLAYER_ATTACK1 )
 	pl:ViewPunch( Angle( 1, 0, 0.125 ) )
+	
+	catherine.character.SetCharVar( pl, "stamina", stamina - math.Rand( 0.5, 2 ) )
 	
 	pl:LagCompensation( true )
 	
@@ -257,8 +275,7 @@ function SWEP:SecondaryAttack( )
 	data.filter = pl
 	data.mins = Vector( -8, -8, -30 )
 	data.maxs = Vector( 8, 8, 10 )
-	local tr = util.TraceHull( data )
-	local ent = tr.Entity
+	local ent = util.TraceHull( data ).Entity
 	
 	pl:LagCompensation( false )
 
@@ -273,7 +290,7 @@ function SWEP:SecondaryAttack( )
 			self:SetNextSecondaryFire( CurTime( ) + 0.4 )
 			self:SetNextPrimaryFire( CurTime( ) + 1 )
 		elseif ( ent:IsPlayer( ) ) then
-			local direct = self.Owner:GetAimVector( ) * 180
+			local direct = pl:GetAimVector( ) * 180
 			direct.z = 0
 
 			ent:SetVelocity( direct )
