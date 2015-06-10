@@ -121,6 +121,12 @@ catherine.language.Merge( "english", {
 	[ "Item_Name_CitizenS" ] = "Citizen Supplements",
 	[ "Item_Desc_CitizenS" ] = "Raw nutrients with slight flavoring provided by the Combine.",
 	
+	[ "Item_Name_Rebel" ] = "Rebel Outfit",
+	[ "Item_Desc_Rebel" ] = "A combination of metropolice uniform and other pieces of fabric.",
+	
+	[ "Item_Name_RebelMedic" ] = "Rebel Medic Outfit",
+	[ "Item_Desc_RebelMedic" ] = "A medical variant of the rebel outfit.",
+	
 	[ "Item_Name_ZT" ] = "Zip Tie",
 	[ "Item_Desc_ZT" ] = "Tie to player.",
 	[ "Item_FuncStr01_ZT" ] = "Tie",
