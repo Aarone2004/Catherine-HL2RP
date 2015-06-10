@@ -14,7 +14,7 @@ SWEP.Primary.ClipSize = -1
 SWEP.Primary.DefaultClip = -1
 SWEP.Primary.Automatic = false
 SWEP.Primary.Ammo = ""
-SWEP.Primary.Damage = 5
+SWEP.Primary.Damage = 7
 SWEP.Primary.Delay = 0.9
 
 SWEP.Secondary.ClipSize = -1
@@ -67,13 +67,13 @@ function SWEP:PrimaryAttack( )
 	self:SetNextPrimaryFire( CurTime( ) + self.Primary.Delay )
 	
 	if ( !pl:GetWeaponRaised( ) ) then return end
-	
+
 	local stamina = catherine.character.GetCharVar( pl, "stamina", 100 )
 	
 	if ( stamina < 10 ) then
 		return
 	end
-	
+
 	if ( pl:KeyDown( IN_WALK ) ) then
 		if ( SERVER ) then
 			local seq = "deactivatebaton"
@@ -102,8 +102,10 @@ function SWEP:PrimaryAttack( )
 	
 	pl:SetAnimation( PLAYER_ATTACK1 )
 	pl:ViewPunch( Angle( 1, 0, 0.125 ) )
-	
-	catherine.character.SetCharVar( pl, "stamina", stamina - math.Rand( 0.5, 2 ) )
+
+	if ( SERVER ) then
+		catherine.character.SetCharVar( pl, "stamina", stamina - math.Rand( 0.5, 2 ) )
+	end
 	
 	pl:LagCompensation( true )
 	
@@ -134,7 +136,6 @@ function SWEP:PrimaryAttack( )
 		
 		if ( ent:GetClass( ) == "prop_ragdoll" ) then
 			ent = catherine.entity.GetPlayer( ent )
-			//dmg = self:GetActive( ) and 2 or 5 //?
 		end
 			
 		if ( IsValid( ent ) and ent:IsPlayer( ) ) then
@@ -147,29 +148,33 @@ function SWEP:PrimaryAttack( )
 				end
 				
 				local stunCount = ent.CAT_HL2RP_stunCount
+
 				local timerID = "Catherine.HL2RP.timer.Stunstick.StunCountRemover." .. ent:SteamID( )
-				
-				stunCount = stunCount + 1
 				
 				ent.CAT_ignoreScreenColor = true
 				
 				if ( active ) then
+					stunCount = stunCount + 1
+
+					ent.CAT_ignore_hurtSound = nil
+					ent.CAT_HL2RP_stunCount = stunCount
+
 					local dmgInfo = DamageInfo( )
 					dmgInfo:SetInflictor( self )
 					dmgInfo:SetAttacker( pl )
-					dmgInfo:SetDamage( dmg / 4.5 )
+					dmgInfo:SetDamage( dmg / 2.5 )
 					dmgInfo:SetDamageType( DMG_CLUB )
 					dmgInfo:SetDamagePosition( tr.HitPos )
 					dmgInfo:SetDamageForce( pl:GetAimVector( ) * 100 )
 					
 					ent:DispatchTraceAttack( dmgInfo, data.start, data.endpos )
-					
+
 					catherine.util.ScreenColorEffect( ent, Color( 255, 255, 255 ), 2, 0.005 )
 				else
 					local dmgInfo = DamageInfo( )
 					dmgInfo:SetInflictor( self )
 					dmgInfo:SetAttacker( pl )
-					dmgInfo:SetDamage( dmg )
+					dmgInfo:SetDamage( dmg / 1.5 )
 					dmgInfo:SetDamageType( DMG_CLUB )
 					dmgInfo:SetDamagePosition( tr.HitPos )
 					dmgInfo:SetDamageForce( pl:GetAimVector( ) * 100 )
@@ -179,7 +184,7 @@ function SWEP:PrimaryAttack( )
 					catherine.effect.Create( "BLOOD", {
 						ent = ent,
 						pos = dmgInfo:GetDamagePosition( ),
-						scale = dmgInfo:GetDamageForce( ),
+						scale = 1,
 						decalCount = 1
 					} )
 					
@@ -189,7 +194,7 @@ function SWEP:PrimaryAttack( )
 				ent.CAT_ignoreScreenColor = nil
 
 				if ( stunCount >= ent.CAT_HL2RP_ragdollRunCount ) then
-					catherine.player.RagdollWork( ent, true, 60 )
+					catherine.player.RagdollWork( ent, true, 90 )
 					ent.CAT_HL2RP_stunCount = nil
 					ent.CAT_HL2RP_ragdollRunCount = nil
 					timer.Remove( timerID )
@@ -202,6 +207,8 @@ function SWEP:PrimaryAttack( )
 					
 					if ( reStunCount > 0 ) then
 						reStunCount = reStunCount - 1
+
+						ent.CAT_HL2RP_stunCount = reStunCount
 					else
 						timer.Remove( timerID )
 						ent.CAT_HL2RP_stunCount = nil
@@ -216,32 +223,22 @@ function SWEP:PrimaryAttack( )
 				else
 					catherine.util.ScreenColorEffect( ent, Color( 255, 150, 150 ), 0.5, 0.005 )
 				end
-				
-				ent.CAT_ignoreScreenColor = nil
 
 				if ( active ) then
 					if ( ent:Health( ) - dmg <= 15 ) then
-						dmg = dmg / 6
-						
-						pl.CAT_ignore_hurtSound = nil
 
+					else
 						local dmgInfo = DamageInfo( )
 						dmgInfo:SetInflictor( self )
 						dmgInfo:SetAttacker( pl )
-						dmgInfo:SetDamage( dmg )
+						dmgInfo:SetDamage( dmg / 1.5 )
 						dmgInfo:SetDamageType( DMG_CLUB )
 						dmgInfo:SetDamagePosition( tr.HitPos )
 						dmgInfo:SetDamageForce( pl:GetAimVector( ) * 100 )
 						
 						ent:DispatchTraceAttack( dmgInfo, data.start, data.endpos )
-					else
-						pl.CAT_ignore_hurtSound = true
 					end
 				else
-					pl.CAT_ignore_hurtSound = nil
-					
-					dmg = dmg / 3
-					
 					local dmgInfo = DamageInfo( )
 					dmgInfo:SetInflictor( self )
 					dmgInfo:SetAttacker( pl )
@@ -255,11 +252,13 @@ function SWEP:PrimaryAttack( )
 					catherine.effect.Create( "BLOOD", {
 						ent = ent,
 						pos = dmgInfo:GetDamagePosition( ),
-						scale = dmgInfo:GetDamageForce( ),
+						scale = 1,
 						decalCount = 1
 					} )
 				end
 			end
+			
+			ent.CAT_ignoreScreenColor = nil
 		end
 	end
 end
