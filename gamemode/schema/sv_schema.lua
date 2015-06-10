@@ -60,7 +60,7 @@ function Schema:GetRationCash( pl )
 end
 
 function Schema:PlayerInteract( pl, target )
-	if ( catherine.player.IsTied( target ) ) then
+	if ( target:IsTied( ) ) then
 		return catherine.player.SetTie( pl, target, false )
 	end
 end

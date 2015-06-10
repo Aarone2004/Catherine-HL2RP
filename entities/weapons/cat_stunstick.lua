@@ -15,7 +15,7 @@ SWEP.Primary.DefaultClip = -1
 SWEP.Primary.Automatic = false
 SWEP.Primary.Ammo = ""
 SWEP.Primary.Damage = 7.5
-SWEP.Primary.Delay = 0.7
+SWEP.Primary.Delay = 0.9
 
 SWEP.Secondary.ClipSize = -1
 SWEP.Secondary.DefaultClip = 0
@@ -60,9 +60,9 @@ function SWEP:PrimaryAttack( )
 	
 	if ( pl:KeyDown( IN_WALK ) ) then
 		if ( SERVER ) then
-			self:SetActive( !self:GetActive( ) )
-			
 			local seq = "deactivatebaton"
+			
+			self:SetActive( !self:GetActive( ) )
 			
 			if ( self:GetActive( ) ) then
 				pl:EmitSound( "weapons/stunstick/spark3.wav", 100, math.random( 70, 130 ) )
@@ -71,7 +71,7 @@ function SWEP:PrimaryAttack( )
 				pl:EmitSound( "weapons/stunstick/spark" .. math.random( 1, 2 ) .. ".wav", 100, math.random( 70, 130 ) )
 			end
 
-			if ( catherine.animation.Get( pl:GetModel( ) ) == "metrocop" ) then
+			if ( catherine.animation.IsClass( pl, "metrocop" ) ) then
 				catherine.animation.SetSeqAnimation( pl, seq )
 			end
 		end
@@ -87,6 +87,7 @@ function SWEP:PrimaryAttack( )
 
 	self:EmitSound( "weapons/stunstick/stunstick_swing" .. math.random( 1, 2 ) .. ".wav" )
 	self:SendWeaponAnim( ACT_VM_HITCENTER )
+	
 	pl:SetAnimation( PLAYER_ATTACK1 )
 	pl:ViewPunch( Angle( 1, 0, 0.125 ) )
 	
@@ -101,7 +102,9 @@ function SWEP:PrimaryAttack( )
 	pl:LagCompensation( false )
 
 	if ( SERVER and tr.Hit ) then
-		if ( self:GetActive( ) ) then
+		local active = self:GetActive( )
+		
+		if ( active ) then
 			local eff = EffectData( )
 			eff:SetStart( tr.HitPos )
 			eff:SetOrigin( tr.HitPos )
@@ -113,29 +116,37 @@ function SWEP:PrimaryAttack( )
 
 		local ent = tr.Entity
 
-		if ( IsValid( ent ) ) then
-			if ( ent:IsPlayer( ) ) then
-				ent:ViewPunch( Angle( -20, math.random( -15, 15 ), math.random( -10, 10 ) ) )
-
-				if ( self:GetActive( ) and ent:Health( ) - dmg <= 0 ) then
-					catherine.player.RagdollWork( ent, true, 60 )
-					ent:SetHealth( 50 )
-
-					return
-				end
-			elseif ( ent:GetClass( ) == "prop_ragdoll" ) then
-				local target = ent:GetNetVar( "player" )
+		if ( !IsValid( ent ) ) then return end
+		
+		if ( ent:GetClass( ) == "prop_ragdoll" ) then
+			ent = catherine.entity.GetPlayer( ent )
+			//dmg = self:GetActive( ) and 2 or 5 //?
+		end
 			
-				if ( IsValid( target ) and target:IsPlayer( ) ) then
-					ent = target
-				end
-				
-				dmg = self:GetActive( ) and 2 or 5
+		if ( IsValid( ent ) and ent:IsPlayer( ) ) then
+			ent:ViewPunch( Angle( -20, math.random( -15, 15 ), math.random( -10, 10 ) ) )
+
+			if ( !ent.CAT_HL2RP_stunCount or !ent.CAT_HL2RP_ragdollRunCount ) then
+				ent.CAT_HL2RP_stunCount = 0
+				ent.CAT_HL2RP_ragdollRunCount = math.random( 7, 10 )
 			end
 			
-			ent.CAT_ignoreScreenColor = true
+			ent.CAT_HL2RP_stunCount = ent.CAT_HL2RP_stunCount + 1
 			
-			if ( ent:IsPlayer( ) and self:GetActive( ) ) then
+			if ( ent.CAT_HL2RP_stunCount >= ent.CAT_HL2RP_ragdollRunCount and ent) then
+				catherine.player.RagdollWork( ent, true, 60 )
+			end
+			--[[
+			if ( active and ent:Health( ) - dmg <= 0 ) then
+				catherine.player.RagdollWork( ent, true, 60 )
+				ent:SetHealth( 50 )
+
+				return
+			end--]]
+			
+			ent.CAT_ignoreScreenColor = true
+		
+			if ( self:GetActive( ) ) then
 				catherine.util.ScreenColorEffect( ent, Color( 255, 255, 255 ), 2, 0.005 )
 			else
 				catherine.util.ScreenColorEffect( ent, Color( 255, 150, 150 ), 0.5, 0.005 )
