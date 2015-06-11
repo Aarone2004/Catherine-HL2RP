@@ -121,6 +121,12 @@ catherine.language.Merge( "korean", {
 	[ "Item_Name_CitizenS" ] = "시민 보급식",
 	[ "Item_Desc_CitizenS" ] = "시민들의 생계를 이어가기 위해 기본적으로 제공되는 보급식 입니다.",
 	
+	[ "Item_Name_Rebel" ] = "반시민 복장",
+	[ "Item_Desc_Rebel" ] = "콤바인에 대항하여 싸우는 반시민들의 복장 입니다.",
+	
+	[ "Item_Name_RebelMedic" ] = "반시민 메딕 복장",
+	[ "Item_Desc_RebelMedic" ] = "반시민들을 치료하는 메딕병 복장 입니다.",
+	
 	[ "Item_Name_ZT" ] = "수갑",
 	[ "Item_Desc_ZT" ] = "사람을 묶을 수 있습니다.",
 	[ "Item_FuncStr01_ZT" ] = "묶기",

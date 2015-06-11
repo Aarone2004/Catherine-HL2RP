@@ -3,9 +3,10 @@ AddCSLuaFile( )
 SWEP.PrintName = "^Weapon_Stunstick_Name"
 SWEP.Instructions = "^Weapon_Stunstick_Instructions"
 SWEP.Purpose = "^Weapon_Stunstick_Purpose"
-SWEP.Author = "Chessnut"
+SWEP.Author = "L7D, Chessnut"
 SWEP.HoldType = "melee"
-SWEP.ViewModelFOV = 47
+SWEP.ViewModelFOV = 50
+SWEP.ViewModelAngles = 50
 SWEP.ViewModelFlip = false
 SWEP.AnimPrefix	 = "melee"
 SWEP.ViewTranslation = 4
@@ -14,8 +15,8 @@ SWEP.Primary.ClipSize = -1
 SWEP.Primary.DefaultClip = -1
 SWEP.Primary.Automatic = false
 SWEP.Primary.Ammo = ""
-SWEP.Primary.Damage = 7.5
-SWEP.Primary.Delay = 0.7
+SWEP.Primary.Damage = 7
+SWEP.Primary.Delay = 1
 
 SWEP.Secondary.ClipSize = -1
 SWEP.Secondary.DefaultClip = 0
@@ -28,6 +29,7 @@ SWEP.WorldModel = Model( "models/weapons/w_stunbaton.mdl" )
 SWEP.LowerAngles = Angle( 15, -10, -20 )
 SWEP.CanFireLowered = true
 SWEP.HitDistance = 48
+SWEP.UseHands = true
 
 function SWEP:SetupDataTables( )
 	self:NetworkVar( "Bool", 0, "Active" )
@@ -57,12 +59,18 @@ function SWEP:PrimaryAttack( )
 	self:SetNextPrimaryFire( CurTime( ) + self.Primary.Delay )
 	
 	if ( !pl:GetWeaponRaised( ) ) then return end
+
+	local stamina = catherine.character.GetCharVar( pl, "stamina", 100 )
 	
+	if ( stamina < 10 ) then
+		return
+	end
+
 	if ( pl:KeyDown( IN_WALK ) ) then
 		if ( SERVER ) then
-			self:SetActive( !self:GetActive( ) )
-			
 			local seq = "deactivatebaton"
+			
+			self:SetActive( !self:GetActive( ) )
 			
 			if ( self:GetActive( ) ) then
 				pl:EmitSound( "weapons/stunstick/spark3.wav", 100, math.random( 70, 130 ) )
@@ -71,7 +79,7 @@ function SWEP:PrimaryAttack( )
 				pl:EmitSound( "weapons/stunstick/spark" .. math.random( 1, 2 ) .. ".wav", 100, math.random( 70, 130 ) )
 			end
 
-			if ( catherine.animation.Get( pl:GetModel( ) ) == "metrocop" ) then
+			if ( catherine.animation.IsClass( pl, "metrocop" ) ) then
 				catherine.animation.SetSeqAnimation( pl, seq )
 			end
 		end
@@ -81,14 +89,15 @@ function SWEP:PrimaryAttack( )
 	
 	local dmg = self.Primary.Damage
 
-	if ( self:GetActive( ) ) then
-		dmg = dmg + 7
-	end
-
 	self:EmitSound( "weapons/stunstick/stunstick_swing" .. math.random( 1, 2 ) .. ".wav" )
 	self:SendWeaponAnim( ACT_VM_HITCENTER )
+	
 	pl:SetAnimation( PLAYER_ATTACK1 )
 	pl:ViewPunch( Angle( 1, 0, 0.125 ) )
+
+	if ( SERVER ) then
+		catherine.character.SetCharVar( pl, "stamina", stamina - math.Rand( 0.5, 3 ) )
+	end
 	
 	pl:LagCompensation( true )
 	
@@ -101,7 +110,9 @@ function SWEP:PrimaryAttack( )
 	pl:LagCompensation( false )
 
 	if ( SERVER and tr.Hit ) then
-		if ( self:GetActive( ) ) then
+		local active = self:GetActive( )
+		
+		if ( active ) then
 			local eff = EffectData( )
 			eff:SetStart( tr.HitPos )
 			eff:SetOrigin( tr.HitPos )
@@ -113,43 +124,131 @@ function SWEP:PrimaryAttack( )
 
 		local ent = tr.Entity
 
-		if ( IsValid( ent ) ) then
-			if ( ent:IsPlayer( ) ) then
-				ent:ViewPunch( Angle( -20, math.random( -15, 15 ), math.random( -10, 10 ) ) )
-
-				if ( self:GetActive( ) and ent:Health( ) - dmg <= 0 ) then
-					catherine.player.RagdollWork( ent, true, 60 )
-					ent:SetHealth( 50 )
-
-					return
-				end
-			elseif ( ent:GetClass( ) == "prop_ragdoll" ) then
-				local target = ent:GetNetVar( "player" )
+		if ( !IsValid( ent ) ) then return end
+		
+		if ( ent:GetClass( ) == "prop_ragdoll" ) then
+			ent = catherine.entity.GetPlayer( ent )
+		end
 			
-				if ( IsValid( target ) and target:IsPlayer( ) ) then
-					ent = target
+		if ( IsValid( ent ) and ent:IsPlayer( ) ) then
+			ent:ViewPunch( Angle( -20, math.random( -15, 15 ), math.random( -10, 10 ) ) )
+
+			if ( !ent:IsRagdolled( ) ) then
+				if ( !ent.CAT_HL2RP_stunCount or !ent.CAT_HL2RP_ragdollRunCount ) then
+					ent.CAT_HL2RP_stunCount = 0
+					ent.CAT_HL2RP_ragdollRunCount = math.random( 4, 8 )
 				end
 				
-				dmg = self:GetActive( ) and 2 or 5
-			end
-			
-			ent.CAT_ignoreScreenColor = true
-			
-			if ( ent:IsPlayer( ) and self:GetActive( ) ) then
-				catherine.util.ScreenColorEffect( ent, Color( 255, 255, 255 ), 2, 0.005 )
-			else
-				catherine.util.ScreenColorEffect( ent, Color( 255, 150, 150 ), 0.5, 0.005 )
-			end
+				local stunCount = ent.CAT_HL2RP_stunCount
 
-			local dmgInfo = DamageInfo( )
-			dmgInfo:SetInflictor( self )
-			dmgInfo:SetAttacker( pl )
-			dmgInfo:SetDamage( dmg )
-			dmgInfo:SetDamageType( DMG_CLUB )
-			dmgInfo:SetDamagePosition( tr.HitPos )
-			dmgInfo:SetDamageForce( pl:GetAimVector( ) * 100 )
-			
-			ent:DispatchTraceAttack( dmgInfo, data.start, data.endpos )
+				local timerID = "Catherine.HL2RP.timer.Stunstick.StunCountRemover." .. ent:SteamID( )
+				
+				ent.CAT_ignoreScreenColor = true
+				
+				if ( active ) then
+					stunCount = stunCount + 1
+
+					ent.CAT_ignore_hurtSound = nil
+					ent.CAT_HL2RP_stunCount = stunCount
+
+					local dmgInfo = DamageInfo( )
+					dmgInfo:SetInflictor( self )
+					dmgInfo:SetAttacker( pl )
+					dmgInfo:SetDamage( dmg / 2.5 )
+					dmgInfo:SetDamageType( DMG_CLUB )
+					dmgInfo:SetDamagePosition( tr.HitPos )
+					dmgInfo:SetDamageForce( pl:GetAimVector( ) * 100 )
+					
+					ent:DispatchTraceAttack( dmgInfo, data.start, data.endpos )
+
+					catherine.util.ScreenColorEffect( ent, Color( 255, 255, 255 ), 2, 0.005 )
+				else
+					local dmgInfo = DamageInfo( )
+					dmgInfo:SetInflictor( self )
+					dmgInfo:SetAttacker( pl )
+					dmgInfo:SetDamage( dmg / 1.5 )
+					dmgInfo:SetDamageType( DMG_CLUB )
+					dmgInfo:SetDamagePosition( tr.HitPos )
+					dmgInfo:SetDamageForce( pl:GetAimVector( ) * 100 )
+					
+					ent:DispatchTraceAttack( dmgInfo, data.start, data.endpos )
+					
+					catherine.effect.Create( "BLOOD", {
+						ent = ent,
+						pos = dmgInfo:GetDamagePosition( ),
+						scale = 1,
+						decalCount = 1
+					} )
+					
+					catherine.util.ScreenColorEffect( ent, Color( 255, 150, 150 ), 0.8, 0.005 )
+				end
+				
+				ent.CAT_ignoreScreenColor = nil
+
+				if ( stunCount >= ent.CAT_HL2RP_ragdollRunCount ) then
+					catherine.player.RagdollWork( ent, true, 90 )
+					ent.CAT_HL2RP_stunCount = nil
+					ent.CAT_HL2RP_ragdollRunCount = nil
+					timer.Remove( timerID )
+					return
+				end
+
+				timer.Remove( timerID )
+				timer.Create( timerID, 3, stunCount, function( )
+					local reStunCount = ent.CAT_HL2RP_stunCount
+					
+					if ( reStunCount > 0 ) then
+						reStunCount = reStunCount - 1
+
+						ent.CAT_HL2RP_stunCount = reStunCount
+					else
+						timer.Remove( timerID )
+						ent.CAT_HL2RP_stunCount = nil
+						ent.CAT_HL2RP_ragdollRunCount = nil
+					end
+				end )
+			else
+				ent.CAT_ignoreScreenColor = true
+				
+				if ( active ) then
+					catherine.util.ScreenColorEffect( ent, Color( 255, 255, 255 ), 0.5, 0.005 )
+				else
+					catherine.util.ScreenColorEffect( ent, Color( 255, 150, 150 ), 0.5, 0.005 )
+				end
+
+				if ( active ) then
+					if ( ent:Health( ) - dmg <= 15 ) then
+
+					else
+						local dmgInfo = DamageInfo( )
+						dmgInfo:SetInflictor( self )
+						dmgInfo:SetAttacker( pl )
+						dmgInfo:SetDamage( dmg / 1.5 )
+						dmgInfo:SetDamageType( DMG_CLUB )
+						dmgInfo:SetDamagePosition( tr.HitPos )
+						dmgInfo:SetDamageForce( pl:GetAimVector( ) * 100 )
+						
+						ent:DispatchTraceAttack( dmgInfo, data.start, data.endpos )
+					end
+				else
+					local dmgInfo = DamageInfo( )
+					dmgInfo:SetInflictor( self )
+					dmgInfo:SetAttacker( pl )
+					dmgInfo:SetDamage( dmg )
+					dmgInfo:SetDamageType( DMG_CLUB )
+					dmgInfo:SetDamagePosition( tr.HitPos )
+					dmgInfo:SetDamageForce( pl:GetAimVector( ) * 100 )
+					
+					ent:DispatchTraceAttack( dmgInfo, data.start, data.endpos )
+					
+					catherine.effect.Create( "BLOOD", {
+						ent = ent,
+						pos = dmgInfo:GetDamagePosition( ),
+						scale = 1,
+						decalCount = 1
+					} )
+				end
+			end
 			
 			ent.CAT_ignoreScreenColor = nil
 		end
@@ -167,8 +266,7 @@ function SWEP:SecondaryAttack( )
 	data.filter = pl
 	data.mins = Vector( -8, -8, -30 )
 	data.maxs = Vector( 8, 8, 10 )
-	local tr = util.TraceHull( data )
-	local ent = tr.Entity
+	local ent = util.TraceHull( data ).Entity
 	
 	pl:LagCompensation( false )
 
@@ -183,7 +281,7 @@ function SWEP:SecondaryAttack( )
 			self:SetNextSecondaryFire( CurTime( ) + 0.4 )
 			self:SetNextPrimaryFire( CurTime( ) + 1 )
 		elseif ( ent:IsPlayer( ) ) then
-			local direct = self.Owner:GetAimVector( ) * 180
+			local direct = pl:GetAimVector( ) * 180
 			direct.z = 0
 
 			ent:SetVelocity( direct )
