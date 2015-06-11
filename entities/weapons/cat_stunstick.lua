@@ -5,7 +5,8 @@ SWEP.Instructions = "^Weapon_Stunstick_Instructions"
 SWEP.Purpose = "^Weapon_Stunstick_Purpose"
 SWEP.Author = "L7D, Chessnut"
 SWEP.HoldType = "melee"
-SWEP.ViewModelFOV = 47
+SWEP.ViewModelFOV = 50
+SWEP.ViewModelAngles = 50
 SWEP.ViewModelFlip = false
 SWEP.AnimPrefix	 = "melee"
 SWEP.ViewTranslation = 4
@@ -15,7 +16,7 @@ SWEP.Primary.DefaultClip = -1
 SWEP.Primary.Automatic = false
 SWEP.Primary.Ammo = ""
 SWEP.Primary.Damage = 7
-SWEP.Primary.Delay = 0.9
+SWEP.Primary.Delay = 1
 
 SWEP.Secondary.ClipSize = -1
 SWEP.Secondary.DefaultClip = 0
@@ -28,6 +29,7 @@ SWEP.WorldModel = Model( "models/weapons/w_stunbaton.mdl" )
 SWEP.LowerAngles = Angle( 15, -10, -20 )
 SWEP.CanFireLowered = true
 SWEP.HitDistance = 48
+SWEP.UseHands = true
 
 function SWEP:SetupDataTables( )
 	self:NetworkVar( "Bool", 0, "Active" )
@@ -41,16 +43,6 @@ function SWEP:Precache( )
 	util.PrecacheSound( "weapons/stunstick/stunstick_swing2.wav" )
 	util.PrecacheSound( "weapons/stunstick/stunstick_impact1.wav" )	
 	util.PrecacheSound( "weapons/stunstick/stunstick_impact2.wav" )
-end
-
-function SWEP:PreDrawViewModel( viewMdl, wep, pl )
-	local info = player_manager.TranslatePlayerHands( player_manager.TranslateToPlayerModelName( pl:GetModel( ) ) )
-	
-	if ( info and info.model ) then
-		viewMdl:SetModel( info.model )
-		viewMdl:SetSkin( info.skin )
-		viewMdl:SetBodyGroups( info.body )
-	end
 end
 
 function SWEP:Initialize( )
@@ -104,7 +96,7 @@ function SWEP:PrimaryAttack( )
 	pl:ViewPunch( Angle( 1, 0, 0.125 ) )
 
 	if ( SERVER ) then
-		catherine.character.SetCharVar( pl, "stamina", stamina - math.Rand( 0.5, 2 ) )
+		catherine.character.SetCharVar( pl, "stamina", stamina - math.Rand( 0.5, 3 ) )
 	end
 	
 	pl:LagCompensation( true )
@@ -144,7 +136,7 @@ function SWEP:PrimaryAttack( )
 			if ( !ent:IsRagdolled( ) ) then
 				if ( !ent.CAT_HL2RP_stunCount or !ent.CAT_HL2RP_ragdollRunCount ) then
 					ent.CAT_HL2RP_stunCount = 0
-					ent.CAT_HL2RP_ragdollRunCount = math.random( 7, 10 )
+					ent.CAT_HL2RP_ragdollRunCount = math.random( 4, 8 )
 				end
 				
 				local stunCount = ent.CAT_HL2RP_stunCount
