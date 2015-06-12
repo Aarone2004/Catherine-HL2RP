@@ -26,7 +26,9 @@ catherine.language.Merge( "english", {
 	[ "COML_Plugin_Desc" ] = "Good stuff.",
 	[ "Item_Name_ComLock" ] = "Combine Lock",
 	[ "Item_Desc_ComLock" ] = "A metallic lock that is placed on doors.",
-	[ "Item_FuncStr01_ComLock" ] = "Place"
+	[ "Item_FuncStr01_ComLock" ] = "Place",
+	[ "Item_Name_ComLockAccessCard" ] = "Combine Lock Access Card",
+	[ "Item_Desc_ComLockAccessCard" ] = "You can access combine lock have this"
 } )
 
 catherine.language.Merge( "korean", {
@@ -34,7 +36,9 @@ catherine.language.Merge( "korean", {
 	[ "COML_Plugin_Desc" ] = "문을 잠급니다.",
 	[ "Item_Name_ComLock" ] = "콤바인 락",
 	[ "Item_Desc_ComLock" ] = "문을 잠글때 사용합니다.",
-	[ "Item_FuncStr01_ComLock" ] = "부착"
+	[ "Item_FuncStr01_ComLock" ] = "부착",
+	[ "Item_Name_ComLockAccessCard" ] = "콤바인 락 접근 카드",
+	[ "Item_Desc_ComLockAccessCard" ] = "콤바인 락에 접근할 수 있습니다."
 } )
 
 if ( CLIENT ) then return end

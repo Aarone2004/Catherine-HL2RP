@@ -53,7 +53,7 @@ if ( SERVER ) then
 			return
 		end
 		
-		if ( !pl:PlayerIsCombine( ) and pl:Team( ) != FACTION_ADMIN ) then
+		if ( !pl:PlayerIsCombine( ) and pl:Team( ) != FACTION_ADMIN and !pl:HasItem( "comlock_access_card" ) ) then
 			self:DoError( )
 			return
 		end

@@ -127,6 +127,9 @@ catherine.language.Merge( "korean", {
 	[ "Item_Name_RebelMedic" ] = "반시민 메딕 복장",
 	[ "Item_Desc_RebelMedic" ] = "반시민들을 치료하는 메딕병 복장 입니다.",
 	
+	[ "Item_Name_Bleach" ] = "표백제",
+	[ "Item_Desc_Bleach" ] = "치명적인 독성이 있는 표백제 입니다.",
+	
 	[ "Item_Name_ZT" ] = "수갑",
 	[ "Item_Desc_ZT" ] = "사람을 묶을 수 있습니다.",
 	[ "Item_FuncStr01_ZT" ] = "묶기",

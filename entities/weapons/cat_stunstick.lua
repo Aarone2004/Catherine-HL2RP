@@ -142,13 +142,12 @@ function SWEP:PrimaryAttack( )
 				local stunCount = ent.CAT_HL2RP_stunCount
 
 				local timerID = "Catherine.HL2RP.timer.Stunstick.StunCountRemover." .. ent:SteamID( )
-				
-				ent.CAT_ignoreScreenColor = true
+
+				catherine.player.SetIgnoreScreenColor( ent, true )
 				
 				if ( active ) then
 					stunCount = stunCount + 1
 
-					ent.CAT_ignore_hurtSound = nil
 					ent.CAT_HL2RP_stunCount = stunCount
 
 					local dmgInfo = DamageInfo( )
@@ -183,7 +182,7 @@ function SWEP:PrimaryAttack( )
 					catherine.util.ScreenColorEffect( ent, Color( 255, 150, 150 ), 0.8, 0.005 )
 				end
 				
-				ent.CAT_ignoreScreenColor = nil
+				catherine.player.SetIgnoreScreenColor( ent, nil )
 
 				if ( stunCount >= ent.CAT_HL2RP_ragdollRunCount ) then
 					catherine.player.RagdollWork( ent, true, 90 )
@@ -208,7 +207,7 @@ function SWEP:PrimaryAttack( )
 					end
 				end )
 			else
-				ent.CAT_ignoreScreenColor = true
+				catherine.player.SetIgnoreScreenColor( ent, true )
 				
 				if ( active ) then
 					catherine.util.ScreenColorEffect( ent, Color( 255, 255, 255 ), 0.5, 0.005 )
@@ -250,7 +249,7 @@ function SWEP:PrimaryAttack( )
 				end
 			end
 			
-			ent.CAT_ignoreScreenColor = nil
+			catherine.player.SetIgnoreScreenColor( ent, nil )
 		end
 	end
 end

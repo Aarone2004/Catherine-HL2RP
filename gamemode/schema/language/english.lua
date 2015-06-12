@@ -127,6 +127,9 @@ catherine.language.Merge( "english", {
 	[ "Item_Name_RebelMedic" ] = "Rebel Medic Outfit",
 	[ "Item_Desc_RebelMedic" ] = "A medical variant of the rebel outfit.",
 	
+	[ "Item_Name_Bleach" ] = "Bleach",
+	[ "Item_Desc_Bleach" ] = "A bottle of bleach, this is dangerous stuff.",
+	
 	[ "Item_Name_ZT" ] = "Zip Tie",
 	[ "Item_Desc_ZT" ] = "Tie to player.",
 	[ "Item_FuncStr01_ZT" ] = "Tie",
