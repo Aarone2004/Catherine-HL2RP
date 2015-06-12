@@ -162,6 +162,12 @@ catherine.language.Merge( "english", {
 	[ "Item_Name_CBAmmo" ] = "Energy Orb Cell",
 	[ "Item_Desc_CBAmmo" ] = "A small cylindrical piece of material with an orange glow.",
 	
+	[ "Item_Name_Breach" ] = "Door Breach",
+	[ "Item_Desc_Breach" ] = "Used to breach doors.",
+	[ "Item_FuncStr01_Breach" ] = "Place",
+	[ "Item_Notify_ComLock_Breach" ] = "You can't place Breach on this door!",
+	[ "Breach_BlastStr" ] = "Blast",
+	
 	// Radio
 	[ "Item_Name_SR" ] = "Static Radio",
 	[ "Item_Desc_SR" ] = "Communication to other humans.",

@@ -55,6 +55,7 @@ function PLUGIN:RootWork( pl, target, workID, data )
 		} )
 	elseif ( workID == CAT_ROOT_ACTION_TAKE ) then
 		local uniqueID = data.uniqueID
+		local itemTable = catherine.item.FindByID( uniqueID )
 		
 		local success = catherine.item.Give( pl, uniqueID )
 		if ( !success ) then
@@ -63,6 +64,8 @@ function PLUGIN:RootWork( pl, target, workID, data )
 		end
 		
 		catherine.item.Take( target, uniqueID )
+		
+		hook.Run( "OnItemForceTake", target, itemTable )
 		
 		netstream.Start( pl, "catherine_hl2rp.plugin.root.RefreshPanel", {
 			target:SteamID( ),

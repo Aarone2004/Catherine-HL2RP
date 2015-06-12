@@ -51,8 +51,10 @@ BASE.func.eat = {
 	end
 }
 
-function BASE:DoRightClick( pl, itemData )
-	catherine.item.Work( self.uniqueID, "eat", true )
+if ( CLIENT ) then
+	function BASE:DoRightClick( pl, itemData )
+		catherine.item.Work( self.uniqueID, "eat", true )
+	end
 end
 
 catherine.item.Register( BASE )

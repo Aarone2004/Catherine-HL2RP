@@ -162,6 +162,12 @@ catherine.language.Merge( "korean", {
 	[ "Item_Name_CBAmmo" ] = "에너지 오브",
 	[ "Item_Desc_CBAmmo" ] = "펄스 라이플에 들어가는 에너지 오브 입니다.",
 	
+	[ "Item_Name_Breach" ] = "문 돌파기",
+	[ "Item_Desc_Breach" ] = "문을 돌파할 수 있는 기구 입니다.",
+	[ "Item_FuncStr01_Breach" ] = "장치",
+	[ "Item_Notify_ComLock_Breach" ] = "이 문에는 장치할 수 없습니다!",
+	[ "Breach_BlastStr" ] = "문 돌파",
+	
 	// Radio
 	[ "Item_Name_SR" ] = "고정식 라디오",
 	[ "Item_Desc_SR" ] = "다른 사람들과 통신을 할 수 있습니다.",

@@ -105,10 +105,10 @@ function Schema:GetUniqueCombineUnitCode( )
 	return table.Random( self.CUC ):upper( )
 end
 
-function Schema:CanDispatch( name )
-	return table.HasValue( {
+function Schema:CanDispatch( pl )
+	return pl:Team( ) == FACTION_ADMIN or table.HasValue( {
 		"EpU", "SeC", "DvL"
-	}, self:GetRankByName( name ) or "ERROR" )
+	}, self:GetRankByName( pl:Name( ) ) or "ERROR" )
 end
 
 function Schema:GetModelByRank( rank )

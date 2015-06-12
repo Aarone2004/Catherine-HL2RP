@@ -67,19 +67,16 @@ catherine.command.Register( {
 	syntax = "[Text]",
 	runFunc = function( pl, args )
 		local args = table.concat( args, " " )
-		
-		if ( pl:PlayerIsCombine( ) or pl:Team( ) == FACTION_ADMIN ) then
-			if ( Schema:CanDispatch( pl:Name( ) ) ) then
-				if ( args != "" ) then
-					Schema:SayDispatch( pl, args )
-				else
-					catherine.util.NotifyLang( pl, "Basic_Notify_InputText" )
-				end
+		local team = pl:Team( )
+
+		if ( team == FACTION_ADMIN or team == FACTION_OW or ( team == FACTION_CP and table.HasValue( { "EpU", "SeC", "DvL" }, Schema:GetRankByName( pl:Name( ) ) or "ERROR" ) ) ) then
+			if ( args != "" ) then
+				Schema:SayDispatch( pl, args )
 			else
-				catherine.util.NotifyLang( pl, "Player_Message_HasNotPermission" )
+				catherine.util.NotifyLang( pl, "Basic_Notify_InputText" )
 			end
 		else
-			catherine.util.NotifyLang( pl, "Basic_Notify_IsNotCombine" )
+			catherine.util.NotifyLang( pl, "Player_Message_HasNotPermission" )
 		end
 	end
 } )
