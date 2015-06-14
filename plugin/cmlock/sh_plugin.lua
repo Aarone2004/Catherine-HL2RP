@@ -43,6 +43,19 @@ catherine.language.Merge( "korean", {
 
 if ( CLIENT ) then return end
 
+function PLUGIN:PlayerCanUseDoor( pl, ent )
+	if ( pl:PlayerIsCombine( ) and pl:KeyDown( IN_SPEED ) ) then
+		local partner = catherine.util.GetDoorPartner( ent )
+		local lock = ent.lock or ( IsValid( partner ) and partner.lock )
+
+		if ( IsValid( lock ) ) then
+			lock:Toggle( )
+			
+			return false
+		end
+	end
+end
+
 function PLUGIN:DataSave( )
 	local data = { }
 
@@ -59,19 +72,6 @@ function PLUGIN:DataSave( )
 	end
 
 	catherine.data.Set( "comlock", data )
-end
-
-function PLUGIN:PlayerCanUseDoor( pl, ent )
-	if ( pl:PlayerIsCombine( ) and pl:KeyDown( IN_SPEED ) ) then
-		local partner = catherine.util.GetDoorPartner( ent )
-		local lock = ent.lock or ( IsValid( partner ) and partner.lock )
-
-		if ( IsValid( lock ) ) then
-			lock:Toggle( )
-			
-			return false
-		end
-	end
 end
 
 function PLUGIN:DataLoad( )

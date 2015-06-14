@@ -29,6 +29,7 @@ ENT.AdminSpawnable = false
 
 function ENT:SetupDataTables( )
 	self:NetworkVar( "Bool", 1, "Active" )
+	self:NetworkVar( "Int", 0, "ForceMode" )
 end
 
 if ( SERVER ) then
@@ -49,7 +50,7 @@ if ( SERVER ) then
 		dummyEnt:Activate( )
 		
 		self.dummyEnt = dummyEnt
-		
+
 		self:DeleteOnRemove( self.dummyEnt )
 		
 		local physObject = self:GetPhysicsObject( )
@@ -61,6 +62,8 @@ if ( SERVER ) then
 	end
 	
 	function ENT:CreateRation( )
+		self:EmitSound( "ambient/machines/combine_terminal_idle4.wav" )
+		
 		local ent = ents.Create( "prop_physics" )
 		ent:SetModel( "models/weapons/w_package.mdl" )
 		ent:Fire( "SetParentAttachment", "package_attachment" )
@@ -74,6 +77,8 @@ if ( SERVER ) then
 			if ( IsValid( self ) and IsValid( ent ) ) then
 				ent:Remove( )
 				catherine.item.Spawn( "ration", ent:GetPos( ) + self:GetForward( ) * 2 + self:GetUp( ) * -10, ent:GetAngles( ) )
+				self.working = false
+				self:SetForceMode( 0 )
 			end
 		end )
 	end
@@ -85,35 +90,61 @@ if ( SERVER ) then
 
 		if ( pl:Team( ) == FACTION_CITIZEN ) then
 			if ( self:GetActive( ) ) then
-				if ( catherine.inventory.HasItem( pl, "cid" ) ) then
-					self.working = true
-					
-					local i = 0
-					for i = 1, 3 do
-						timer.Simple( 2 * i, function( )
-							self:EmitSound( "ambient/machines/transformer_loop.wav" )
+				if ( pl:GetNetVar( "dispenseTime", CurTime( ) ) <= CurTime( ) ) then
+					if ( pl:HasItem( "cid" ) ) then
+						self.working = true
+						self:EmitSound( "ambient/machines/combine_terminal_idle2.wav" )
+						self:SetForceMode( 1 )
+
+						timer.Simple( 5 + math.random( 2, 5 ), function( )
+							if ( !IsValid( self ) or !IsValid( pl ) ) then
+								self.working = false
+								return
+							end
+
+							pl:SetNetVar( "dispenseTime", CurTime( ) + 900 )
+							self:CreateRation( )
+							self.dummyEnt:Fire( "SetAnimation", "dispense_package", 0 )
+						end )
+					else
+						self:EmitSound( "buttons/combine_button_locked.wav" )
+						self.working = true
+						self:SetForceMode( 2 )
+						
+						timer.Simple( 2, function( )
+							if ( !IsValid( self ) ) then return end
+							
+							self.working = false
+							self:SetForceMode( 0 )
 						end )
 					end
-
-					timer.Simple( 5, function( )
-						if ( !IsValid( self ) or !IsValid( pl ) ) then
-							self.working = false
-							return
-						end
-						
-						self:CreateRation( )
-						self.dummyEnt:Fire( "SetAnimation", "dispense_package", 0 )
-						
-						self.working = false
-					end )
 				else
 					self:EmitSound( "buttons/combine_button_locked.wav" )
+					self.working = true
+					self:SetForceMode( 2 )
+					
+					timer.Simple( 2, function( )
+						if ( !IsValid( self ) ) then return end
+						
+						self.working = false
+						self:SetForceMode( 0 )
+					end )
 				end
 			else
 				self:EmitSound( "buttons/combine_button_locked.wav" )
+				self.working = true
+				self:SetForceMode( 2 )
+				
+				timer.Simple( 2, function( )
+					if ( !IsValid( self ) ) then return end
+					
+					self.working = false
+					self:SetForceMode( 0 )
+				end )
 			end
 		elseif ( pl:PlayerIsCombine( ) ) then
 			self:SetActive( !self:GetActive( ) )
+			
 			self:EmitSound( self:GetActive( ) and "buttons/combine_button1.wav" or "buttons/combine_button2.wav" )
 		end
 		
@@ -124,7 +155,18 @@ else
 	local glowMat = Material( "sprites/glow04_noz" )
 	
 	function ENT:Draw( )
+		local forceMode = self:GetForceMode( )
+		local col
+		
+		if ( forceMode == 0 ) then
+			col = self:GetActive( ) and Color( 150, 255, 150 ) or Color( 255, 0, 0 )
+		elseif ( forceMode == 1 ) then
+			col = Color( 255, 255, 0 )
+		elseif ( forceMode == 2 ) then
+			col = Color( 255, 0, 0 )
+		end
+		
 		render.SetMaterial( glowMat )
-		render.DrawSprite( self:GetPos( ) + self:GetForward( ) * 10 + self:GetRight( ) * 5 + self:GetUp( ) * 13, 20, 20, self:GetActive( ) and Color( 150, 255, 150 ) or Color( 255, 0, 0 ) )
+		render.DrawSprite( self:GetPos( ) + self:GetForward( ) * 10 + self:GetRight( ) * 5 + self:GetUp( ) * 13, 20, 20, col )
 	end
 end

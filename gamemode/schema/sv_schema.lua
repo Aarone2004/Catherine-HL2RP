@@ -26,6 +26,35 @@ CAT_SCHEMA_COMBINEOVERLAY_LOCAL = 1
 CAT_SCHEMA_COMBINEOVERLAY_GLOBAL = 2
 CAT_SCHEMA_COMBINEOVERLAY_GLOBAL_NOLOCAL = 3
 
+function Schema:DataSave( )
+	local data = { }
+
+	for k, v in pairs( ents.FindByClass( "cat_hl2rp_ration_dispenser" ) ) do
+		data[ #data + 1 ] = {
+			pos = v:GetPos( ),
+			ang = v:GetAngles( ),
+			active = v:GetActive( )
+		}
+	end
+
+	catherine.data.Set( "ration_dispenser", data )
+end
+
+function Schema:DataLoad( )
+	local data = catherine.data.Get( "ration_dispenser", { } )
+
+	for k, v in pairs( data ) do
+		local ent = ents.Create( "cat_hl2rp_ration_dispenser" )
+		ent:SetPos( v.pos )
+		ent:SetAngles( v.ang )
+		ent:Spawn( )
+		
+		if ( v.active ) then
+			ent:SetActive( true )
+		end
+	end
+end
+
 function Schema:ShowSpare1( pl )
 	if ( !pl:HasItem( "zip_tie" ) ) then return end
 	local data = { }
