@@ -37,6 +37,10 @@ function Schema:PrefixCombineOverlayMessage( )
 	return "< ::: "
 end
 
+function Schema:LanguageChanged( )
+	self.vo.RegisterHelp( )
+end
+
 function Schema:PostRenderScreenColor( _, data )
 	return {
 		colour = 0.6

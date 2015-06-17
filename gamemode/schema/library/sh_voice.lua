@@ -198,14 +198,18 @@ Schema.vo.RegisterNormal( COMBINE, "Zone", "Zone!", "npc/metropolice/vo/zone.wav
 //Schema.vo.RegisterNormal( CITIZEN, "Command", "Answer", "Sound" )
 
 if ( CLIENT ) then
-	local title_voice = LANG( "Help_Category_CombineVoice" )
-	local html = [[<b>]] .. title_voice .. [[</b><br>]]
+	function Schema.vo.RegisterHelp( )
+		local title_voice = LANG( "Help_Category_CombineVoice" )
+		local html = [[<b>]] .. title_voice .. [[</b><br>]]
 
-	for k, v in pairs( Schema.vo.normalVoice ) do
-		if ( table.HasValue( v.faction, FACTION_CP, FACTION_OW ) ) then
-			html = html .. "<p><b>&#10022; " ..v.command .. "</b><br>" .. v.output .. "<br>"
+		for k, v in pairs( Schema.vo.normalVoice ) do
+			if ( table.HasValue( v.faction, FACTION_CP, FACTION_OW ) ) then
+				html = html .. "<p><b>&#10022; " ..v.command .. "</b><br>" .. v.output .. "<br>"
+			end
 		end
+		
+		catherine.help.Register( CAT_HELP_HTML, title_voice, html )
 	end
 	
-	catherine.help.Register( CAT_HELP_HTML, title_voice, html )
+	Schema.vo.RegisterHelp( )
 end
