@@ -6,7 +6,6 @@ SWEP.Purpose = "^Weapon_Stunstick_Purpose"
 SWEP.Author = "L7D, Chessnut"
 SWEP.HoldType = "melee"
 SWEP.ViewModelFOV = 50
-SWEP.ViewModelAngles = 50
 SWEP.ViewModelFlip = false
 SWEP.AnimPrefix	 = "melee"
 SWEP.ViewTranslation = 4
@@ -23,13 +22,13 @@ SWEP.Secondary.DefaultClip = 0
 SWEP.Secondary.Automatic = false
 SWEP.Secondary.Ammo = ""
 
-SWEP.ViewModel = Model( "models/weapons/c_stunstick.mdl" )
+SWEP.ViewModel = Model( "models/weapons/v_stunstick.mdl" )
 SWEP.WorldModel = Model( "models/weapons/w_stunbaton.mdl" )
 
-SWEP.LowerAngles = Angle( 15, -10, -20 )
+SWEP.LowerAngles = Angle( 15, -10, -30 )
 SWEP.CanFireLowered = true
 SWEP.HitDistance = 48
-SWEP.UseHands = true
+SWEP.UseHands = false
 
 function SWEP:SetupDataTables( )
 	self:NetworkVar( "Bool", 0, "Active" )
