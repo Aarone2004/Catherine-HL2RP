@@ -44,7 +44,7 @@ catherine.language.Merge( "korean", {
 if ( CLIENT ) then return end
 
 function PLUGIN:PlayerCanUseDoor( pl, ent )
-	if ( pl:PlayerIsCombine( ) and pl:KeyDown( IN_SPEED ) ) then
+	if ( ( pl:PlayerIsCombine( ) or pl:HasItem( "comlock_access_card" ) ) and pl:KeyDown( IN_SPEED ) ) then
 		local partner = catherine.util.GetDoorPartner( ent )
 		local lock = ent.lock or ( IsValid( partner ) and partner.lock )
 
