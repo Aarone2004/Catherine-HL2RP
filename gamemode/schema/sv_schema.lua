@@ -133,6 +133,10 @@ function Schema:SayDispatch( pl, text )
 	catherine.chat.RunByID( pl, "dispatch", text )
 end
 
+function Schema:SayBreenCast( pl, text )
+	catherine.chat.RunByID( pl, "breencast", text )
+end
+
 function Schema:ChatPrefix( pl, classTable )
 	local uniqueID = classTable.uniqueID
 	
@@ -202,6 +206,28 @@ function Schema:OnChatControl( chatInformation )
 		}
 		
 		for k, v in pairs( self.vo.dispatchVoice ) do
+			if ( v.command:lower( ) == text ) then
+				tab.sounds[ #tab.sounds + 1 ] = {
+					dir = v.sound,
+					len = SoundDuration( v.sound ),
+					vol = true
+				}
+				tab.text = v.output
+			end
+		end
+		
+		chatInformation.voice = tab.sounds
+		chatInformation.text = tab.text
+		
+		return chatInformation
+	elseif ( uniqueID == "breencast" ) then
+		local text = chatInformation.text:lower( )
+		local tab = {
+			sounds = { },
+			text = text
+		}
+		
+		for k, v in pairs( self.vo.breenCast ) do
 			if ( v.command:lower( ) == text ) then
 				tab.sounds[ #tab.sounds + 1 ] = {
 					dir = v.sound,

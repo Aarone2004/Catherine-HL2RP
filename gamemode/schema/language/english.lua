@@ -187,6 +187,7 @@ catherine.language.Merge( "english", {
 	[ "Chat_Dispatch" ] = "Combine Dispatch - %s",
 	[ "Chat_Radio" ] = "%s radio says %s",
 	[ "Chat_Request" ] = "%s reqeust says %s",
+	[ "Chat_Breencast" ] = "Breen Cast - %s",
 	
 	// Basic
 	[ "Basic_Notify_IsNotCombine" ] = "You are a not Combine!",

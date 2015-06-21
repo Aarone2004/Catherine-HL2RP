@@ -180,6 +180,16 @@ catherine.chat.Register( "dispatch", {
 	end
 } )
 
+catherine.chat.Register( "breencast", {
+	func = function( pl, text )
+		chat.AddText( Color( 255, 150, 150 ), LANG( "Chat_Breencast", text ) )
+	end,
+	isGlobal = true,
+	canRun = function( pl )
+		return pl:Alive( )
+	end
+} )
+
 catherine.chat.Register( "request", {
 	func = function( pl, text )
 		chat.AddText( Color( 255, 200, 150 ), LANG( "Chat_Request", pl:Name( ), catherine.chat.PreSet( text ) ) )

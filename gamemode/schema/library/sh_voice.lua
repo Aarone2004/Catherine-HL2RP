@@ -19,6 +19,7 @@ along with Catherine.  If not, see <http://www.gnu.org/licenses/>.
 Schema.vo = Schema.vo or { }
 Schema.vo.normalVoice = { }
 Schema.vo.dispatchVoice = { }
+Schema.vo.breenCast = { }
 
 local COMBINE, CITIZEN = Schema.IsCombineFacton, { FACTION_CITIZEN }
 
@@ -39,6 +40,16 @@ function Schema.vo.RegisterDispatch( command, output, sound )
 		sound = sound
 	}
 end
+
+function Schema.vo.RegisterBreenCast( command, output, sound )
+	Schema.vo.breenCast[ #Schema.vo.breenCast + 1 ] = {
+		command = command,
+		output = output,
+		sound = sound
+	}
+end
+
+Schema.vo.RegisterBreenCast( "Welcome1", "Welcome, Welcome to City 17.", "breencast/br_welcome01.wav" )
 
 Schema.vo.RegisterDispatch( "Anti-Citizen", "Attention ground units. Anti-citizen reported in this community. Code: LOCK, CAUTERIZE, STABILIZE.", "npc/overwatch/cityvoice/f_anticitizenreport_spkr.wav" )
 Schema.vo.RegisterDispatch( "Anti-Civil", "Protection team alert. Evidence of anti-civil activity in this community. Code: ASSEMBLE, PLAN, CONTAIN.", "npc/overwatch/cityvoice/f_anticivilevidence_3_spkr.wav" )

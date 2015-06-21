@@ -82,6 +82,24 @@ catherine.command.Register( {
 } )
 
 catherine.command.Register( {
+	command = "breencast",
+	syntax = "[Text]",
+	runFunc = function( pl, args )
+		local args = table.concat( args, " " )
+
+		if ( pl:Team( ) == FACTION_ADMIN ) then
+			if ( args != "" ) then
+				Schema:SayBreenCast( pl, args )
+			else
+				catherine.util.NotifyLang( pl, "Basic_Notify_InputText" )
+			end
+		else
+			catherine.util.NotifyLang( pl, "Player_Message_HasNotPermission" )
+		end
+	end
+} )
+
+catherine.command.Register( {
 	command = "dispenseradd",
 	canRun = function( pl ) return pl:IsAdmin( ) end,
 	runFunc = function( pl, args )

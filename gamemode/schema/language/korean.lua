@@ -187,6 +187,7 @@ catherine.language.Merge( "korean", {
 	[ "Chat_Dispatch" ] = "콤바인 방송 - %s",
 	[ "Chat_Radio" ] = "%s 님의 라디오 말 %s",
 	[ "Chat_Request" ] = "%s 님의 신고 %s",
+	[ "Chat_Breencast" ] = "브린 방송 - %s",
 	
 	// Basic
 	[ "Basic_Notify_IsNotCombine" ] = "당신은 콤바인이 아닙니다!",
