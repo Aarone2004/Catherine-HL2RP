@@ -86,8 +86,12 @@ function Schema:OverrideCombineOverlayPos( x, y )
 
 end
 
+function Schema:CanDrawCombineOverlay( pl )
+	
+end
+
 function Schema:HUDDrawBarBottom( x, y )
-	if ( !LocalPlayer( ):PlayerIsCombine( ) ) then return end
+	if ( !LocalPlayer( ):PlayerIsCombine( ) or self:CanDrawCombineOverlay( LocalPlayer( ) ) == false ) then return end
 	local newX, newY = self:OverrideCombineOverlayPos( x, y )
 	
 	self:DrawCombineOverlay( newX or x, newY or y )
@@ -214,7 +218,6 @@ function Schema:HUDDraw( )
 		end
 	end
 	
-	//draw.SimpleText( "Radio Signal", "catherine_normal15", x, y - 20, Color( 255, 255, 255, 255 ), TEXT_ALIGN_LEFT, 1 )
 	draw.SimpleText( freq, "catherine_normal15", x + 5, y + 55, Color( 255, 255, 255, 255 ), TEXT_ALIGN_LEFT, 1 )
 end
 

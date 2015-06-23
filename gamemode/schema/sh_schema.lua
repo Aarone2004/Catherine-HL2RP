@@ -119,7 +119,7 @@ function Schema:GetCombines( )
 	local players = { }
 	
 	for k, v in pairs( player.GetAllByLoaded( ) ) do
-		if ( !v.PlayerIsCombine( v ) ) then continue end
+		if ( !v:PlayerIsCombine( ) ) then continue end
 		
 		players[ #players + 1 ] = v
 	end

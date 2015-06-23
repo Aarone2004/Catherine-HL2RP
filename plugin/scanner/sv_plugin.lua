@@ -215,3 +215,21 @@ end
 function PLUGIN:GetScannerEntity( pl )
 	return pl.CAT_HL2RP_scannerEnt
 end
+
+netstream.Hook( "catherine_hl2rp.plugin.scanner.ReceiveCaptureData", function( pl, data )
+	local combines = Schema:GetCombines( )
+
+	pl:GetViewEntity( ):EmitSound( "npc/scanner/scanner_photo1.wav", 140 )
+	pl:EmitSound( "npc/scanner/combat_scan5.wav" )
+	
+	for k, v in ipairs( combines ) do
+		if ( !v:Alive( ) or v == pl or IsValid( PLUGIN:GetScannerEntity( pl ) ) ) then continue end
+		
+		v:EmitSound( "npc/overwatch/radiovoice/preparevisualdownload.wav" )
+	end
+
+	netstream.Start( combines, "catherine_hl2rp.plugin.scanner.BroadcastCaptureData", {
+		caller = pl,
+		captureData = data
+	} )
+end )
