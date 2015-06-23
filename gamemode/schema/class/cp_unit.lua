@@ -21,5 +21,6 @@ CLASS.name = "Civil Protection Unit"
 CLASS.desc = "TEST"
 CLASS.faction = FACTION_CP
 CLASS.cantJoinUsingMenu = true
+CLASS.isDefault = true
 
 CLASS_CP_UNIT = catherine.class.Register( CLASS )
