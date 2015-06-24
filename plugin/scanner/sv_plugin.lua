@@ -223,7 +223,7 @@ netstream.Hook( "catherine_hl2rp.plugin.scanner.ReceiveCaptureData", function( p
 	pl:EmitSound( "npc/scanner/combat_scan5.wav" )
 	
 	for k, v in ipairs( combines ) do
-		if ( !v:Alive( ) or v == pl or IsValid( PLUGIN:GetScannerEntity( pl ) ) ) then continue end
+		if ( !v:Alive( ) or v == pl or IsValid( PLUGIN:GetScannerEntity( v ) ) ) then continue end
 		
 		v:EmitSound( "npc/overwatch/radiovoice/preparevisualdownload.wav" )
 	end
