@@ -65,7 +65,7 @@ if ( SERVER ) then
 		self:EmitSound( "buttons/combine_button_locked.wav" )
 		self:SetError( true )
 		
-		timer.Create( "Catherine.HL2RP.timer.ComLock." .. self:EntIndex( ), 1, 2, function( )
+		timer.Create( "Catherine.HL2RP.timer.ComLock_" .. self:EntIndex( ), 1, 2, function( )
 			if ( IsValid( self ) ) then
 				self:SetError( false )
 			end

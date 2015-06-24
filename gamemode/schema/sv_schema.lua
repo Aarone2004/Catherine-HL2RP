@@ -417,6 +417,8 @@ function Schema:OnSpawnedInCharacter( pl )
 			end
 		end
 		
+		hook.Run( "CombineClassSetFinished", pl )
+		
 		return
 	end
 	

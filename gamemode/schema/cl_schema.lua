@@ -82,10 +82,19 @@ function Schema:AddCombineOverlayMessage( message, time, col, textMakeDelay )
 	}
 end
 
-function Schema:HUDDrawBarBottom( x, y )
-	if ( !LocalPlayer( ):PlayerIsCombine( ) ) then return end
+function Schema:OverrideCombineOverlayPos( x, y )
+
+end
+
+function Schema:CanDrawCombineOverlay( pl )
 	
-	self:DrawCombineOverlay( x, y )
+end
+
+function Schema:HUDDrawBarBottom( x, y )
+	if ( !LocalPlayer( ):PlayerIsCombine( ) or self:CanDrawCombineOverlay( LocalPlayer( ) ) == false ) then return end
+	local newX, newY = self:OverrideCombineOverlayPos( x, y )
+	
+	self:DrawCombineOverlay( newX or x, newY or y )
 end
 
 function Schema:OWHUDPaint( )
@@ -135,9 +144,9 @@ function Schema:DrawCombineOverlay( x, y )
 		
 		surface.SetDrawColor( v.col.r, v.col.g, v.col.b, v.a - 130 )
 		surface.SetMaterial( Material( "gui/gradient" ) )
-		surface.DrawTexturedRect( 5, v.y + 10, v.gradientW, 1 )
+		surface.DrawTexturedRect( x, v.y + 10, v.gradientW, 1 )
 
-		draw.SimpleText( v.message, "catherine_hl2rp_combineOverlay", 5, v.y, Color( v.col.r, v.col.g, v.col.b, v.a ), TEXT_ALIGN_LEFT, 1 )
+		draw.SimpleText( v.message, "catherine_hl2rp_combineOverlay", x, v.y, Color( v.col.r, v.col.g, v.col.b, v.a ), TEXT_ALIGN_LEFT, 1 )
 	end
 end
 
@@ -209,7 +218,6 @@ function Schema:HUDDraw( )
 		end
 	end
 	
-	//draw.SimpleText( "Radio Signal", "catherine_normal15", x, y - 20, Color( 255, 255, 255, 255 ), TEXT_ALIGN_LEFT, 1 )
 	draw.SimpleText( freq, "catherine_normal15", x + 5, y + 55, Color( 255, 255, 255, 255 ), TEXT_ALIGN_LEFT, 1 )
 end
 

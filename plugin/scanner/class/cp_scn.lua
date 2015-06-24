@@ -16,11 +16,10 @@ You should have received a copy of the GNU General Public License
 along with Catherine.  If not, see <http://www.gnu.org/licenses/>.
 ]]--
 
-local CLASS = catherine.class.New( "cp_unit" )
-CLASS.name = "Civil Protection Unit"
+local CLASS = catherine.class.New( "cp_scn" )
+CLASS.name = "Civil Protection Scanner"
 CLASS.desc = "TEST"
 CLASS.faction = FACTION_CP
 CLASS.cantJoinUsingMenu = true
-CLASS.isDefault = true
 
-CLASS_CP_UNIT = catherine.class.Register( CLASS )
+CLASS_CP_SCN = catherine.class.Register( CLASS )

@@ -16,11 +16,20 @@ You should have received a copy of the GNU General Public License
 along with Catherine.  If not, see <http://www.gnu.org/licenses/>.
 ]]--
 
-local CLASS = catherine.class.New( "cp_unit" )
-CLASS.name = "Civil Protection Unit"
-CLASS.desc = "TEST"
-CLASS.faction = FACTION_CP
-CLASS.cantJoinUsingMenu = true
-CLASS.isDefault = true
+local PLUGIN = PLUGIN
+PLUGIN.name = "^Scanner_Plugin_Name"
+PLUGIN.author = "L7D, Chessnut"
+PLUGIN.desc = "^Scanner_Plugin_Desc"
 
-CLASS_CP_UNIT = catherine.class.Register( CLASS )
+catherine.util.Include( "cl_plugin.lua" )
+catherine.util.Include( "sv_plugin.lua" )
+
+catherine.language.Merge( "english", {
+	[ "Scanner_Plugin_Name" ] = "Flashlight",
+	[ "Scanner_Plugin_Desc" ] = "Good stuff."
+} )
+
+catherine.language.Merge( "korean", {
+	[ "Scanner_Plugin_Name" ] = "손전등",
+	[ "Scanner_Plugin_Desc" ] = "손전등을 추가합니다."
+} )

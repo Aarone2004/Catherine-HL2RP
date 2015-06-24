@@ -16,11 +16,14 @@ You should have received a copy of the GNU General Public License
 along with Catherine.  If not, see <http://www.gnu.org/licenses/>.
 ]]--
 
-local CLASS = catherine.class.New( "cp_unit" )
-CLASS.name = "Civil Protection Unit"
-CLASS.desc = "TEST"
-CLASS.faction = FACTION_CP
-CLASS.cantJoinUsingMenu = true
-CLASS.isDefault = true
+local ITEM = catherine.item.New( "accessory_example", "ACCESSORY" )
+ITEM.name = "Accessory Example Item"
+ITEM.desc = "Example Item"
+ITEM.cost = 100
+ITEM.model = "models/barneyhelmet_faceplate.mdl"
+ITEM.bone = "ValveBiped.Bip01_Head1"
+ITEM.offsetVector = Vector( 0, 3, 3 )
+ITEM.offsetAngles = Angle( 270, 270, 0 )
+ITEM.weight = 1
 
-CLASS_CP_UNIT = catherine.class.Register( CLASS )
+catherine.item.Register( ITEM )
