@@ -20,23 +20,45 @@ local FACTION = catherine.faction.New( "citizen" )
 FACTION.name = "^Faction_Name_Citizen"
 FACTION.color = Color( 131, 139, 131 )
 FACTION.desc = "^Faction_Desc_Citizen"
+FACTION.factionImage = "CAT_HL2RP/faction/citizen.png"
 FACTION.salary = 3
 FACTION.models = {
-	"models/humans/group01/male_01.mdl",
-	"models/humans/group01/male_02.mdl",
-	"models/humans/group01/male_03.mdl",
-	"models/humans/group01/male_04.mdl",
-	"models/humans/group01/male_05.mdl",
-	"models/humans/group01/male_06.mdl",
-	"models/humans/group01/male_07.mdl",
-	"models/humans/group01/male_08.mdl",
-	"models/humans/group01/male_09.mdl",
-	"models/humans/group01/female_01.mdl",
-	"models/humans/group01/female_02.mdl",
-	"models/humans/group01/female_03.mdl",
-	"models/humans/group01/female_04.mdl",
-	"models/humans/group01/female_06.mdl",
-	"models/humans/group01/female_07.mdl"
+	"models/humans/tnb/citizens/male_01.mdl",
+	"models/humans/tnb/citizens/male_02.mdl",
+	"models/humans/tnb/citizens/male_03.mdl",
+	"models/humans/tnb/citizens/male_04.mdl",
+	"models/humans/tnb/citizens/male_05.mdl",
+	"models/humans/tnb/citizens/male_06.mdl",
+	"models/humans/tnb/citizens/male_07.mdl",
+	"models/humans/tnb/citizens/male_08.mdl",
+	"models/humans/tnb/citizens/male_09.mdl",
+	"models/humans/tnb/citizens/male_10.mdl",
+	"models/humans/tnb/citizens/male_11.mdl",
+	"models/humans/tnb/citizens/male_12.mdl",
+	"models/humans/tnb/citizens/male_13.mdl",
+	"models/humans/tnb/citizens/male_14.mdl",
+	"models/humans/tnb/citizens/male_15.mdl",
+	"models/humans/tnb/citizens/male_16.mdl",
+	"models/humans/tnb/citizens/male_18.mdl",
+	"models/humans/tnb/citizens/male_20.mdl",
+	"models/humans/tnb/citizens/male_21.mdl",
+	"models/humans/tnb/citizens/male_22.mdl",
+	"models/humans/tnb/citizens/male_23.mdl",
+	"models/humans/tnb/citizens/male_24.mdl",
+	"models/humans/tnb/citizens/male_25.mdl",
+	"models/humans/tnb/citizens/male_26.mdl",
+	"models/humans/tnb/citizens/female_01.mdl",
+	"models/humans/tnb/citizens/female_02.mdl",
+	"models/humans/tnb/citizens/female_03.mdl",
+	"models/humans/tnb/citizens/female_04.mdl",
+	"models/humans/tnb/citizens/female_05.mdl",
+	"models/humans/tnb/citizens/female_06.mdl",
+	"models/humans/tnb/citizens/female_07.mdl",
+	"models/humans/tnb/citizens/female_08.mdl",
+	"models/humans/tnb/citizens/female_10.mdl",
+	"models/humans/tnb/citizens/female_11.mdl",
+	"models/humans/tnb/citizens/female_12.mdl",
+	"models/humans/tnb/citizens/female_14.mdl"
 }
 
 function FACTION:PlayerFirstSpawned( pl )

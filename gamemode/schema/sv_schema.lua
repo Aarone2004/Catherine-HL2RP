@@ -21,6 +21,8 @@ resource.AddWorkshop( "104491619" )
 resource.AddWorkshop( "105042805" )
 
 catherine.util.AddResourceInFolder( "materials/CAT_HL2RP" )
+catherine.util.AddResourceInFolder( "materials/models/tnb" )
+catherine.util.AddResourceInFolder( "models/tnb" )
 
 CAT_SCHEMA_COMBINEOVERLAY_LOCAL = 1
 CAT_SCHEMA_COMBINEOVERLAY_GLOBAL = 2
