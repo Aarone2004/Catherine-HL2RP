@@ -20,6 +20,7 @@ local FACTION = catherine.faction.New( "administrator" )
 FACTION.name = "^Faction_Name_Administrator"
 FACTION.color = Color( 237, 179, 97 )
 FACTION.desc = "^Faction_Desc_Administrator"
+FACTION.factionImage = "CAT_HL2RP/faction/admin.png"
 FACTION.salary = 400
 FACTION.isWhitelist = true
 FACTION.alwaysRecognized = true
