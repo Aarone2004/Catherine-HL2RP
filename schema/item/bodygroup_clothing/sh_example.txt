@@ -22,6 +22,7 @@ ITEM.desc = "Example Item."
 ITEM.cost = 100
 ITEM.weight = 0
 ITEM.bodyGroup = 1
-ITEM.model = "models/tnb/items/wintercoat.mdl"
+ITEM.bodyGroupSubModelIndex = 16
+ITEM.model = "models/humans/tnb/items/wintercoat.mdl"
 
 catherine.item.Register( ITEM )
