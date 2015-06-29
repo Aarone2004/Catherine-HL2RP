@@ -16,14 +16,6 @@ You should have received a copy of the GNU General Public License
 along with Catherine.  If not, see <http://www.gnu.org/licenses/>.
 ]]--
 
--- Add the resource pack.
-resource.AddWorkshop( "104491619" )
-resource.AddWorkshop( "105042805" )
-
-catherine.util.AddResourceInFolder( "materials/CAT_HL2RP" )
-catherine.util.AddResourceInFolder( "materials/models/tnb" )
-catherine.util.AddResourceInFolder( "models/humans/tnb" )
-
 CAT_SCHEMA_COMBINEOVERLAY_LOCAL = 1
 CAT_SCHEMA_COMBINEOVERLAY_GLOBAL = 2
 CAT_SCHEMA_COMBINEOVERLAY_GLOBAL_NOLOCAL = 3

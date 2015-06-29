@@ -26,6 +26,7 @@ Schema.IntroDesc = "^Basic_Schema_IntroDesc"
 catherine.util.Include( "sh_config.lua" )
 catherine.util.Include( "sh_commands.lua" )
 catherine.util.Include( "sv_schema.lua" )
+catherine.util.Include( "sv_resource.lua" )
 catherine.util.Include( "cl_schema.lua" )
 
 Schema.IsCombineFacton = {
