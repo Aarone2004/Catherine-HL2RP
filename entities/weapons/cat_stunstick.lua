@@ -271,7 +271,7 @@ function SWEP:SecondaryAttack( )
 	if ( SERVER and IsValid( ent ) ) then
 		local pushed = false
 
-		if ( catherine.entity.IsDoor( ent ) ) then
+		if ( ent:IsDoor( ) ) then
 			pl:ViewPunch( Angle( -1.3, 1.8, 0 ) )
 			pl:EmitSound( "physics/wood/wood_crate_impact_hard2.wav" )	
 			pl:SetAnimation( PLAYER_ATTACK1 )
