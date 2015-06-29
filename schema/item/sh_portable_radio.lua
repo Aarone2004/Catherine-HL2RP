@@ -30,6 +30,7 @@ ITEM.itemData = {
 ITEM.func = { }
 ITEM.func.setfreq = {
 	text = "^Item_FuncStr01_PR",
+	icon = "icon16/database_gear.png",
 	canShowIsMenu = true,
 	func = function( pl, itemTable )
 		local itemData = pl:GetInvItemDatas( itemTable.uniqueID )

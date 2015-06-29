@@ -178,6 +178,7 @@ catherine.language.Merge( "korean", {
 	[ "Item_Freq" ] = "주파수 : %s.",
 	[ "Item_FuncStr01_SR" ] = "라디오 주파수 설정",
 	[ "Item_FuncStr02_SR" ] = "전원 켜기/끄기",
+	[ "Item_FuncStr03_SR" ] = "라디오 장치하기",
 	[ "Item_RadioFreqQ_SR" ] = "라디오 주파수를 무엇으로 설정하시겠습니까?",
 	[ "Item_Notify_FreqSet_SR" ] = "당신은 라디오 주파수를 %s 로 설정하셨습니다.",
 	[ "Item_Notify_Error01_SR" ] = "라디오 주파수의 범위는 101.1 ~ 199.9 입니다!",

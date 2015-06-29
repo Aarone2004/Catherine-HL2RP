@@ -22,6 +22,7 @@ CAT_SCHEMA_COMBINEOVERLAY_GLOBAL_NOLOCAL = 3
 
 function Schema:DataSave( )
 	local data = { }
+	local data2 = { }
 
 	for k, v in pairs( ents.FindByClass( "cat_hl2rp_ration_dispenser" ) ) do
 		data[ #data + 1 ] = {
@@ -31,7 +32,17 @@ function Schema:DataSave( )
 		}
 	end
 
+	for k, v in pairs( ents.FindByClass( "cat_hl2rp_static_radio" ) ) do
+		data2[ #data2 + 1 ] = {
+			pos = v:GetPos( ),
+			ang = v:GetAngles( ),
+			active = v:GetNetVar( "active", false ),
+			freq = v:GetNetVar( "freq", "XXX.X" )
+		}
+	end
+	
 	catherine.data.Set( "ration_dispenser", data )
+	catherine.data.Set( "static_radio", data2 )
 end
 
 function Schema:DataLoad( )
@@ -46,6 +57,18 @@ function Schema:DataLoad( )
 		if ( v.active ) then
 			ent:SetActive( true )
 		end
+	end
+	
+	local data = catherine.data.Get( "static_radio", { } )
+
+	for k, v in pairs( data ) do
+		local ent = ents.Create( "cat_hl2rp_static_radio" )
+		ent:SetPos( v.pos )
+		ent:SetAngles( v.ang )
+		ent:Spawn( )
+		
+		ent:SetNetVar( "active", v.active )
+		ent:SetNetVar( "freq", v.freq )
 	end
 end
 
@@ -88,31 +111,33 @@ function Schema:PlayerInteract( pl, target )
 end
 
 function Schema:SayRadio( pl, text )
-	local listeners = self:GetRadioListeners( pl )
+	local listeners, isStaticRadio = self:GetRadioListeners( pl )
 	local blockPl = nil
 	local radioSignal = pl:GetNetVar( "radioSignal", 0 )
 
-	if ( radioSignal == 2 ) then
-		local ex = string.Explode( " ", text )
-		
-		for k, v in pairs( ex ) do
-			ex[ k ] = ex[ k ] .. string.rep( ".", math.random( 2, 10 ) )
+	if ( !isStaticRadio ) then
+		if ( radioSignal == 2 ) then
+			local ex = string.Explode( " ", text )
+			
+			for k, v in pairs( ex ) do
+				ex[ k ] = ex[ k ] .. string.rep( ".", math.random( 2, 10 ) )
+			end
+			
+			text = table.concat( ex, "" )
+		elseif ( radioSignal == 1 ) then
+			text = string.rep( ".", #text )
+			
+			for k, v in pairs( listeners ) do
+				v:EmitSound( "ambient/levels/prison/radio_random" .. math.random( 1, 9 ) .. ".wav", 40 )
+			end
+			
+			blockPl = pl
+		elseif ( radioSignal == 0 ) then
+			catherine.chat.RunByID( pl, "radio", string.rep( ".", #text ), { pl } )
+			pl:EmitSound( "ambient/levels/prison/radio_random" .. math.random( 1, 9 ) .. ".wav", 40 )
+			
+			return
 		end
-		
-		text = table.concat( ex, "" )
-	elseif ( radioSignal == 1 ) then
-		text = string.rep( ".", #text )
-		
-		for k, v in pairs( listeners ) do
-			v:EmitSound( "ambient/levels/prison/radio_random" .. math.random( 1, 9 ) .. ".wav", 40 )
-		end
-		
-		blockPl = pl
-	elseif ( radioSignal == 0 ) then
-		catherine.chat.RunByID( pl, "radio", string.rep( ".", #text ) )
-		pl:EmitSound( "ambient/levels/prison/radio_random" .. math.random( 1, 9 ) .. ".wav", 40 )
-		
-		return
 	end
 
 	catherine.chat.RunByID( pl, "radio", text, listeners, blockPl )
@@ -145,6 +170,17 @@ function Schema:OnChatControl( chatInformation )
 
 	if ( uniqueID == "ic" or uniqueID == "radio" or uniqueID == "yell" or uniqueID == "whisper" ) then
 		local text = chatInformation.text
+
+		if ( uniqueID == "ic" ) then
+			for k, v in pairs( ents.FindInSphere( pl:GetPos( ), 100 ) ) do
+				if ( v:GetClass( ) == "cat_hl2rp_static_radio" and v:GetNetVar( "active" ) and ( v:GetNetVar( "freq" ) != "XXX.X" or v:GetNetVar( "freq" ) != "" ) ) then
+					catherine.command.Run( pl, "radio", { text } )
+					
+					return false
+				end
+			end
+		end
+		
 		local tab = {
 			sounds = { },
 			text = text
@@ -480,24 +516,101 @@ function Schema:CharacterLoadingStart( pl )
 	self:ClearCombineOverlayMessages( pl )
 end
 
-function Schema:GetRadioListeners( pl )
-	local listeners = { }
-	local playerFreq = pl:GetInvItemData( "portable_radio", "freq" )
+function Schema:GetRadioListeners( pl, isSignalOnly )
+	local listeners = { pl }
+	local isStaticRadio = false
+	local staticRadios = { }
 	
-	if ( !playerFreq ) then
-		return listeners
-	end
-	
-	for k, v in pairs( player.GetAllByLoaded( ) ) do
-		if ( !v:HasItem( "portable_radio" ) ) then continue end
-		local targetItemDatas = v:GetInvItemDatas( "portable_radio" )
-		
-		if ( targetItemDatas.freq == playerFreq and targetItemDatas.toggle and targetItemDatas.freq and ( targetItemDatas.freq != "xxx.x" and targetItemDatas.freq != "" ) ) then
-			listeners[ #listeners + 1 ] = v
+	for k, v in pairs( ents.FindInSphere( pl:GetPos( ), 100 ) ) do
+		if ( v:GetClass( ) == "cat_hl2rp_static_radio" and v:GetNetVar( "active" ) and ( v:GetNetVar( "freq" ) != "XXX.X" or v:GetNetVar( "freq" ) != "" ) ) then
+			staticRadios[ #staticRadios + 1 ] = {
+				ent = v,
+				freq = v:GetNetVar( "freq" )
+			}
+			isStaticRadio = true
 		end
 	end
-	
-	return listeners
+
+	if ( #staticRadios > 0 ) then
+		for k, v in pairs( staticRadios ) do
+			for k1, v1 in pairs( player.GetAllByLoaded( ) ) do
+				if ( pl == v1 ) then continue end
+				
+				if ( v1:HasItem( "portable_radio" ) ) then
+					local targetItemDatas = v1:GetInvItemDatas( "portable_radio" )
+				
+					if ( targetItemDatas.freq == v.freq and targetItemDatas.toggle and targetItemDatas.freq and ( targetItemDatas.freq != "xxx.x" and targetItemDatas.freq != "" ) ) then
+						listeners[ #listeners + 1 ] = v1
+					else
+						for k2, v2 in pairs( ents.FindInSphere( v1:GetPos( ), 100 ) ) do
+							if ( v2:GetClass( ) == "cat_hl2rp_static_radio" and v2:GetNetVar( "active" ) and ( v2:GetNetVar( "freq" ) != "XXX.X" or v2:GetNetVar( "freq" ) != "" ) ) then
+								if ( v2:GetNetVar( "freq" ) == v.freq ) then
+									listeners[ #listeners + 1 ] = v1
+									
+									if ( v1.RadioReceived and !isSignalOnly ) then
+										v1:RadioReceived( )
+									end
+								end
+							end
+						end
+					end
+				else
+					for k2, v2 in pairs( ents.FindInSphere( v1:GetPos( ), 100 ) ) do
+						if ( v2:GetClass( ) == "cat_hl2rp_static_radio" and v2:GetNetVar( "active" ) and ( v2:GetNetVar( "freq" ) != "XXX.X" or v2:GetNetVar( "freq" ) != "" ) ) then
+							if ( v2:GetNetVar( "freq" ) == v.freq ) then
+								listeners[ #listeners + 1 ] = v1
+								
+								if ( v1.RadioReceived and !isSignalOnly ) then
+									v1:RadioReceived( )
+								end
+							end
+						end
+					end
+				end
+			end
+		end
+	else
+		local playerFreq = pl:GetInvItemData( "portable_radio", "freq" )
+		local playerToggle = pl:GetInvItemData( "portable_radio", "toggle" )
+		
+		for k, v in pairs( player.GetAllByLoaded( ) ) do
+			if ( pl == v ) then continue end
+			
+			if ( v:HasItem( "portable_radio" ) ) then
+				local targetItemDatas = v:GetInvItemDatas( "portable_radio" )
+			
+				if ( targetItemDatas.freq == playerFreq and targetItemDatas.toggle and playerToggle and targetItemDatas.freq and ( targetItemDatas.freq != "xxx.x" and targetItemDatas.freq != "" ) ) then
+					listeners[ #listeners + 1 ] = v
+				else
+					for k1, v1 in pairs( ents.FindInSphere( v:GetPos( ), 100 ) ) do
+						if ( v1:GetClass( ) == "cat_hl2rp_static_radio" and v1:GetNetVar( "active" ) and ( v1:GetNetVar( "freq" ) != "XXX.X" or v1:GetNetVar( "freq" ) != "" ) ) then
+							if ( v1:GetNetVar( "freq" ) == playerFreq and playerToggle ) then
+								listeners[ #listeners + 1 ] = v
+								
+								if ( v1.RadioReceived and !isSignalOnly ) then
+									v1:RadioReceived( )
+								end
+							end
+						end
+					end
+				end
+			else
+				for k1, v1 in pairs( ents.FindInSphere( v:GetPos( ), 100 ) ) do
+					if ( v1:GetClass( ) == "cat_hl2rp_static_radio" and v1:GetNetVar( "active" ) and ( v1:GetNetVar( "freq" ) != "XXX.X" or v1:GetNetVar( "freq" ) != "" ) ) then
+						if ( v1:GetNetVar( "freq" ) == playerFreq and playerToggle ) then
+							listeners[ #listeners + 1 ] = v
+							
+							if ( v1.RadioReceived and !isSignalOnly ) then
+								v1:RadioReceived( )
+							end
+						end
+					end
+				end
+			end
+		end
+	end
+
+	return listeners, isStaticRadio
 end
 
 function Schema:Think( )
@@ -540,7 +653,7 @@ local radioSignalData = {
 }
 
 function Schema:CalcRadio( pl )
-	local listeners = self:GetRadioListeners( pl )
+	local listeners = self:GetRadioListeners( pl, true )
 	local max = 1000000 // max map size.
 
 	for k, v in pairs( listeners ) do
