@@ -39,7 +39,7 @@ ITEM.func.place = {
 		
 		local ent = tr.Entity
 		
-		if ( !IsValid( ent ) or !catherine.entity.IsDoor( ent ) or IsValid( ent.lock ) ) then
+		if ( !IsValid( ent ) or !ent:IsDoor( ) or IsValid( ent.lock ) ) then
 			catherine.util.NotifyLang( pl, "Entity_Notify_NotDoor" )
 			return
 		end

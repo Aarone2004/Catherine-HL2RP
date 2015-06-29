@@ -41,7 +41,7 @@ function Schema:LanguageChanged( )
 	self.vo.RegisterHelp( )
 end
 
-function Schema:PostRenderScreenColor( _, data )
+function Schema:PostRenderScreenColor( pl, data )
 	return {
 		colour = 0.6
 	}

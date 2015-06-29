@@ -77,7 +77,7 @@ end
 function PLUGIN:DataLoad( )
 	for k, v in pairs( ents.GetAll( ) ) do
 		for k1, v1 in pairs( catherine.data.Get( "comlock", { } ) ) do
-			if ( IsValid( v ) and catherine.entity.IsDoor( v ) and v:EntIndex( ) == v1.index ) then
+			if ( IsValid( v ) and v:IsDoor( ) and v:EntIndex( ) == v1.index ) then
 				local ent = ents.Create( "cat_hl2rp_comlock" )
 				ent:SetPos( v:GetPos( ) )
 				ent:Spawn( )

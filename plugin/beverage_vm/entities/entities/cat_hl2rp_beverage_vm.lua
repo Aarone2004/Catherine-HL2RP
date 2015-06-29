@@ -35,7 +35,7 @@ if ( SERVER ) then
 		self:PhysicsInit( SOLID_VPHYSICS )
 		self:SetUseType( SIMPLE_USE )
 
-		local physObject = self.GetPhysicsObject( self )
+		local physObject = self:GetPhysicsObject( )
 		
 		if ( IsValid( physObject ) ) then
 			physObject:EnableMotion( false )

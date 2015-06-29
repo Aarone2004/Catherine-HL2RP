@@ -15,7 +15,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with Catherine.  If not, see <http://www.gnu.org/licenses/>.
 ]]--
-/*
+
 local ITEM = catherine.item.New( "static_radio" )
 ITEM.name = "^Item_Name_SR"
 ITEM.desc = "^Item_Desc_SR"
@@ -24,18 +24,8 @@ ITEM.model = "models/props_lab/citizenradio.mdl"
 ITEM.weight = 2
 ITEM.category = "^Item_Category_Communication"
 ITEM.func = { }
-ITEM.func.take = {
-	text = "^Item_FuncStr01_Basic",
-	icon = "icon16/basket_put.png",
-	func = function( pl, itemTable, ent )
-		// ^-^;
-	end
-	canLook = function( pl, itemTable )
-		return false
-	end
-}
-ITEM.func.drop = {
-	text = "^Item_FuncStr02_Basic",
+ITEM.func.dropItem = {
+	text = "^Item_FuncStr03_SR",
 	icon = "icon16/basket_remove.png",
 	canShowIsMenu = true,
 	func = function( pl, itemTable )
@@ -45,37 +35,12 @@ ITEM.func.drop = {
 		ent:Spawn( )
 		ent:PhysicsInit( SOLID_VPHYSICS )
 		
-		catherine.entity.RegisterUseMenu( ent, {
-			{
-				uniqueID = "ID_Toggle",
-				text = "^Item_FuncStr02_SR",
-				func = function( )
-					ent:SetNetVar( "active", !ent:GetNetVar( "active" ) )
-				end
-			},
-			{
-				uniqueID = "ID_SetFreq",
-				text = "^Item_FuncStr01_SR",
-				func = function( )
-					catherine.util.StringReceiver( pl, "StaticRadio_UniqueSetFreq", "^Item_RadioFreqQ_SR", ent:GetNetVar( "freq", "XXX.X" ), function( _, val )
-						if ( val:find( "^%d%d%d%.%d$" ) ) then
-							local one, two, three = val:match( "(%d)%d(%d)%.(%d)" )
-							one = tonumber( one ) two = tonumber( two ) three = tonumber( three )
-							
-							if ( one == 1 and two > 0 and two <= 9 and three > 0 and three <= 9 ) then
-								ent:SetNetVar( "freq", val )
-								catherine.util.NotifyLang( pl, "Item_Notify_FreqSet_SR", val )
-							else
-								catherine.util.NotifyLang( pl, "Item_Notify_Error01_SR" )
-							end
-						else
-							catherine.util.NotifyLang( pl, "Item_Notify_Error02_SR" )
-						end
-					end )
-				end
-			}
-		} )
+		local physObject = ent:GetPhysicsObject( )
 		
+		if ( IsValid( physObject ) ) then
+			physObject:Wake( )
+		end
+
 		catherine.inventory.Work( pl, CAT_INV_ACTION_REMOVE, {
 			uniqueID = itemTable.uniqueID
 		} )
@@ -86,4 +51,3 @@ ITEM.func.drop = {
 }
 
 catherine.item.Register( ITEM )
-*/

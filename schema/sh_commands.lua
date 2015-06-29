@@ -16,6 +16,17 @@ You should have received a copy of the GNU General Public License
 along with Catherine.  If not, see <http://www.gnu.org/licenses/>.
 ]]--
 
+local function checkStaticRadio( pl, text )
+	for k, v in pairs( ents.FindInSphere( pl:GetPos( ), 100 ) ) do
+		if ( v:GetClass( ) == "cat_hl2rp_static_radio" and v:GetNetVar( "active" ) and ( v:GetNetVar( "freq" ) != "XXX.X" or v:GetNetVar( "freq" ) != "" ) ) then
+			Schema:SayRadio( pl, text )
+			return true
+		end
+	end
+
+	return false
+end
+
 catherine.command.Register( {
 	command = "radio",
 	syntax = "[Text]",
@@ -30,13 +41,25 @@ catherine.command.Register( {
 					if ( itemData.freq != "xxx.x" and itemData.freq != "" ) then
 						Schema:SayRadio( pl, args )
 					else
-						catherine.util.NotifyLang( pl, "Item_Notify_Error05_PR" )
+						local success = checkStaticRadio( pl, args )
+						
+						if ( !success ) then
+							catherine.util.NotifyLang( pl, "Item_Notify_Error05_PR" )
+						end
 					end
 				else
-					catherine.util.NotifyLang( pl, "Item_Notify_Error04_PR" )
+					local success = checkStaticRadio( pl, args )
+						
+					if ( !success ) then
+						catherine.util.NotifyLang( pl, "Item_Notify_Error04_PR" )
+					end
 				end
 			else
-				catherine.util.NotifyLang( pl, "Item_Notify_Error03_PR" )
+				local success = checkStaticRadio( pl, args )
+						
+				if ( !success ) then
+					catherine.util.NotifyLang( pl, "Item_Notify_Error03_PR" )
+				end
 			end
 		else
 			catherine.util.NotifyLang( pl, "Basic_Notify_InputText" )
