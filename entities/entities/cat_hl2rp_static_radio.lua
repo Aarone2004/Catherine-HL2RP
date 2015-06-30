@@ -92,6 +92,17 @@ else
 		
 		self:DrawModel( )
 		
+		local ang = self:GetAngles( )
+		ang:RotateAroundAxis( ang:Up( ), 90 )
+		ang:RotateAroundAxis( ang:Forward( ), 90 )
+		
+		cam.Start3D2D( self:GetPos( ) + self:GetForward( ) * 8.5 + self:GetRight( ) * 5.7 + self:GetUp( ) * 15.5, ang, 0.06 )
+			local freq = self:GetNetVar( "freq", "XXX.X" )
+			
+			draw.RoundedBox( 0, 0, 0, 290, 70, Color( 50, 50, 50, 255 ) )
+			draw.SimpleText( freq, "catherine_normal50", 135, 30, Color( 255, 255, 255, 255 ), 1, 1 )
+		cam.End3D2D( )
+
 		render.SetMaterial( glowMat )
 		render.DrawSprite( self:GetPos( ) + self:GetForward( ) * 10 + self:GetRight( ) * 10 + self:GetUp( ) * 4, 10, 10, col )
 	end
@@ -99,20 +110,18 @@ else
 	function ENT:DrawEntityTargetID( pl, ent, a )
 		local pos = toscreen( self:LocalToWorld( self:OBBCenter( ) ) )
 		local x, y = pos.x, pos.y
-		local freqDesc = LANG( "Item_NoFreq" )
-		
-		if ( !ent.sr_name or !ent.sr_desc ) then
-			ent.sr_name = LANG( "Item_Name_SR" )
-			ent.sr_desc = LANG( "Item_Desc_SR" )
+
+		if ( !self.sr_name or !self.sr_desc ) then
+			self.sr_name = LANG( "Item_Name_SR" )
+			self.sr_desc = LANG( "Item_Desc_SR" )
 		end
-		
-		local freq = ent:GetNetVar( "freq" )
-		
-		if ( freq ) then
-			freqDesc = LANG( "Item_Freq", freq )
-		end
-		
-		draw.SimpleText( ent.sr_name, "catherine_outline25", x, y, Color( 255, 255, 255, a ), 1, 1 )
-		draw.SimpleText( freqDesc, "catherine_outline15", x, y + 25, Color( 255, 255, 255, a ), 1, 1 )
+
+		draw.SimpleText( self.sr_name, "catherine_outline20", x, y, Color( 255, 255, 255, a ), 1, 1 )
+		draw.SimpleText( self.sr_desc, "catherine_outline15", x, y + 20, Color( 255, 255, 255, a ), 1, 1 )
+	end
+	
+	function ENT:LanguageChanged( )
+		self.sr_name = LANG( "Item_Name_SR" )
+		self.sr_desc = LANG( "Item_Desc_SR" )
 	end
 end
