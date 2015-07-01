@@ -91,7 +91,18 @@ Schema.BadRadioStrings = {
 
 for k, v in pairs( Schema.CombineRankModel ) do
 	catherine.animation.Register( "metrocop", v )
-	util.PrecacheModel( v )
+end
+
+local citizenFaction = catherine.faction.FindByIndex( FACTION_CITIZEN )
+
+if ( citizenFaction ) then
+	for k, v in pairs( citizenFaction.models or { } ) do
+		if ( v:lower( ):find( "female" ) ) then
+			catherine.animation.Register( "citizen_female", v )
+		else
+			catherine.animation.Register( "citizen_male", v )
+		end
+	end
 end
 
 function Schema:GetRankByName( name )
