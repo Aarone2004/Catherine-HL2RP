@@ -51,7 +51,7 @@ Schema.CUC = {
 	"Echo"
 }
 Schema.CPNamePrefix = "C17-%s-RCT.%s"
-Schema.OWNamePrefix = "OW-%s.%s"
+Schema.OWNamePrefix = "OWS-%s.%s"
 local elite, unit = Schema.CombineRankClass.Elite, Schema.CombineRankClass.Unit
 Schema.CombineRank = {
 	[ "SeC" ] = elite,
@@ -78,6 +78,10 @@ Schema.CombineRankModel = {
 	[ "02" ] = "models/dpfilms/metropolice/hl2concept.mdl",
 	[ "01" ] = "models/dpfilms/metropolice/hl2concept.mdl",
 	[ "RCT" ] = "models/dpfilms/metropolice/hl2concept.mdl"
+}
+Schema.OverWatchRankModel = {
+	[ "OWS" ] = "models/combine_soldier.mdl",
+	[ "EOW" ] = "models/combine_super_soldier.mdl"
 }
 Schema.BadRadioStrings = {
 	"?",
@@ -123,8 +127,12 @@ function Schema:CanDispatch( pl )
 	}, self:GetRankByName( pl:Name( ) ) or "ERROR" )
 end
 
-function Schema:GetModelByRank( rank )
-	return self.CombineRankModel[ rank ] or "models/dpfilms/metropolice/hl2concept.mdl"
+function Schema:GetModelByRank( rank, isOW )
+	if ( isOW ) then
+		return self.OverWatchRankModel[ rank ] or "models/combine_soldier.mdl"
+	else
+		return self.CombineRankModel[ rank ] or "models/dpfilms/metropolice/hl2concept.mdl"
+	end
 end
 
 function Schema:GetCombines( )

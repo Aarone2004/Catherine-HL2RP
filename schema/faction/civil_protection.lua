@@ -29,6 +29,7 @@ FACTION.models = {
 }
 
 function FACTION:PlayerFirstSpawned( pl )
+	catherine.item.Give( pl, "small_bag" )
 	catherine.item.Give( pl, "portable_radio" )
 	catherine.item.Give( pl, "weapon_pistol" )
 	catherine.item.Give( pl, "weapon_stunstick" )

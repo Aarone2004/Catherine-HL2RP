@@ -433,6 +433,7 @@ function Schema:OnSpawnedInCharacter( pl )
 				pl:SetModel( self:GetModelByRank( rankID ) )
 			else
 				if ( pl:Class( ) == CLASS_CP_UNIT ) then return end
+				
 				catherine.class.Set( pl, CLASS_CP_UNIT )
 			end
 		elseif ( pl:Class( ) != nil and pl:Class( ) == classID and self:GetModelByRank( rankID ) != pl:GetModel( ) ) then
@@ -443,11 +444,27 @@ function Schema:OnSpawnedInCharacter( pl )
 				pl:SetModel( self:GetModelByRank( rankID ) )
 			else
 				if ( pl:Class( ) == CLASS_CP_UNIT ) then return end
+				
 				catherine.class.Set( pl, CLASS_CP_UNIT )
 			end
 		end
 		
 		hook.Run( "CombineClassSetFinished", pl )
+		
+		return
+	elseif ( pl:Team( ) == FACTION_OW ) then
+		local rankID = nil
+		
+		for k, v in pairs( self.OverWatchRankModel ) do
+			if ( pl:Name( ):find( k ) ) then
+				rankID = k
+				break
+			end
+		end
+
+		if ( rankID ) then
+			pl:SetModel( self:GetModelByRank( rankID, true ) )
+		end
 		
 		return
 	end
@@ -476,28 +493,42 @@ function Schema:ChatTypingChanged( pl, bool )
 end
 
 function Schema:CharacterNameChanged( pl, newName )
-	if ( pl:Team( ) != FACTION_CP ) then return end
-	local rankID, classID = self:GetRankByName( pl:Name( ) )
+	if ( pl:Team( ) == FACTION_CP ) then
+		local rankID, classID = self:GetRankByName( pl:Name( ) )
 
-	if ( pl:Class( ) != nil and pl:Class( ) != classID ) then
-		if ( rankID and classID ) then
-			catherine.class.Set( pl, classID )
+		if ( pl:Class( ) != nil and pl:Class( ) != classID ) then
+			if ( rankID and classID ) then
+				catherine.class.Set( pl, classID )
+				pl:SetModel( self:GetModelByRank( rankID ) )
+			else
+				if ( pl:Class( ) == CLASS_CP_UNIT ) then return end
+				
+				catherine.class.Set( pl, CLASS_CP_UNIT )
+			end
+		elseif ( pl:Class( ) != nil and pl:Class( ) == classID and self:GetModelByRank( rankID ) != pl:GetModel( ) ) then
 			pl:SetModel( self:GetModelByRank( rankID ) )
-		else
-			if ( pl:Class( ) == CLASS_CP_UNIT ) then return end
-			
-			catherine.class.Set( pl, CLASS_CP_UNIT )
+		elseif ( pl:Class( ) == nil ) then
+			if ( rankID and classID ) then
+				catherine.class.Set( pl, classID )
+				pl:SetModel( self:GetModelByRank( rankID ) )
+			else
+				if ( pl:Class( ) == CLASS_CP_UNIT ) then return end
+				
+				catherine.class.Set( pl, CLASS_CP_UNIT )
+			end
 		end
-	elseif ( pl:Class( ) != nil and pl:Class( ) == classID and self:GetModelByRank( rankID ) != pl:GetModel( ) ) then
-		pl:SetModel( self:GetModelByRank( rankID ) )
-	elseif ( pl:Class( ) == nil ) then
-		if ( rankID and classID ) then
-			catherine.class.Set( pl, classID )
-			pl:SetModel( self:GetModelByRank( rankID ) )
-		else
-			if ( pl:Class( ) == CLASS_CP_UNIT ) then return end
-			
-			catherine.class.Set( pl, CLASS_CP_UNIT )
+	elseif ( pl:Team( ) == FACTION_OW ) then
+		local rankID = nil
+		
+		for k, v in pairs( self.OverWatchRankModel ) do
+			if ( pl:Name( ):find( k ) ) then
+				rankID = k
+				break
+			end
+		end
+
+		if ( rankID ) then
+			pl:SetModel( self:GetModelByRank( rankID, true ) )
 		end
 	end
 end
