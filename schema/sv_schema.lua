@@ -462,25 +462,17 @@ function Schema:GetBeepSound( pl, IsOff )
 		if ( IsOff ) then
 			return "npc/metropolice/vo/off" .. math.random( 1, 4 ) .. ".wav"
 		else
-			if ( math.random( 1, 9 ) <= 5 ) then
-				return "npc/metropolice/vo/on" .. math.random( 1, 2 ) .. ".wav"
-			else
-				return "npc/overwatch/radiovoice/on3.wav"
-			end
+			return math.random( 1, 9 ) <= 5 and "npc/metropolice/vo/on" .. math.random( 1, 2 ) .. ".wav" or "npc/overwatch/radiovoice/on3.wav"
 		end
 	elseif ( team == FACTION_OW ) then
-		if ( IsOff ) then
-			return "npc/combine_soldier/vo/off" .. math.random( 1, 3 ) .. ".wav"
-		else
-			return "npc/combine_soldier/vo/on" .. math.random( 1, 2 ) .. ".wav"
-		end
+		return IsOff and "npc/combine_soldier/vo/off" .. math.random( 1, 3 ) .. ".wav" or "npc/combine_soldier/vo/on" .. math.random( 1, 2 ) .. ".wav"
 	end
 end
 
 function Schema:ChatTypingChanged( pl, bool )
 	if ( !pl:Alive( ) or !pl:PlayerIsCombine( ) ) then return end
 	
-	pl:EmitSound( self:GetBeepSound( pl, !bool ), 60 )
+	pl:EmitSound( self:GetBeepSound( pl, !bool ), 55 )
 end
 
 function Schema:CharacterNameChanged( pl, newName )
@@ -637,7 +629,7 @@ function Schema:RadioThink( )
 		if ( !v:HasItem( "portable_radio" ) or v:GetInvItemData( "portable_radio", "toggle" ) == false ) then continue end
 		local newSignal = self:CalcRadio( v )
 		
-		if ( v.GetNetVar( v, "radioSignal", 0 ) != newSignal ) then
+		if ( v:GetNetVar( "radioSignal", 0 ) != newSignal ) then
 			v:SetNetVar( "radioSignal", newSignal )
 		end
 	end
