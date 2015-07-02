@@ -16,15 +16,13 @@ You should have received a copy of the GNU General Public License
 along with Catherine.  If not, see <http://www.gnu.org/licenses/>.
 ]]--
 
-local ITEM = catherine.item.New( "breenwater", "FOOD" )
-ITEM.name = "^Item_Name_BW"
-ITEM.desc = "^Item_Desc_BW"
-ITEM.cost = 20
-ITEM.model = "models/props_junk/PopCan01a.mdl"
+local ITEM = catherine.item.New( "vegetable_oil", "FOOD" )
+ITEM.name = "^Item_Name_VegetableO"
+ITEM.desc = "^Item_Desc_VegetableO"
+ITEM.model = "models/props_junk/garbage_plasticbottle002a.mdl"
 ITEM.weight = 0.4
-ITEM.healthAdd = 10
-ITEM.staminaSet = 100
-ITEM.thirstyRemove = 20
+ITEM.cost = 15
+ITEM.thirstyRemove = 5
 ITEM.hungerRemove = 5
 ITEM.func = { }
 ITEM.func.eat = {
@@ -33,20 +31,20 @@ ITEM.func.eat = {
 	canShowIsWorld = true,
 	canShowIsMenu = true,
 	func = function( pl, itemTable, ent )
+		local startID = pl:GetCharacterID( )
+		
 		pl:EmitSound( type( itemTable.eatSound ) == "table" and table.Random( itemTable.eatSound ) or itemTable.eatSound )
-		pl:SetHealth( math.Clamp( pl:Health( ) + ( itemTable.healthAdd or 0 ), 0, pl:GetMaxHealth( ) ) )
 		
-		if ( itemTable.staminaSet != 0 ) then
-			catherine.character.SetCharVar( pl, "stamina", itemTable.staminaSet )
-		end
-		
-		if ( itemTable.hungerRemove != 0 ) then
-			catherine.character.SetCharVar( pl, "hunger", math.Clamp( catherine.character.GetCharVar( pl, "hunger", 0 ) - itemTable.hungerRemove, 0, 100 ) )
-		end
-		
-		if ( itemTable.thirstyRemove != 0 ) then
-			catherine.character.SetCharVar( pl, "thirsty", math.Clamp( catherine.character.GetCharVar( pl, "thirsty", 0 ) - itemTable.thirstyRemove, 0, 100 ) )
-		end
+		timer.Simple( math.random( 4, 8 ), function( )
+			if ( IsValid( pl ) and pl:GetCharacterID( ) == startID ) then
+				local damage = math.random( 30, 70 )
+
+				pl:TakeDamage( 10 )
+				catherine.util.ScreenColorEffect( pl, Color( 150, 150, 255 ), 0.5, 0.01 )
+				catherine.character.SetCharVar( pl, "stamina", 0 )
+				catherine.limb.TakeDamage( pl, HITGROUP_STOMACH, math.random( 30, 70 ) )
+			end
+		end )
 		
 		if ( type( ent ) == "Entity" ) then
 			ent:Remove( )

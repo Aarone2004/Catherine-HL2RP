@@ -24,6 +24,8 @@ BASE.cost = 0
 BASE.weight = 0
 BASE.healthAdd = 0
 BASE.staminaSet = 0
+BASE.hungerRemove = 0
+BASE.thirstyRemove = 0
 BASE.eatSound = {
 	"npc/barnacle/barnacle_gulp1.wav",
 	"npc/barnacle/barnacle_gulp2.wav"
@@ -31,6 +33,7 @@ BASE.eatSound = {
 BASE.func = { }
 BASE.func.eat = {
 	text = "^Item_FuncStr01_Food",
+	icon = "icon16/rainbow.png",
 	canShowIsWorld = true,
 	canShowIsMenu = true,
 	func = function( pl, itemTable, ent )
@@ -39,6 +42,14 @@ BASE.func.eat = {
 		
 		if ( itemTable.staminaSet != 0 ) then
 			catherine.character.SetCharVar( pl, "stamina", itemTable.staminaSet )
+		end
+		
+		if ( itemTable.hungerRemove != 0 ) then
+			catherine.character.SetCharVar( pl, "hunger", math.Clamp( catherine.character.GetCharVar( pl, "hunger", 0 ) - itemTable.hungerRemove, 0, 100 ) )
+		end
+		
+		if ( itemTable.thirstyRemove != 0 ) then
+			catherine.character.SetCharVar( pl, "thirsty", math.Clamp( catherine.character.GetCharVar( pl, "thirsty", 0 ) - itemTable.thirstyRemove, 0, 100 ) )
 		end
 		
 		if ( type( ent ) == "Entity" ) then

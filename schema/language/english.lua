@@ -16,6 +16,8 @@ You should have received a copy of the GNU General Public License
 along with Catherine.  If not, see <http://www.gnu.org/licenses/>.
 ]]--
 
+local cashName = catherine.cash.GetOnlyName( )
+
 catherine.language.Merge( "english", {
 	// Basic
 	[ "Basic_Schema_Title" ] = "HALF - LIFE 2",
@@ -25,8 +27,8 @@ catherine.language.Merge( "english", {
 	[ "Basic_Schema_Author" ] = "Development and design by %s.",
 	
 	// Cash
-	[ "Cash_UI_HasStr" ] = "You have a %s " .. catherine.configs.cashName ..".",
-	[ "Cash_Notify_HasNot" ] = "You don't have a enough " .. catherine.configs.cashName .. "!",
+	[ "Cash_UI_HasStr" ] = "You have a %s " .. cashName ..".",
+	[ "Cash_Notify_HasNot" ] = "You don't have a enough " .. cashName .. "!",
 	
 	// Faction Name
 	[ "Faction_Name_Citizen" ] = "Citizen",
@@ -41,9 +43,9 @@ catherine.language.Merge( "english", {
 	[ "Faction_Desc_CP" ] = "These units are the brunt of the combine's forces. These units are well-trained military units but they also take part policing the population.",
 
 	// Item
-	[ "Item_Desc_Wallet" ] = catherine.configs.cashName .. " in a small stack.",
-	[ "Item_FuncStr01_Wallet" ] = "Take " .. catherine.configs.cashName,
-	[ "Item_FuncStr02_Wallet" ] = "Drop " .. catherine.configs.cashName,
+	[ "Item_Desc_Wallet" ] = cashName .. " in a small stack.",
+	[ "Item_FuncStr01_Wallet" ] = "Take " .. cashName,
+	[ "Item_FuncStr02_Wallet" ] = "Drop " .. cashName,
 	
 	[ "Item_Name_LargeBag" ] = "Large bag",
 	[ "Item_Desc_LargeBag" ] = "This item adds more inventory space!",
@@ -87,6 +89,24 @@ catherine.language.Merge( "english", {
 	[ "Item_Name_GBW" ] = "Golden Breen Water",
 	[ "Item_Desc_GBW" ] = "Shake and eat!",
 	
+	[ "Item_Name_ChineseT" ] = "Chinese Takeout",
+	[ "Item_Desc_ChineseT" ] = "It's filled with cold noodles.",
+	
+	[ "Item_Name_LargeS" ] = "Large Soda",
+	[ "Item_Desc_LargeS" ] = "It's fairly big and filled with liquid.",
+	
+	[ "Item_Name_Melon" ] = "Melon",
+	[ "Item_Desc_Melon" ] = "A big and green fruit.",
+	
+	[ "Item_Name_MilkC" ] = "Milk Carton",
+	[ "Item_Desc_MilkC" ] = "A carton filled with delicious milk.",
+	
+	[ "Item_Name_MilkJ" ] = "Milk Jugs",
+	[ "Item_Desc_MilkJ" ] = "A jug filled with delicious milk.",
+	
+	[ "Item_Name_VegetableO" ] = "Vegetable Oil",
+	[ "Item_Desc_VegetableO" ] = "It isn't very tasty.",
+	
 	[ "Item_Name_9MM" ] = ".9mm Pistol",
 	[ "Item_Desc_9MM" ] = "A standard .9mm Pistol.",
 	
@@ -121,12 +141,6 @@ catherine.language.Merge( "english", {
 	[ "Item_Name_CitizenS" ] = "Citizen Supplements",
 	[ "Item_Desc_CitizenS" ] = "Raw nutrients with slight flavoring provided by the Combine.",
 	
-	[ "Item_Name_Rebel" ] = "Rebel Outfit",
-	[ "Item_Desc_Rebel" ] = "A combination of metropolice uniform and other pieces of fabric.",
-	
-	[ "Item_Name_RebelMedic" ] = "Rebel Medic Outfit",
-	[ "Item_Desc_RebelMedic" ] = "A medical variant of the rebel outfit.",
-	
 	[ "Item_Name_Bleach" ] = "Bleach",
 	[ "Item_Desc_Bleach" ] = "A bottle of bleach, this is dangerous stuff.",
 	
@@ -137,6 +151,7 @@ catherine.language.Merge( "english", {
 	[ "Item_Category_Communication" ] = "Communication",
 	[ "Item_Category_Food" ] = "Food",
 	[ "Item_FuncStr01_Food" ] = "Eat",
+	[ "Item_FuncStr02_Food" ] = "Drink",
 	
 	[ "Item_Name_PistolAmmo" ] = ".9mm Pistol Rounds",
 	[ "Item_Desc_PistolAmmo" ] = "A greenish catridge with the 9mm label on the side.",

@@ -23,6 +23,6 @@ ITEM.cost = 65
 ITEM.model = "models/items/357ammo.mdl"
 ITEM.weight = 0.5
 ITEM.ammoType = "357"
-ITEM.amount = 30
+ITEM.amount = 7
 
 catherine.item.Register( ITEM )

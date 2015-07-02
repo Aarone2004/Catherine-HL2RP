@@ -24,12 +24,14 @@ ITEM.model = "models/props_junk/garbage_plasticbottle001a.mdl"
 ITEM.weight = 0.5
 ITEM.func = { }
 ITEM.func.eat = {
-	text = "^Item_FuncStr01_Food",
+	text = "^Item_FuncStr02_Food",
+	icon = "icon16/rainbow.png",
 	canShowIsWorld = true,
 	canShowIsMenu = true,
 	func = function( pl, itemTable, ent )
-		pl:EmitSound( type( itemTable.eatSound ) == "table" and table.Random( itemTable.eatSound ) or itemTable.eatSound )
 		local startID = pl:GetCharacterID( )
+		
+		pl:EmitSound( type( itemTable.eatSound ) == "table" and table.Random( itemTable.eatSound ) or itemTable.eatSound )
 		
 		timer.Simple( math.random( 4, 8 ), function( )
 			if ( IsValid( pl ) and pl:GetCharacterID( ) == startID ) then

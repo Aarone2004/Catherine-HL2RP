@@ -22,6 +22,6 @@ ITEM.desc = "^Item_Desc_LargeBag"
 ITEM.cost = 300
 ITEM.model = "models/props_junk/cardboard_box004a_gib01.mdl"
 ITEM.weight = 1
-ITEM.weightPlus = 20
+ITEM.weightPlus = 16
 
 catherine.item.Register( ITEM )

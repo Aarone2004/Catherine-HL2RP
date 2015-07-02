@@ -23,6 +23,6 @@ ITEM.cost = 90
 ITEM.model = "models/items/combine_rifle_cartridge01.mdl"
 ITEM.weight = 0.5
 ITEM.ammoType = "AR2"
-ITEM.amount = 50
+ITEM.amount = 40
 
 catherine.item.Register( ITEM )

@@ -219,3 +219,5 @@ catherine.chat.Register( "request", {
 		return pl:Alive( )
 	end
 } )
+
+catherine.cash.SetName( "Token" )

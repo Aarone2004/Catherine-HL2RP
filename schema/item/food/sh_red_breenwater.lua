@@ -19,11 +19,44 @@ along with Catherine.  If not, see <http://www.gnu.org/licenses/>.
 local ITEM = catherine.item.New( "red_breenwater", "FOOD" )
 ITEM.name = "^Item_Name_RBW"
 ITEM.desc = "^Item_Desc_RBW"
-ITEM.cost = 100
+ITEM.cost = 30
 ITEM.model = "models/props_junk/PopCan01a.mdl"
 ITEM.skin = 1
 ITEM.weight = 0.4
 ITEM.healthAdd = 20
 ITEM.staminaSet = 100
+ITEM.thirstyRemove = 25
+ITEM.hungerRemove = 5
+ITEM.func = { }
+ITEM.func.eat = {
+	text = "^Item_FuncStr02_Food",
+	icon = "icon16/rainbow.png",
+	canShowIsWorld = true,
+	canShowIsMenu = true,
+	func = function( pl, itemTable, ent )
+		pl:EmitSound( type( itemTable.eatSound ) == "table" and table.Random( itemTable.eatSound ) or itemTable.eatSound )
+		pl:SetHealth( math.Clamp( pl:Health( ) + ( itemTable.healthAdd or 0 ), 0, pl:GetMaxHealth( ) ) )
+		
+		if ( itemTable.staminaSet != 0 ) then
+			catherine.character.SetCharVar( pl, "stamina", itemTable.staminaSet )
+		end
+		
+		if ( itemTable.hungerRemove != 0 ) then
+			catherine.character.SetCharVar( pl, "hunger", math.Clamp( catherine.character.GetCharVar( pl, "hunger", 0 ) - itemTable.hungerRemove, 0, 100 ) )
+		end
+		
+		if ( itemTable.thirstyRemove != 0 ) then
+			catherine.character.SetCharVar( pl, "thirsty", math.Clamp( catherine.character.GetCharVar( pl, "thirsty", 0 ) - itemTable.thirstyRemove, 0, 100 ) )
+		end
+		
+		if ( type( ent ) == "Entity" ) then
+			ent:Remove( )
+		else
+			catherine.inventory.Work( pl, CAT_INV_ACTION_REMOVE, {
+				uniqueID = itemTable.uniqueID
+			} )
+		end
+	end
+}
 
 catherine.item.Register( ITEM )

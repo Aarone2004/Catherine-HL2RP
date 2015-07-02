@@ -16,14 +16,17 @@ You should have received a copy of the GNU General Public License
 along with Catherine.  If not, see <http://www.gnu.org/licenses/>.
 ]]--
 
-local ITEM = catherine.item.New( "rebel_medic", "CLOTHING" )
-ITEM.name = "^Item_Name_RebelMedic"
-ITEM.desc = "^Item_Desc_RebelMedic"
+local ITEM = catherine.item.New( "clothing_example", "CLOTHING" )
+ITEM.name = "Clothing Example Item"
+ITEM.desc = "Example Item"
+ITEM.cost = 100
+--[[
+ITEM.model = "models/alyx.mdl"
 ITEM.replacement = {
 	"group(%d+)",
 	"group03m"
 }
-ITEM.cost = 220
-ITEM.weight = 1.5
+]]--
+ITEM.weight = 1
 
 catherine.item.Register( ITEM )

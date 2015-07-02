@@ -16,12 +16,21 @@ You should have received a copy of the GNU General Public License
 along with Catherine.  If not, see <http://www.gnu.org/licenses/>.
 ]]--
 
-local ITEM = catherine.item.New( "small_bag", "BAG" )
-ITEM.name = "^Item_Name_SmallBag"
-ITEM.desc = "^Item_Desc_SmallBag"
-ITEM.cost = 100
-ITEM.model = "models/props_junk/garbage_bag001a.mdl"
-ITEM.weight = 0.5
-ITEM.weightPlus = 8
+local ITEM = catherine.item.New( "chinese_takeout", "FOOD" )
+ITEM.name = "^Item_Name_ChineseT"
+ITEM.desc = "^Item_Desc_ChineseT"
+ITEM.model = "models/props_junk/garbage_takeoutcarton001a.mdl"
+ITEM.weight = 0.6
+ITEM.healthAdd = 15
+ITEM.cost = 45
+ITEM.thirstyRemove = 5
+ITEM.hungerRemove = 35
+ITEM.eatSound = {
+	"physics/flesh/flesh_impact_hard1.wav",
+	"physics/flesh/flesh_impact_hard2.wav",
+	"physics/flesh/flesh_impact_hard3.wav",
+	"physics/flesh/flesh_impact_hard4.wav",
+	"physics/flesh/flesh_impact_hard5.wav"
+}
 
 catherine.item.Register( ITEM )

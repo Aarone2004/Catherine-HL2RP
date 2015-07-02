@@ -23,6 +23,6 @@ ITEM.cost = 80
 ITEM.model = "models/items/boxmrounds.mdl"
 ITEM.weight = 0.4
 ITEM.ammoType = "SMG1"
-ITEM.amount = 60
+ITEM.amount = 40
 
 catherine.item.Register( ITEM )

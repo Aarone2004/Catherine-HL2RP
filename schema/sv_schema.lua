@@ -104,6 +104,10 @@ function Schema:GetRationCash( pl )
 	return math.random( 20, 40 )
 end
 
+function Schema:CantWorkFoodPlugin( pl )
+	return pl:Team( ) == FACTION_OW or pl:Class( ) == CLASS_CP_SCN
+end
+
 function Schema:PlayerInteract( pl, target )
 	if ( target:IsTied( ) ) then
 		return catherine.player.SetTie( pl, target, false )

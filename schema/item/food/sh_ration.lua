@@ -22,12 +22,11 @@ ITEM.desc = "^Item_Desc_Ration"
 ITEM.model = "models/weapons/w_package.mdl"
 ITEM.weight = 0.2
 ITEM.func = { }
-
 ITEM.func.eat = {
 	text = "^Item_FuncStr01_Ration",
+	icon = "icon16/arrow_out.png",
 	canShowIsWorld = true,
 	canShowIsMenu = true,
-	icon = "icon16/arrow_out.png",
 	func = function( pl, itemTable, ent )
 		pl:EmitSound( "physics/flesh/flesh_impact_hard" .. math.random( 1, 5 ) .. ".wav" )
 		

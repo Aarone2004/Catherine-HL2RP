@@ -23,6 +23,6 @@ ITEM.cost = 70
 ITEM.model = "models/Items/BoxBuckshot.mdl"
 ITEM.weight = 0.6
 ITEM.ammoType = "Buckshot"
-ITEM.amount = 18
+ITEM.amount = 10
 
 catherine.item.Register( ITEM )

@@ -16,15 +16,15 @@ You should have received a copy of the GNU General Public License
 along with Catherine.  If not, see <http://www.gnu.org/licenses/>.
 ]]--
 
-local ITEM = catherine.item.New( "breenwater", "FOOD" )
-ITEM.name = "^Item_Name_BW"
-ITEM.desc = "^Item_Desc_BW"
-ITEM.cost = 20
-ITEM.model = "models/props_junk/PopCan01a.mdl"
-ITEM.weight = 0.4
-ITEM.healthAdd = 10
+local ITEM = catherine.item.New( "milk_carton", "FOOD" )
+ITEM.name = "^Item_Name_MilkC"
+ITEM.desc = "^Item_Desc_MilkC"
+ITEM.model = "models/props_junk/garbage_milkcarton002a.mdl"
+ITEM.weight = 0.6
 ITEM.staminaSet = 100
-ITEM.thirstyRemove = 20
+ITEM.healthAdd = 5
+ITEM.cost = 35
+ITEM.thirstyRemove = 30
 ITEM.hungerRemove = 5
 ITEM.func = { }
 ITEM.func.eat = {

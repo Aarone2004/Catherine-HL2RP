@@ -16,6 +16,8 @@ You should have received a copy of the GNU General Public License
 along with Catherine.  If not, see <http://www.gnu.org/licenses/>.
 ]]--
 
+local cashName = catherine.cash.GetOnlyName( )
+
 catherine.language.Merge( "korean", {
 	// Basic
 	[ "Basic_Schema_Title" ] = "하프 - 라이프 2",
@@ -25,8 +27,8 @@ catherine.language.Merge( "korean", {
 	[ "Basic_Schema_Author" ] = "%s 에 의해 개발 및 디자인.",
 	
 	// Cash
-	[ "Cash_UI_HasStr" ] = "당신은 %s " .. catherine.configs.cashName .. " 를 가지고 있습니다.",
-	[ "Cash_Notify_HasNot" ] = "당신은 충분한 " .. catherine.configs.cashName .. " 가 없습니다!",
+	[ "Cash_UI_HasStr" ] = "당신은 %s " .. cashName .. " 를 가지고 있습니다.",
+	[ "Cash_Notify_HasNot" ] = "당신은 충분한 " .. cashName .. " 가 없습니다!",
 	
 	// Faction Name
 	[ "Faction_Name_Citizen" ] = "시민",
@@ -41,9 +43,9 @@ catherine.language.Merge( "korean", {
 	[ "Faction_Desc_CP" ] = "시민들을 보호합니다.",
 
 	// Item
-	[ "Item_Desc_Wallet" ] = catherine.configs.cashName .. " 가 쌓여있습니다.",
-	[ "Item_FuncStr01_Wallet" ] = catherine.configs.cashName .. " 가지기",
-	[ "Item_FuncStr02_Wallet" ] = catherine.configs.cashName .. " 떨어트리기",
+	[ "Item_Desc_Wallet" ] = cashName .. " 가 쌓여있습니다.",
+	[ "Item_FuncStr01_Wallet" ] = cashName .. " 가지기",
+	[ "Item_FuncStr02_Wallet" ] = cashName .. " 떨어트리기",
 	
 	[ "Item_Name_LargeBag" ] = "큰 가방",
 	[ "Item_Desc_LargeBag" ] = "당신의 인벤토리의 공간을 많이 늘려줍니다.",
@@ -87,6 +89,24 @@ catherine.language.Merge( "korean", {
 	[ "Item_Name_GBW" ] = "최고급 브린 워터",
 	[ "Item_Desc_GBW" ] = "흔들어서 드세요.",
 	
+	[ "Item_Name_ChineseT" ] = "즉석 중국 요리",
+	[ "Item_Desc_ChineseT" ] = "차가운 인스턴트 중국 요리 입니다.",
+	
+	[ "Item_Name_LargeS" ] = "큰 소다",
+	[ "Item_Desc_LargeS" ] = "큰 통에 소다 음료수가 들어있습니다.",
+	
+	[ "Item_Name_Melon" ] = "수박",
+	[ "Item_Desc_Melon" ] = "큰 초록색 과일입니다.",
+	
+	[ "Item_Name_MilkC" ] = "팩 우유",
+	[ "Item_Desc_MilkC" ] = "팩에 몸에 건강한 우유가 들어있습니다.",
+	
+	[ "Item_Name_MilkJ" ] = "병 우유",
+	[ "Item_Desc_MilkJ" ] = "병에 몸에 건강한 우유가 들어있습니다.",
+	
+	[ "Item_Name_VegetableO" ] = "식물성 기름",
+	[ "Item_Desc_VegetableO" ] = "매우 맛이 없는 식물성 기름 입니다.",
+	
 	[ "Item_Name_9MM" ] = ".9mm 피스톨",
 	[ "Item_Desc_9MM" ] = "기본적인 .9mm 피스톨 입니다.",
 	
@@ -121,12 +141,6 @@ catherine.language.Merge( "korean", {
 	[ "Item_Name_CitizenS" ] = "시민 보급식",
 	[ "Item_Desc_CitizenS" ] = "시민들의 생계를 이어가기 위해 기본적으로 제공되는 보급식 입니다.",
 	
-	[ "Item_Name_Rebel" ] = "반시민 복장",
-	[ "Item_Desc_Rebel" ] = "콤바인에 대항하여 싸우는 반시민들의 복장 입니다.",
-	
-	[ "Item_Name_RebelMedic" ] = "반시민 메딕 복장",
-	[ "Item_Desc_RebelMedic" ] = "반시민들을 치료하는 메딕병 복장 입니다.",
-	
 	[ "Item_Name_Bleach" ] = "표백제",
 	[ "Item_Desc_Bleach" ] = "치명적인 독성이 있는 표백제 입니다.",
 	
@@ -137,6 +151,7 @@ catherine.language.Merge( "korean", {
 	[ "Item_Category_Communication" ] = "통신",
 	[ "Item_Category_Food" ] = "음식",
 	[ "Item_FuncStr01_Food" ] = "먹기",
+	[ "Item_FuncStr02_Food" ] = "마시기",
 	
 	[ "Item_Name_PistolAmmo" ] = ".9mm 피스톨 탄약",
 	[ "Item_Desc_PistolAmmo" ] = ".9mm 피스톨에 들어가는 탄약입니다.",

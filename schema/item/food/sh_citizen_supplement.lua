@@ -22,6 +22,8 @@ ITEM.desc = "^Item_Desc_CitizenS"
 ITEM.model = "models/props_lab/jar01b.mdl"
 ITEM.weight = 0.4
 ITEM.cost = 30
+ITEM.thirstyRemove = 30
+ITEM.hungerRemove = 30
 ITEM.eatSound = {
 	"physics/flesh/flesh_impact_hard1.wav",
 	"physics/flesh/flesh_impact_hard2.wav",

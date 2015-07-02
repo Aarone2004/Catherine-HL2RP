@@ -26,6 +26,7 @@ ITEM.category = "^Item_Category_Other"
 ITEM.func = { }
 ITEM.func.tie = {
 	text = "^Item_FuncStr01_ZT",
+	icon = "icon16/key.png",
 	canShowIsMenu = true,
 	func = function( pl, itemTable )
 		local data = { }
