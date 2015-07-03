@@ -24,6 +24,9 @@ ITEM.weight = 0.4
 ITEM.cost = 15
 ITEM.thirstyRemove = 5
 ITEM.hungerRemove = 5
+ITEM.onBusinessFactions = {
+	FACTION_CWU
+}
 ITEM.func = { }
 ITEM.func.eat = {
 	text = "^Item_FuncStr02_Food",

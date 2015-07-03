@@ -16,23 +16,13 @@ You should have received a copy of the GNU General Public License
 along with Catherine.  If not, see <http://www.gnu.org/licenses/>.
 ]]--
 
-local ITEM = catherine.item.New( "citizen_supplement", "FOOD" )
-ITEM.name = "^Item_Name_CitizenS"
-ITEM.desc = "^Item_Desc_CitizenS"
-ITEM.model = "models/props_lab/jar01b.mdl"
-ITEM.weight = 0.4
-ITEM.cost = 30
-ITEM.thirstyRemove = 30
-ITEM.hungerRemove = 30
-ITEM.onBusinessFactions = {
-	FACTION_CWU
-}
-ITEM.eatSound = {
-	"physics/flesh/flesh_impact_hard1.wav",
-	"physics/flesh/flesh_impact_hard2.wav",
-	"physics/flesh/flesh_impact_hard3.wav",
-	"physics/flesh/flesh_impact_hard4.wav",
-	"physics/flesh/flesh_impact_hard5.wav"
-}
+local ITEM = catherine.item.New( "cwu_pants", "BODYGROUP_CLOTHING" )
+ITEM.name = "^Item_Name_CWUPants"
+ITEM.desc = "^Item_Desc_CWUPants"
+ITEM.cost = 230
+ITEM.weight = 0.3
+ITEM.bodyGroup = 2
+ITEM.bodyGroupSubModelIndex = 1
+ITEM.model = "models/humans/tnb/items/pants_citizen.mdl"
 
 catherine.item.Register( ITEM )

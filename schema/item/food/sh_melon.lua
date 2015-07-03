@@ -26,6 +26,9 @@ ITEM.healthAdd = 20
 ITEM.thirstyRemove = 35
 ITEM.hungerRemove = 40
 ITEM.cost = 55
+ITEM.onBusinessFactions = {
+	FACTION_CWU
+}
 ITEM.eatSound = {
 	"physics/flesh/flesh_impact_hard1.wav",
 	"physics/flesh/flesh_impact_hard2.wav",

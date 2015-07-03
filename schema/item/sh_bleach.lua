@@ -22,6 +22,9 @@ ITEM.desc = "^Item_Desc_Bleach"
 ITEM.cost = 30
 ITEM.model = "models/props_junk/garbage_plasticbottle001a.mdl"
 ITEM.weight = 0.5
+ITEM.onBusinessFactions = {
+	FACTION_CWU
+}
 ITEM.func = { }
 ITEM.func.eat = {
 	text = "^Item_FuncStr02_Food",

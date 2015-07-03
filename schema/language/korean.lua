@@ -32,12 +32,14 @@ catherine.language.Merge( "korean", {
 	
 	// Faction Name
 	[ "Faction_Name_Citizen" ] = "시민",
+	[ "Faction_Name_CWU" ] = "시민 노동 조합 (CWU)",
 	[ "Faction_Name_Administrator" ] = "관리자",
 	[ "Faction_Name_OW" ] = "콤바인 군대",
 	[ "Faction_Name_CP" ] = "시민 보호 기동대",
 	
 	// Faction Description
 	[ "Faction_Desc_Citizen" ] = "더러운 옷을 입고 있습니다.",
+	[ "Faction_Desc_CWU" ] = "깨끗한 옷을 입고 있습니다.",
 	[ "Faction_Desc_Administrator" ] = "이 도시의 관리자 입니다.",
 	[ "Faction_Desc_OW" ] = "콤바인에 의해 강제로 개조당한 기계 인간 입니다.",
 	[ "Faction_Desc_CP" ] = "시민들을 보호합니다.",
@@ -186,6 +188,40 @@ catherine.language.Merge( "korean", {
 	[ "Item_Notify_ComLock_Breach" ] = "이 문에는 장치할 수 없습니다!",
 	[ "Breach_BlastStr" ] = "문 돌파",
 	
+	[ "Item_Name_CWUShirt" ] = "CWU 상의",
+	[ "Item_Desc_CWUShirt" ] = "CWU가 입는 깨끗한 상의 입니다.",
+	
+	[ "Item_Name_CWUPants" ] = "CWU 바지",
+	[ "Item_Desc_CWUPants" ] = "CWU가 입는 깨끗한 바지 입니다.",
+	
+	[ "Item_Name_RebelShirt" ] = "반시민 상의",
+	[ "Item_Desc_RebelShirt" ] = "반시민들이 입는 전투복 입니다.",
+	
+	[ "Item_Name_RebelPants" ] = "반시민 바지",
+	[ "Item_Desc_RebelPants" ] = "반시민들이 입는 바지 입니다.",
+	
+	[ "Item_Name_RebelMedicShirt" ] = "반시민 메딕 상의",
+	[ "Item_Desc_RebelMedicShirt" ] = "반시민 메딕들이 입는 전투복 입니다.",
+	
+	[ "Item_Name_RebelMedicPants" ] = "반시민 메딕 바지",
+	[ "Item_Desc_RebelMedicPants" ] = "반시민 메딕들이 입는 바지 입니다.",
+	
+	// Medical
+	[ "Item_Category_Medical" ] = "의료",
+	
+	[ "Item_Name_HealthK" ] = "구급 상자",
+	[ "Item_Desc_HealthK" ] = "여러가지 구급품들이 들어있는 구급 상자 입니다.",
+	
+	[ "Item_Name_HealthV" ] = "구급 주사",
+	[ "Item_Desc_HealthV" ] = "몸에 주사하는 구급 주사 입니다.",
+	
+	[ "Item_FuncStr01_Medical" ] = "사용",
+	[ "Item_FuncStr02_Medical" ] = "치료",
+	[ "Item_Notify_Error01_Medical" ] = "이 사람은 치료가 필요하지 않습니다!",
+	[ "Item_Notify_Error02_Medical" ] = "당신은 치료가 필요하지 않습니다!",
+	[ "Item_Notify_Error03_Medical" ] = "이 사람은 이미 죽었습니다!",
+	[ "Item_Notify_Error04_Medical" ] = "당신은 이미 죽었습니다!",
+	
 	// Radio
 	[ "Item_Name_SR" ] = "고정식 라디오",
 	[ "Item_Desc_SR" ] = "다른 사람들과 통신을 할 수 있습니다.",
@@ -234,6 +270,9 @@ catherine.language.Merge( "korean", {
 	// Attribute
 	[ "Jump_Title" ] = "점프력",
 	[ "Jump_Desc" ] = "높을 경우 높이 점프를 뛸 수 있습니다.",
+	
+	[ "Medical_Title" ] = "의료",
+	[ "Medical_Desc" ] = "높을 경우 체력 회복량이 늘어납니다.",
 	
 	// Help Category
 	[ "Help_Category_CombineVoice" ] = "콤바인 보이스",

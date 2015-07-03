@@ -24,7 +24,8 @@ ITEM.model = "models/items/battery.mdl"
 ITEM.category = "^Item_Category_Communication"
 ITEM.weight = 0.5
 ITEM.onBusinessFactions = {
-	FACTION_CITIZEN
+	FACTION_CITIZEN,
+	FACTION_CWU
 }
 
 catherine.item.Register( ITEM )

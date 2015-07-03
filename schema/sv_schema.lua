@@ -112,6 +112,35 @@ function Schema:PlayerInteract( pl, target )
 	if ( target:IsTied( ) ) then
 		return catherine.player.SetTie( pl, target, false )
 	end
+	
+	if ( ( pl:HasItem( "health_kit" ) or pl:HasItem( "health_vial" ) ) and target:Alive( ) and target:Health( ) < target:GetMaxHealth( ) ) then
+		if ( !catherine.entity.IsRegisteredUseMenu( target ) ) then
+			catherine.entity.RegisterUseMenu( target, {
+				{
+					uniqueID = "ID_HEAL",
+					text = "^Item_FuncStr02_Medical",
+					icon = "icon16/heart.png",
+					func = function( pl, ent )
+						local uniqueID = nil
+						
+						if ( pl:HasItem( "health_vial" ) ) then
+							uniqueID = "health_vial"
+						elseif ( pl:HasItem( "health_kit" ) ) then
+							uniqueID = "health_kit"
+						end
+						
+						if ( uniqueID ) then
+							catherine.item.Work( pl, uniqueID, "heal", true )
+						end
+					end
+				}
+			} )
+		end
+
+		catherine.entity.OpenUseMenu( pl, target )
+		
+		return true
+	end
 end
 
 function Schema:SayRadio( pl, text )
@@ -355,6 +384,18 @@ function Schema:PlayerFootstep( pl, pos, foot, soundName, vol )
 	pl:EmitSound( sound, 70 )
 	
 	return true
+end
+
+function Schema:GetHealAmount( pl, itemTable )
+	if ( itemTable.uniqueID == "health_kit" ) then
+		return 35 + ( 10 * ( catherine.attribute.GetProgress( pl, CAT_ATT_MEDICAL ) / 100 ) )
+	elseif ( itemTable.uniqueID == "health_vial" ) then
+		return 15 + ( 10 * ( catherine.attribute.GetProgress( pl, CAT_ATT_MEDICAL ) / 100 ) )
+	end
+end
+
+function Schema:PlayerHealed( pl )
+	catherine.attribute.AddProgress( pl, CAT_ATT_MEDICAL, 0.07 )
 end
 
 function Schema:GetPlayerPainSound( pl )
@@ -648,7 +689,7 @@ function Schema:Think( )
 end
 
 function Schema:PlayerJump( pl, velo )
-	catherine.attribute.AddProgress( pl, CAT_ATT_JUMP, 0.0009 )
+	catherine.attribute.AddProgress( pl, CAT_ATT_JUMP, 0.009 )
 end
 
 local defJumpPower = catherine.configs.playerDefaultJumpPower

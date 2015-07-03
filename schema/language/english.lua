@@ -32,12 +32,14 @@ catherine.language.Merge( "english", {
 	
 	// Faction Name
 	[ "Faction_Name_Citizen" ] = "Citizen",
+	[ "Faction_Name_CWU" ] = "Civil Workers Union",
 	[ "Faction_Name_Administrator" ] = "Administrator",
 	[ "Faction_Name_OW" ] = "Overwatch Transhuman Arm",
 	[ "Faction_Name_CP" ] = "Civil Protection",
 	
 	// Faction Description
 	[ "Faction_Desc_Citizen" ] = "He wears a dirty shirt.",
+	[ "Faction_Desc_CWU" ] = "He wears a clean shirt.",
 	[ "Faction_Desc_Administrator" ] = "A city administrator.",
 	[ "Faction_Desc_OW" ] = "Mechanised Infantry units utilized to combat the ongoing insurgency, these units are the elite of the combine's forces.",
 	[ "Faction_Desc_CP" ] = "These units are the brunt of the combine's forces. These units are well-trained military units but they also take part policing the population.",
@@ -186,6 +188,40 @@ catherine.language.Merge( "english", {
 	[ "Item_Notify_ComLock_Breach" ] = "You can't place Breach on this door!",
 	[ "Breach_BlastStr" ] = "Blast",
 	
+	[ "Item_Name_CWUShirt" ] = "CWU Shirt",
+	[ "Item_Desc_CWUShirt" ] = "A clean shirt of the CWU.",
+	
+	[ "Item_Name_CWUPants" ] = "CWU Pants",
+	[ "Item_Desc_CWUPants" ] = "A clean pants of the CWU.",
+	
+	[ "Item_Name_RebelShirt" ] = "Rebel Shirt",
+	[ "Item_Desc_RebelShirt" ] = "A shirt of the Rebels.",
+	
+	[ "Item_Name_RebelPants" ] = "Rebel Pants",
+	[ "Item_Desc_RebelPants" ] = "A pants of the Rebels.",
+	
+	[ "Item_Name_RebelMedicShirt" ] = "Rebel Medic Shirt",
+	[ "Item_Desc_RebelMedicShirt" ] = "A shirt of the Rebel Medics.",
+	
+	[ "Item_Name_RebelMedicPants" ] = "Rebel Medic Pants",
+	[ "Item_Desc_RebelMedicPants" ] = "A pants of the Rebel Medics.",
+	
+	// Medical
+	[ "Item_Category_Medical" ] = "Medical",
+	
+	[ "Item_Name_HealthK" ] = "Health Kit",
+	[ "Item_Desc_HealthK" ] = "A white packet filled with medication.",
+	
+	[ "Item_Name_HealthV" ] = "Health Vial",
+	[ "Item_Desc_HealthV" ] = "A vial filled with green liquid.",
+	
+	[ "Item_FuncStr01_Medical" ] = "Use",
+	[ "Item_FuncStr02_Medical" ] = "Heal",
+	[ "Item_Notify_Error01_Medical" ] = "This person doesn't need heal!",
+	[ "Item_Notify_Error02_Medical" ] = "You are doesn't need heal!",
+	[ "Item_Notify_Error03_Medical" ] = "This person already died!",
+	[ "Item_Notify_Error04_Medical" ] = "You are already died!",
+	
 	// Radio
 	[ "Item_Name_SR" ] = "Static Radio",
 	[ "Item_Desc_SR" ] = "Communication to other humans.",
@@ -234,6 +270,9 @@ catherine.language.Merge( "english", {
 	// Attribute
 	[ "Jump_Title" ] = "Jump",
 	[ "Jump_Desc" ] = "",
+	
+	[ "Medical_Title" ] = "Medical",
+	[ "Medical_Desc" ] = "A high amount of health recovery will increase.",
 	
 	// Help Category
 	[ "Help_Category_CombineVoice" ] = "Combine Voice",

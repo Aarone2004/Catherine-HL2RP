@@ -16,23 +16,9 @@ You should have received a copy of the GNU General Public License
 along with Catherine.  If not, see <http://www.gnu.org/licenses/>.
 ]]--
 
-local ITEM = catherine.item.New( "citizen_supplement", "FOOD" )
-ITEM.name = "^Item_Name_CitizenS"
-ITEM.desc = "^Item_Desc_CitizenS"
-ITEM.model = "models/props_lab/jar01b.mdl"
-ITEM.weight = 0.4
-ITEM.cost = 30
-ITEM.thirstyRemove = 30
-ITEM.hungerRemove = 30
-ITEM.onBusinessFactions = {
-	FACTION_CWU
-}
-ITEM.eatSound = {
-	"physics/flesh/flesh_impact_hard1.wav",
-	"physics/flesh/flesh_impact_hard2.wav",
-	"physics/flesh/flesh_impact_hard3.wav",
-	"physics/flesh/flesh_impact_hard4.wav",
-	"physics/flesh/flesh_impact_hard5.wav"
-}
+local ATTRIBUTE = catherine.attribute.New( "medical" )
+ATTRIBUTE.name = "^Medical_Title"
+ATTRIBUTE.desc = "^Medical_Desc"
+ATTRIBUTE.image = "CAT_HL2RP/attribute/medical.png"
 
-catherine.item.Register( ITEM )
+CAT_ATT_MEDICAL = catherine.attribute.Register( ATTRIBUTE )
