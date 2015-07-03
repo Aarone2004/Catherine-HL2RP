@@ -68,7 +68,7 @@ if ( SERVER ) then
 			{
 				uniqueID = "ID_TOGGLE",
 				text = "^Item_FuncStr02_SR",
-				icon = "icon16/accept.png",
+				icon = "CAT/ui/accept.png",
 				func = function( pl, ent )
 					self:SetNetVar( "active", !self:GetNetVar( "active", false ) )
 				end

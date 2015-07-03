@@ -167,7 +167,7 @@ function PANEL:RebuildRoot( )
 			spawnIcon.PaintOver = function( pnl, w, h )
 				if ( catherine.inventory.IsEquipped( v1.uniqueID ) ) then
 					surface.SetDrawColor( 255, 255, 255, 255 )
-					surface.SetMaterial( Material( "icon16/accept.png" ) )
+					surface.SetMaterial( Material( "CAT/ui/accept.png" ) )
 					surface.DrawTexturedRect( 5, 5, 16, 16 )
 				end
 				
@@ -232,7 +232,7 @@ function PANEL:RebuildRoot( )
 			spawnIcon.PaintOver = function( pnl, w, h )
 				if ( catherine.inventory.IsEquipped( v1.uniqueID ) ) then
 					surface.SetDrawColor( 255, 255, 255, 255 )
-					surface.SetMaterial( Material( "icon16/accept.png" ) )
+					surface.SetMaterial( Material( "CAT/ui/accept.png" ) )
 					surface.DrawTexturedRect( 5, 5, 16, 16 )
 				end
 				

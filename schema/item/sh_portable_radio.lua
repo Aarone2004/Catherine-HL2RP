@@ -54,7 +54,7 @@ ITEM.func.setfreq = {
 }
 ITEM.func.toggle = {
 	text = "^Item_FuncStr02_PR",
-	icon = "icon16/accept.png",
+	icon = "CAT/ui/accept.png",
 	canShowIsMenu = true,
 	func = function( pl, itemTable )
 		local itemData = pl:GetInvItemDatas( itemTable.uniqueID )
@@ -67,7 +67,7 @@ if ( CLIENT ) then
 	function ITEM:DrawInformation( pl, itemTable, w, h, itemData )
 		if ( itemData.toggle ) then
 			surface.SetDrawColor( 255, 255, 255, 255 )
-			surface.SetMaterial( Material( "icon16/accept.png" ) )
+			surface.SetMaterial( Material( "CAT/ui/accept.png" ) )
 			surface.DrawTexturedRect( 5, 5, 16, 16 )
 		end
 	end
