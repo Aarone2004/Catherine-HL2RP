@@ -269,7 +269,7 @@ catherine.language.Merge( "english", {
 	
 	// Attribute
 	[ "Jump_Title" ] = "Jump",
-	[ "Jump_Desc" ] = "",
+	[ "Jump_Desc" ] = "How high you can jump for.",
 	
 	[ "Medical_Title" ] = "Medical",
 	[ "Medical_Desc" ] = "A high amount of health recovery will increase.",
