@@ -116,14 +116,14 @@ else
 				return catherine.character.GetCharVar( LocalPlayer( ), "hunger", 0 )
 			end, function( )
 				return 100
-			end, Color( 139, 90, 0 )
+			end, Color( 139, 90, 0 ), 10
 		)
 		
 		catherine.bar.Register( "thirsty", false, function( )
 				return catherine.character.GetCharVar( LocalPlayer( ), "thirsty", 0 )
 			end, function( )
 				return 100
-			end, Color( 99, 184, 255 )
+			end, Color( 99, 184, 255 ), 10
 		)
 	end
 end
