@@ -20,9 +20,9 @@ local cashName = catherine.cash.GetOnlyName( )
 
 catherine.language.Merge( "english", {
 	// Basic
-	[ "Basic_Schema_Title" ] = "HALF - LIFE 2",
+	[ "Basic_Schema_Title" ] = "HALF-LIFE 2",
 	[ "Basic_Schema_Desc" ] = "This place is safe.",
-	[ "Basic_Schema_IntroTitle" ] = "City 18, 2016",
+	[ "Basic_Schema_IntroTitle" ] = "City 17, 2016",
 	[ "Basic_Schema_IntroDesc" ] = "This place is safe.",
 	[ "Basic_Schema_Author" ] = "Development and design by %s.",
 	

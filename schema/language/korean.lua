@@ -20,11 +20,11 @@ local cashName = catherine.cash.GetOnlyName( )
 
 catherine.language.Merge( "korean", {
 	// Basic
-	[ "Basic_Schema_Title" ] = "하프 - 라이프 2",
+	[ "Basic_Schema_Title" ] = "하프-라이프 2",
 	[ "Basic_Schema_Desc" ] = "이곳은 안전합니다.",
-	[ "Basic_Schema_IntroTitle" ] = "2016 년, 18번 지구",
+	[ "Basic_Schema_IntroTitle" ] = "2016 년, 17번 지구",
 	[ "Basic_Schema_IntroDesc" ] = "이곳은 안전합니다.",
-	[ "Basic_Schema_Author" ] = "%s 에 의해 개발 및 디자인.",
+	[ "Basic_Schema_Author" ] = "개발 및 디자인 - %s.",
 	
 	// Cash
 	[ "Cash_UI_HasStr" ] = "당신은 %s " .. cashName .. " 를 가지고 있습니다.",
