@@ -43,7 +43,7 @@ ITEM.func.eat = {
 				catherine.limb.TakeDamage( pl, HITGROUP_HEAD, damage )
 				catherine.limb.TakeDamage( pl, HITGROUP_CHEST, damage )
 				catherine.limb.TakeDamage( pl, HITGROUP_STOMACH, damage )
-				pl:TakeDamage( damage )
+				pl:TakeDamage( damage, pl, pl )
 			end
 		end )
 		

@@ -54,7 +54,7 @@ if ( SERVER ) then
 			
 			if ( pl.CAT_HL2RP_damageDelay and pl.CAT_HL2RP_damageDelay <= CurTime( ) ) then
 				if ( pl:Alive( ) ) then
-					pl:TakeDamage( math.random( 3, 7 ) )
+					pl:TakeDamage( math.random( 3, 7 ), pl, pl )
 					pl.CAT_HL2RP_damageDelay = CurTime( ) + 7
 				else
 					pl.CAT_HL2RP_damageNeed = nil
