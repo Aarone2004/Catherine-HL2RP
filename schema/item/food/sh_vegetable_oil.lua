@@ -42,7 +42,7 @@ ITEM.func.eat = {
 			if ( IsValid( pl ) and pl:GetCharacterID( ) == startID ) then
 				local damage = math.random( 30, 70 )
 
-				pl:TakeDamage( 10 )
+				pl:TakeDamage( 10, pl, pl )
 				catherine.util.ScreenColorEffect( pl, Color( 150, 150, 255 ), 0.5, 0.01 )
 				catherine.character.SetCharVar( pl, "stamina", 0 )
 				catherine.limb.TakeDamage( pl, HITGROUP_STOMACH, math.random( 30, 70 ) )

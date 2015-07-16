@@ -108,6 +108,19 @@ function Schema:CantWorkFoodPlugin( pl )
 	return pl:Team( ) == FACTION_OW or pl:Class( ) == CLASS_CP_SCN
 end
 
+function Schema:AdjustRecognizeInfo( pl, target, recognizeList )
+	if ( !target:PlayerIsCombine( ) ) then return end
+	local combines = self:GetCombines( )
+	
+	for k, v in pairs( combines ) do
+		if ( v == target or !IsValid( v ) ) then continue end
+		
+		recognizeList[ #recognizeList + 1 ] = v
+	end
+	
+	return recognizeList
+end
+
 function Schema:PlayerInteract( pl, target )
 	if ( target:IsTied( ) ) then
 		return catherine.player.SetTie( pl, target, false )
@@ -177,7 +190,7 @@ function Schema:SayRadio( pl, text )
 end
 
 function Schema:SayRequest( pl, text )
-	self:AddCombineOverlayMessage( CAT_SCHEMA_COMBINEOVERLAY_GLOBAL, nil, { "CombineOverlay_Request", { pl:Name( ), text } }, 9, Color( 255, 150, 150 ) )
+	self:AddCombineOverlayMessage( CAT_SCHEMA_COMBINEOVERLAY_GLOBAL, nil, { "CombineOverlay_Request", { pl:Name( ), text, pl:GetCurrentAreaName( ) or "NONE" } }, 9, Color( 255, 150, 150 ) )
 	catherine.chat.RunByID( pl, "request", text, self:GetCombines( ) )
 end
 
@@ -190,9 +203,10 @@ function Schema:SayBreenCast( pl, text )
 end
 
 function Schema:ChatPrefix( pl, classTable )
+	if ( !pl:PlayerIsCombine( ) ) then return end
 	local uniqueID = classTable.uniqueID
 	
-	if ( pl:PlayerIsCombine( ) and ( uniqueID == "ic" or uniqueID == "yell" or uniqueID == "whisper" ) ) then
+	if ( uniqueID == "ic" or uniqueID == "yell" or uniqueID == "whisper" or uniqueID == "radio" ) then
 		return "< :: "
 	end
 end
@@ -496,6 +510,9 @@ function Schema:OnSpawnedInCharacter( pl )
 		
 		hook.Run( "CombineClassSetFinished", pl )
 		
+		pl:SetMaxHealth( 100 )
+		pl:SetArmor( 50 )
+		
 		return
 	elseif ( pl:Team( ) == FACTION_OW ) then
 		local rankID = nil
@@ -510,6 +527,10 @@ function Schema:OnSpawnedInCharacter( pl )
 		if ( rankID ) then
 			pl:SetModel( self:GetModelByRank( rankID, true ) )
 		end
+		
+		pl:SetMaxHealth( 255 )
+		pl:SetHealth( 255 )
+		pl:SetArmor( 255 )
 		
 		return
 	end

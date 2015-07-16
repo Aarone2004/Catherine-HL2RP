@@ -159,8 +159,8 @@ function Schema:DrawCombineOverlay( x, y )
 		
 		v.y = Lerp( 0.06, v.y, ( y ) + ( k * 20 ) )
 		
-		if ( v.textTime <= CurTime( ) and string.utf8len( v.message ) < string.utf8len( v.originalMessage ) ) then
-			local text = string.utf8sub( v.originalMessage, v.textSubCount, v.textSubCount )
+		if ( v.textTime <= CurTime( ) and v.message:utf8len( ) < v.originalMessage:utf8len( ) ) then
+			local text =  v.originalMessage:utf8sub( v.textSubCount, v.textSubCount )
 			
 			v.message = v.message .. text
 			v.textSubCount = v.textSubCount + 1

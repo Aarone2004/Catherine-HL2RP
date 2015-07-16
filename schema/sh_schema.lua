@@ -121,12 +121,6 @@ function Schema:GetUniqueCombineUnitCode( )
 	return table.Random( self.CUC ):upper( )
 end
 
-function Schema:CanDispatch( pl )
-	return pl:Team( ) == FACTION_ADMIN or table.HasValue( {
-		"EpU", "SeC", "DvL"
-	}, self:GetRankByName( pl:Name( ) ) or "ERROR" )
-end
-
 function Schema:GetModelByRank( rank, isOW )
 	if ( isOW ) then
 		return self.OverWatchRankModel[ rank ] or "models/combine_soldier.mdl"
@@ -158,10 +152,9 @@ function META:PlayerIsCombine( )
 end
 
 function Schema:CalcBadNameString( )
-	local rand = math.random( 5, 15 )
 	local text = ""
 	
-	for i = 1, rand do
+	for i = 1, math.random( 5, 15 ) do
 		text = text .. table.Random( self.BadRadioStrings )
 	end
 	

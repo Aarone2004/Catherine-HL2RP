@@ -20,9 +20,9 @@ local cashName = catherine.cash.GetOnlyName( )
 
 catherine.language.Merge( "english", {
 	// Basic
-	[ "Basic_Schema_Title" ] = "HALF - LIFE 2",
+	[ "Basic_Schema_Title" ] = "HALF-LIFE 2",
 	[ "Basic_Schema_Desc" ] = "This place is safe.",
-	[ "Basic_Schema_IntroTitle" ] = "City 18, 2016",
+	[ "Basic_Schema_IntroTitle" ] = "City 17, 2016",
 	[ "Basic_Schema_IntroDesc" ] = "This place is safe.",
 	[ "Basic_Schema_Author" ] = "Development and design by %s.",
 	
@@ -255,7 +255,7 @@ catherine.language.Merge( "english", {
 	[ "CombineOverlay_Str08" ] = "Registering Citadel messages ...",
 	[ "CombineOverlay_Str09" ] = "Idle state ...",
 	
-	[ "CombineOverlay_Request" ] = "%s's request - %s",
+	[ "CombineOverlay_Request" ] = "%s's request - %s ( AREA : %s )",
 	[ "CombineOverlay_HealthFullRecovered" ] = "Vital signs recovered ...",
 	[ "CombineOverlay_TakeDmg_Local" ] = "WARNING ! Physical bodily trauma detected ...",
 	[ "CombineOverlay_TakeDmg_NoLocal" ] = "WARNING ! Unit '%s' has damaged by unknown problems ...",
@@ -276,6 +276,9 @@ catherine.language.Merge( "english", {
 	
 	// Help Category
 	[ "Help_Category_CombineVoice" ] = "Combine Voice",
+	
+	// Command
+	[ "Command_SpawnDispenser_Fin" ] = "You are added Dispenser.",
 	
 	// Weapon
 	[ "Weapon_Stunstick_Name" ] = "Stunstick",

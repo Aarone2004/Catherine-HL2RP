@@ -16,10 +16,9 @@ You should have received a copy of the GNU General Public License
 along with Catherine.  If not, see <http://www.gnu.org/licenses/>.
 ]]--
 
-local function checkStaticRadio( pl, text )
+local function checkStaticRadio( pl )
 	for k, v in pairs( ents.FindInSphere( pl:GetPos( ), 100 ) ) do
 		if ( v:GetClass( ) == "cat_hl2rp_static_radio" and v:GetNetVar( "active" ) and ( v:GetNetVar( "freq" ) != "XXX.X" or v:GetNetVar( "freq" ) != "" ) ) then
-			Schema:SayRadio( pl, text )
 			return true
 		end
 	end
@@ -31,38 +30,38 @@ catherine.command.Register( {
 	command = "radio",
 	syntax = "[Text]",
 	runFunc = function( pl, args )
-		local args = table.concat( args, " " )
-		
-		if ( args != "" ) then
-			if ( pl:HasItem( "portable_radio" ) ) then
-				local itemData = pl:GetInvItemDatas( "portable_radio" )
-				
-				if ( itemData.toggle ) then
-					if ( itemData.freq != "xxx.x" and itemData.freq != "" ) then
-						Schema:SayRadio( pl, args )
+		if ( pl:HasItem( "portable_radio" ) ) then
+			local itemData = pl:GetInvItemDatas( "portable_radio" )
+			
+			if ( itemData.toggle ) then
+				if ( itemData.freq != "xxx.x" and itemData.freq != "" ) then
+					local text = table.concat( args, " " )
+					
+					if ( text != "" ) then
+						Schema:SayRadio( pl, text )
 					else
-						local success = checkStaticRadio( pl, args )
-						
-						if ( !success ) then
-							catherine.util.NotifyLang( pl, "Item_Notify_Error05_PR" )
-						end
+						catherine.util.NotifyLang( pl, "Basic_Notify_InputText" )
 					end
 				else
-					local success = checkStaticRadio( pl, args )
-						
+					local success = checkStaticRadio( pl )
+					
 					if ( !success ) then
-						catherine.util.NotifyLang( pl, "Item_Notify_Error04_PR" )
+						catherine.util.NotifyLang( pl, "Item_Notify_Error05_PR" )
 					end
 				end
 			else
-				local success = checkStaticRadio( pl, args )
-						
+				local success = checkStaticRadio( pl )
+					
 				if ( !success ) then
-					catherine.util.NotifyLang( pl, "Item_Notify_Error03_PR" )
+					catherine.util.NotifyLang( pl, "Item_Notify_Error04_PR" )
 				end
 			end
 		else
-			catherine.util.NotifyLang( pl, "Basic_Notify_InputText" )
+			local success = checkStaticRadio( pl )
+					
+			if ( !success ) then
+				catherine.util.NotifyLang( pl, "Item_Notify_Error03_PR" )
+			end
 		end
 	end
 } )
@@ -71,16 +70,16 @@ catherine.command.Register( {
 	command = "request",
 	syntax = "[Text]",
 	runFunc = function( pl, args )
-		local args = table.concat( args, " " )
-		
-		if ( args != "" ) then
-			if ( pl:HasItem( "request_device" ) ) then
-				Schema:SayRequest( pl, args )
+		if ( pl:HasItem( "request_device" ) ) then
+			local text = table.concat( args, " " )
+			
+			if ( text != "" ) then
+				Schema:SayRequest( pl, text )
 			else
-				catherine.util.NotifyLang( pl, "Item_Notify_Error01_RD" )
+				catherine.util.NotifyLang( pl, "Basic_Notify_InputText" )
 			end
 		else
-			catherine.util.NotifyLang( pl, "Basic_Notify_InputText" )
+			catherine.util.NotifyLang( pl, "Item_Notify_Error01_RD" )
 		end
 	end
 } )
@@ -89,12 +88,18 @@ catherine.command.Register( {
 	command = "dispatch",
 	syntax = "[Text]",
 	runFunc = function( pl, args )
-		local args = table.concat( args, " " )
 		local team = pl:Team( )
-
-		if ( team == FACTION_ADMIN or team == FACTION_OW or ( team == FACTION_CP and table.HasValue( { "EpU", "SeC", "DvL" }, Schema:GetRankByName( pl:Name( ) ) or "ERROR" ) ) ) then
-			if ( args != "" ) then
-				Schema:SayDispatch( pl, args )
+	
+		if (
+			pl:Class( ) == CLASS_CP_SCN or
+			team == FACTION_ADMIN or
+			team == FACTION_OW or
+			( team == FACTION_CP and table.HasValue( { "EpU", "SeC", "DvL" }, Schema:GetRankByName( pl:Name( ) ) or "ERROR" ) )
+		) then
+			local text = table.concat( args, " " )
+			
+			if ( text != "" ) then
+				Schema:SayDispatch( pl, text )
 			else
 				catherine.util.NotifyLang( pl, "Basic_Notify_InputText" )
 			end
@@ -108,11 +113,11 @@ catherine.command.Register( {
 	command = "breencast",
 	syntax = "[Text]",
 	runFunc = function( pl, args )
-		local args = table.concat( args, " " )
-
 		if ( pl:Team( ) == FACTION_ADMIN ) then
-			if ( args != "" ) then
-				Schema:SayBreenCast( pl, args )
+			local text = table.concat( args, " " )
+			
+			if ( text != "" ) then
+				Schema:SayBreenCast( pl, text )
 			else
 				catherine.util.NotifyLang( pl, "Basic_Notify_InputText" )
 			end
@@ -126,7 +131,9 @@ catherine.command.Register( {
 	command = "dispenseradd",
 	canRun = function( pl ) return pl:IsAdmin( ) end,
 	runFunc = function( pl, args )
-		local pos, ang = pl:GetEyeTraceNoCursor( ).HitPos, pl:EyeAngles( )
+		local pos = pl:GetEyeTraceNoCursor( ).HitPos
+		local ang = pl:EyeAngles( )
+		
 		ang.p = 0
 		ang.y = ang.y - 180
 		
@@ -135,5 +142,7 @@ catherine.command.Register( {
 		ent:SetAngles( ang )
 		ent:Spawn( )
 		ent:Activate( )
+		
+		catherine.util.NotifyLang( pl, "Command_SpawnDispenser_Fin" )
 	end
 } )
