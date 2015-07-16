@@ -108,6 +108,19 @@ function Schema:CantWorkFoodPlugin( pl )
 	return pl:Team( ) == FACTION_OW or pl:Class( ) == CLASS_CP_SCN
 end
 
+function Schema:AdjustRecognizeInfo( pl, target, recognizeList )
+	if ( !target:PlayerIsCombine( ) ) then return end
+	local combines = self:GetCombines( )
+	
+	for k, v in pairs( combines ) do
+		if ( v == target or !IsValid( v ) ) then continue end
+		
+		recognizeList[ #recognizeList + 1 ] = v
+	end
+	
+	return recognizeList
+end
+
 function Schema:PlayerInteract( pl, target )
 	if ( target:IsTied( ) ) then
 		return catherine.player.SetTie( pl, target, false )
