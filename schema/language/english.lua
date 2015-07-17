@@ -276,6 +276,7 @@ catherine.language.Merge( "english", {
 	
 	// Help Category
 	[ "Help_Category_CombineVoice" ] = "Combine Voice",
+	[ "Help_Desc_CombineVoice" ] = "The listed of Combine Voices ...",
 	
 	// Command
 	[ "Command_SpawnDispenser_Fin" ] = "You are added Dispenser.",

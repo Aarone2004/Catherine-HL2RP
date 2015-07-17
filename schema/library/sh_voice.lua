@@ -209,17 +209,51 @@ Schema.vo.RegisterNormal( COMBINE, "Zone", "Zone!", "npc/metropolice/vo/zone.wav
 //Schema.vo.RegisterNormal( CITIZEN, "Command", "Answer", "Sound" )
 
 if ( CLIENT ) then
+	local combineVoice_htmlValue = [[
+	<!DOCTYPE html>
+	<html lang="ko">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title></title>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+		<style>
+			@import url(http://fonts.googleapis.com/css?family=Open+Sans);
+			body {
+				font-family: "Open Sans", "나눔고딕", "NanumGothic", "맑은 고딕", "Malgun Gothic", "serif", "sans-serif"; 
+				-webkit-font-smoothing: antialiased;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="container" style="margin-top:15px;">
+		<div class="page-header">
+			<h1>%s&nbsp&nbsp<small>%s</small></h1>
+		</div>
+
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+	]]
+	
 	function Schema.vo.RegisterHelp( )
 		local title_voice = LANG( "Help_Category_CombineVoice" )
-		local html = [[<b>]] .. title_voice .. [[</b><br>]]
+		local html = Format( combineVoice_htmlValue, title_voice, LANG( "Help_Desc_CombineVoice" ) )
 
 		for k, v in pairs( Schema.vo.normalVoice ) do
 			if ( table.HasValue( v.faction, FACTION_CP, FACTION_OW ) ) then
-				html = html .. "<p><b>&#10022; " ..v.command .. "</b><br>" .. v.output .. "<br>"
+				html = html .. [[
+					<ul class="list-group">
+						<li class="list-group-item">]] .. v.command .. [[<br> : ]] .. v.output .. [[</li>
+					</ul>
+				]]
 			end
 		end
 		
-		catherine.help.Register( CAT_HELP_HTML, title_voice, html )
+		html = html .. [[</body></html>]]
+		
+		catherine.help.Register( CAT_HELP_HTML, title_voice, html, true )
 	end
 	
 	Schema.vo.RegisterHelp( )
