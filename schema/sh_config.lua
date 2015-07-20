@@ -17,12 +17,13 @@ along with Catherine.  If not, see <http://www.gnu.org/licenses/>.
 ]]--
 
 catherine.configs.characterMenuMusic = {
-	"music/hl2_song19.mp3",
-	"music/hl2_song3.mp3",
-	"music/hl2_song7.mp3",
-	"music/hl2_song10.mp3",
-	"music/hl2_song14.mp3"
+	"sound/music/hl2_song19.mp3",
+	"sound/music/hl2_song3.mp3",
+	"sound/music/hl2_song7.mp3",
+	"sound/music/hl2_song10.mp3",
+	"sound/music/hl2_song14.mp3"
 }
+catherine.configs.enabledCharacterMenuMusicLooping = true
 catherine.configs.defaultRPInformation = {
 	year = 2016,
 	minute = 1,
