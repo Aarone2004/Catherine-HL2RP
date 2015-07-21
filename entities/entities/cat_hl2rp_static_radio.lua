@@ -83,14 +83,10 @@ else
 	local glowMat = Material( "sprites/glow04_noz" )
 	local toscreen = FindMetaTable( "Vector" ).ToScreen
 	
-	function ENT:Draw( pl, ent, a )
-		local col = Color( 255, 0, 0 )
-		
-		if ( self:GetNetVar( "active" ) ) then
-			col = Color( 0, 255, 0 )
-		end
-		
+	function ENT:Draw( )
 		self:DrawModel( )
+		
+		if ( catherine.util.CalcDistanceByPos( LocalPlayer( ), self ) > 1000 ) then return end
 		
 		local ang = self:GetAngles( )
 		ang:RotateAroundAxis( ang:Up( ), 90 )
@@ -102,6 +98,12 @@ else
 			draw.RoundedBox( 0, 0, 0, 290, 70, Color( 50, 50, 50, 255 ) )
 			draw.SimpleText( freq, "catherine_normal50", 135, 30, Color( 255, 255, 255, 255 ), 1, 1 )
 		cam.End3D2D( )
+		
+		local col = Color( 255, 0, 0 )
+		
+		if ( self:GetNetVar( "active" ) ) then
+			col = Color( 0, 255, 0 )
+		end
 
 		render.SetMaterial( glowMat )
 		render.DrawSprite( self:GetPos( ) + self:GetForward( ) * 10 + self:GetRight( ) * 10 + self:GetUp( ) * 4, 10, 10, col )
