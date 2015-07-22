@@ -605,6 +605,7 @@ function Schema:CharacterLoadingStart( pl )
 	self:ClearCombineOverlayMessages( pl )
 end
 
+--[[ (WARNING!) This hook are override by 'signal amplifier' plugin! ]]--
 function Schema:GetRadioListeners( pl, isSignalOnly )
 	local listeners = { pl }
 	local isStaticRadio = false

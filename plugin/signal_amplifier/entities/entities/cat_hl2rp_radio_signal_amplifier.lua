@@ -16,21 +16,34 @@ You should have received a copy of the GNU General Public License
 along with Catherine.  If not, see <http://www.gnu.org/licenses/>.
 ]]--
 
-catherine.configs.characterMenuMusic = {
-	"sound/music/hl2_song19.mp3",
-	"sound/music/hl2_song3.mp3",
-	"sound/music/hl2_song7.mp3",
-	"sound/music/hl2_song10.mp3",
-	"sound/music/hl2_song14.mp3"
-}
-catherine.configs.enabledCharacterMenuMusicLooping = true
-catherine.configs.defaultRPInformation = {
-	year = 2016,
-	minute = 1,
-	day = 1,
-	hour = 1,
-	month = 1,
-	second = 1,
-	temperature = 23
-}
-catherine.configs.schemaLogo = "CAT_HL2RP/logos/main01.png"
+local PLUGIN = PLUGIN
+
+AddCSLuaFile( )
+
+ENT.Type = "anim"
+ENT.PrintName = "Catherine HL2RP Radio Signal Amplifier"
+ENT.Author = "L7D"
+ENT.Spawnable = false
+ENT.AdminSpawnable = false
+
+if ( SERVER ) then
+	function ENT:Initialize( )
+		self:SetModel( "models/props_interiors/vendingmachinesoda01a.mdl" )
+		self:SetSolid( SOLID_VPHYSICS )
+		self:PhysicsInit( SOLID_VPHYSICS )
+		self:SetUseType( SIMPLE_USE )
+
+		local physObject = self:GetPhysicsObject( )
+		
+		if ( IsValid( physObject ) ) then
+			physObject:EnableMotion( true )
+			physObject:Wake( )
+		end
+	end
+	
+	function ENT:Use( pl )
+
+	end
+else
+
+end
