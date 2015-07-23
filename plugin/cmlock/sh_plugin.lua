@@ -54,6 +54,8 @@ function PLUGIN:PlayerCanUseDoor( pl, ent )
 			return false
 		end
 	end
+	
+	return true
 end
 
 function PLUGIN:DataSave( )

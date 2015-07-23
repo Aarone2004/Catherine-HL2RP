@@ -345,13 +345,12 @@ end
 
 function Schema:PlayerUseDoor( pl, ent )
 	local partner = catherine.util.GetDoorPartner( ent )
+	local lock = ent.lock or ( IsValid( partner ) and partner.lock )
 
-	if ( IsValid( ent.lock ) or ( IsValid( partner ) and IsValid( partner.lock ) ) and !ent:HasSpawnFlags( 256 ) and !ent:HasSpawnFlags( 1024 ) ) then
-		if ( ( IsValid( ent.lock ) and !ent.lock:GetLocked( ) ) or ( IsValid( partner ) and IsValid( partner.lock ) and !partner.lock:GetLocked( ) ) ) then
-			ent:Fire( "Open", "", 0 )
-		
-			return true
-		end
+	if ( IsValid( lock ) and !ent:HasSpawnFlags( 256 ) and !ent:HasSpawnFlags( 1024 ) ) then
+		ent:Fire( "Open", "", 0 )
+	
+		return true
 	end
 	
 	if ( pl:PlayerIsCombine( ) and !ent:HasSpawnFlags( 256 ) and !ent:HasSpawnFlags( 1024 ) ) then
