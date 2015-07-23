@@ -79,7 +79,7 @@ function Schema:ShowSpare1( pl )
 	data.endpos = data.start + pl:GetAimVector( ) * 160
 	data.filter = pl
 	local ent = util.TraceLine( data ).Entity
-	
+
 	if ( !IsValid( ent ) ) then
 		catherine.util.NotifyLang( pl, "Entity_Notify_NotPlayer" )
 		return
@@ -88,7 +88,7 @@ function Schema:ShowSpare1( pl )
 	if ( ent:GetClass( ) == "prop_ragdoll" ) then
 		ent = catherine.entity.GetPlayer( ent )
 	end
-	
+
 	if ( IsValid( ent ) and ent:IsPlayer( ) ) then
 		catherine.player.SetTie( pl, ent, true, nil, true )
 	else

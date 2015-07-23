@@ -39,9 +39,20 @@ end
 function PLUGIN:RootWork( pl, target, workID, data )
 	if ( workID == CAT_ROOT_ACTION_GIVE ) then
 		local uniqueID = data.uniqueID
+		local itemTable = catherine.item.FindByID( uniqueID )
 		
+		if ( !itemTable ) then
+			catherine.util.NotifyLang( pl, "Item_Notify_NoItemData" )
+			return
+		end
+
+		if ( itemTable.IsPersistent ) then
+			catherine.util.NotifyLang( pl, "Inventory_Notify_IsPersistent" )
+			return
+		end
 		
 		local success = catherine.item.Give( target, uniqueID )
+		
 		if ( !success ) then
 			catherine.util.NotifyLang( pl, "Inventory_Notify_HasNotSpaceTarget" )
 			return
@@ -56,8 +67,19 @@ function PLUGIN:RootWork( pl, target, workID, data )
 	elseif ( workID == CAT_ROOT_ACTION_TAKE ) then
 		local uniqueID = data.uniqueID
 		local itemTable = catherine.item.FindByID( uniqueID )
+
+		if ( !itemTable ) then
+			catherine.util.NotifyLang( pl, "Item_Notify_NoItemData" )
+			return
+		end
+
+		if ( itemTable.IsPersistent ) then
+			catherine.util.NotifyLang( pl, "Inventory_Notify_IsPersistent" )
+			return
+		end
 		
 		local success = catherine.item.Give( pl, uniqueID )
+		
 		if ( !success ) then
 			catherine.util.NotifyLang( pl, "Inventory_Notify_HasNotSpace" )
 			return

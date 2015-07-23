@@ -25,12 +25,14 @@ function PANEL:Init( )
 	self.entCheck = CurTime( ) + 1
 	self.player = LocalPlayer( )
 	self.w, self.h = ScrW( ) * 0.8, ScrH( ) * 0.8
+	self.x, self.y = ScrW( ) / 2 - self.w / 2, ScrH( ) / 2 - self.h / 2
 
 	self:SetSize( self.w, self.h )
-	self:Center( )
+	self:SetPos( ScrW( ), self.y )
 	self:SetTitle( "" )
 	self:MakePopup( )
 	self:ShowCloseButton( false )
+	self:MoveTo( ScrW( ) / 2 - self.w / 2, self.y, 0.2, 0 )
 	
 	self.targetInv = vgui.Create( "DPanelList", self )
 	self.targetInv:SetPos( 10, 55 )
@@ -267,8 +269,10 @@ end
 function PANEL:Close( )
 	self.closing = true
 	
-	self:Remove( )
-	self = nil
+	self:MoveTo( ScrW( ), self.y, 0.2, 0, nil, function( )
+		self:Remove( )
+		self = nil
+	end )
 	
 	netstream.Start( "catherine_hl2rp.plugin.root.RootClose" )
 end
