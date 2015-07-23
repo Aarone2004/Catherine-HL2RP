@@ -86,9 +86,16 @@ function PLUGIN:DataLoad( )
 				ent:SetDoor( v, v:LocalToWorld( v1.pos ), v:LocalToWorldAngles( v1.ang ) )
 				ent:SetLocked( v1.status )
 
-				if ( v1.status ) then
+				if ( v1.status and IsValid( ent.doorParent ) ) then
+					local partner = catherine.util.GetDoorPartner( ent.doorParent )
+					
 					ent.doorParent:Fire( "Close" )
 					ent.doorParent:Fire( "Lock" )
+					
+					if ( IsValid( partner ) ) then
+						partner:Fire( "Close" )
+						partner:Fire( "Lock" )
+					end
 				end
 			end
 		end
