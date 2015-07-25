@@ -55,7 +55,7 @@ function PLUGIN:PlayerCanUseDoor( pl, ent )
 		end
 	end
 	
-	return true
+	return !pl.CAT_cantUseDoor
 end
 
 function PLUGIN:DataSave( )
