@@ -23,6 +23,7 @@ ITEM.cost = 0
 ITEM.model = "models/gibs/metal_gib4.mdl"
 ITEM.weight = 0.1
 ITEM.category = "^Item_Category_Wallet"
+ITEM.useDynamicItemData = true
 ITEM.itemData = {
 	cid = "",
 	name = ""
