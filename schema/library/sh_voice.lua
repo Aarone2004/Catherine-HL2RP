@@ -21,7 +21,7 @@ Schema.vo.normalVoice = { }
 Schema.vo.dispatchVoice = { }
 Schema.vo.breenCast = { }
 
-local COMBINE, CITIZEN = Schema.IsCombineFacton, { FACTION_CITIZEN }
+local COMBINE, CITIZEN = Schema.IsCombineFacton, { FACTION_CITIZEN, FACTION_CWU }
 
 function Schema.vo.RegisterNormal( faction, command, output, sound, allowFemale )
 	Schema.vo.normalVoice[ #Schema.vo.normalVoice + 1 ] = {

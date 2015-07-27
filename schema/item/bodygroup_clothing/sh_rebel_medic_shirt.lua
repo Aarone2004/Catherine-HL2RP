@@ -23,6 +23,7 @@ ITEM.cost = 220
 ITEM.weight = 0.5
 ITEM.bodyGroup = 1
 ITEM.bodyGroupSubModelIndex = 10
+ITEM.damageScale = 0.1
 ITEM.model = "models/humans/tnb/items/shirt_rebel1.mdl"
 
 catherine.item.Register( ITEM )

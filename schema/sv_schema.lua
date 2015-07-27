@@ -211,6 +211,31 @@ function Schema:ChatPrefix( pl, classTable )
 	end
 end
 
+function Schema:PlayerScaleDamage( pl, attacker, dmgInfo, hitGroup )
+	if ( dmgInfo:IsBulletDamage( ) and ( hitGroup == HITGROUP_STOMACH or hitGroup == HITGROUP_CHEST ) ) then
+		local wearingBodyGroups = catherine.character.GetCharVar( pl, "wearing_bodyGroups", { } )
+		local scaleAmount = 0
+		
+		for k, v in pairs( wearingBodyGroups ) do
+			local itemTable = catherine.item.FindByID( k )
+			
+			if ( itemTable and itemTable.damageScale ) then
+				scaleAmount = scaleAmount + itemTable.damageScale
+			end
+		end
+		
+		if ( scaleAmount != 0 ) then
+			local amount = 1 - scaleAmount
+			
+			dmgInfo:ScaleDamage( amount )
+			
+			if ( amount == 0 ) then
+				return { true, true }
+			end
+		end
+	end
+end
+
 function Schema:OnChatControl( chatInformation )
 	local pl = chatInformation.pl
 	local uniqueID = chatInformation.uniqueID
@@ -743,7 +768,7 @@ local radioSignalData = {
 
 function Schema:CalcRadio( pl )
 	local listeners = self:GetRadioListeners( pl, true )
-	local max = 1000000 // max map size.
+	local max = 1000000
 
 	for k, v in pairs( listeners ) do
 		if ( pl == v ) then continue end
