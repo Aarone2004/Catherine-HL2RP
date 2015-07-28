@@ -109,9 +109,9 @@ function PANEL:RefreshList( )
 			draw.RoundedBox( 0, 0, h - 1, w, 1, Color( 50, 50, 50, 255 ) )
 			
 			if ( v <= 0 ) then
-				catherine.geometry.SlickBackground( 0, 0, w, h )
+				catherine.geometry.SlickBackground( 0, 0, w, h, false, Color( 0, 0, 0 ), Color( 0, 0, 0, 50 ) )
 				
-				draw.SimpleText( LANG( "BVM_UI_NoStockStr" ), "catherine_normal25", w - 10, 60, Color( 50, 50, 50, 255 ), TEXT_ALIGN_RIGHT, 1 )
+				draw.SimpleText( LANG( "BVM_UI_NoStockStr" ), "catherine_normal20", w - 10, 60, Color( 50, 50, 50, 255 ), TEXT_ALIGN_RIGHT, 1 )
 			else
 				percentAni = Lerp( 0.06, percentAni, v / PLUGIN.maxItemStockCount * 360 )
 				
