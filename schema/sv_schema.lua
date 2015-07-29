@@ -636,7 +636,7 @@ function Schema:GetRadioListeners( pl, isSignalOnly )
 	local staticRadios = { }
 	
 	for k, v in pairs( ents.FindInSphere( pl:GetPos( ), 100 ) ) do
-		if ( v:GetClass( ) == "cat_hl2rp_static_radio" and v:GetNetVar( "active" ) and ( v:GetNetVar( "freq" ) != "XXX.X" or v:GetNetVar( "freq" ) != "" ) ) then
+		if ( v:GetClass( ) == "cat_hl2rp_static_radio" and v:GetNetVar( "active" ) and v:GetNetVar( "freq" ) != "XXX.X" and v:GetNetVar( "freq" ) != "" ) then
 			staticRadios[ #staticRadios + 1 ] = {
 				ent = v,
 				freq = v:GetNetVar( "freq" )
@@ -657,7 +657,7 @@ function Schema:GetRadioListeners( pl, isSignalOnly )
 						listeners[ #listeners + 1 ] = v1
 					else
 						for k2, v2 in pairs( ents.FindInSphere( v1:GetPos( ), 100 ) ) do
-							if ( v2:GetClass( ) == "cat_hl2rp_static_radio" and v2:GetNetVar( "active" ) and ( v2:GetNetVar( "freq" ) != "XXX.X" or v2:GetNetVar( "freq" ) != "" ) ) then
+							if ( v2:GetClass( ) == "cat_hl2rp_static_radio" and v2:GetNetVar( "active" ) and v2:GetNetVar( "freq" ) != "XXX.X" and v2:GetNetVar( "freq" ) != "" ) then
 								if ( v2:GetNetVar( "freq" ) == v.freq ) then
 									listeners[ #listeners + 1 ] = v1
 									
@@ -670,7 +670,7 @@ function Schema:GetRadioListeners( pl, isSignalOnly )
 					end
 				else
 					for k2, v2 in pairs( ents.FindInSphere( v1:GetPos( ), 100 ) ) do
-						if ( v2:GetClass( ) == "cat_hl2rp_static_radio" and v2:GetNetVar( "active" ) and ( v2:GetNetVar( "freq" ) != "XXX.X" or v2:GetNetVar( "freq" ) != "" ) ) then
+						if ( v2:GetClass( ) == "cat_hl2rp_static_radio" and v2:GetNetVar( "active" ) and v2:GetNetVar( "freq" ) != "XXX.X" and v2:GetNetVar( "freq" ) != "" ) then
 							if ( v2:GetNetVar( "freq" ) == v.freq ) then
 								listeners[ #listeners + 1 ] = v1
 								
@@ -697,7 +697,7 @@ function Schema:GetRadioListeners( pl, isSignalOnly )
 					listeners[ #listeners + 1 ] = v
 				else
 					for k1, v1 in pairs( ents.FindInSphere( v:GetPos( ), 100 ) ) do
-						if ( v1:GetClass( ) == "cat_hl2rp_static_radio" and v1:GetNetVar( "active" ) and ( v1:GetNetVar( "freq" ) != "XXX.X" or v1:GetNetVar( "freq" ) != "" ) ) then
+						if ( v1:GetClass( ) == "cat_hl2rp_static_radio" and v1:GetNetVar( "active" ) and v1:GetNetVar( "freq" ) != "XXX.X" and v1:GetNetVar( "freq" ) != "" ) then
 							if ( v1:GetNetVar( "freq" ) == playerFreq and playerToggle ) then
 								listeners[ #listeners + 1 ] = v
 								
@@ -710,7 +710,7 @@ function Schema:GetRadioListeners( pl, isSignalOnly )
 				end
 			else
 				for k1, v1 in pairs( ents.FindInSphere( v:GetPos( ), 100 ) ) do
-					if ( v1:GetClass( ) == "cat_hl2rp_static_radio" and v1:GetNetVar( "active" ) and ( v1:GetNetVar( "freq" ) != "XXX.X" or v1:GetNetVar( "freq" ) != "" ) ) then
+					if ( v1:GetClass( ) == "cat_hl2rp_static_radio" and v1:GetNetVar( "active" ) and v1:GetNetVar( "freq" ) != "XXX.X" and v1:GetNetVar( "freq" ) != "" ) then
 						if ( v1:GetNetVar( "freq" ) == playerFreq and playerToggle ) then
 							listeners[ #listeners + 1 ] = v
 							
