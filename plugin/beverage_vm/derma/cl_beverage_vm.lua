@@ -49,7 +49,7 @@ function PANEL:Init( )
 	end
 
 	self.changeStatus = vgui.Create( "catherine.vgui.button", self )
-	self.changeStatus:SetPos( self.w - 40, 35 )
+	self.changeStatus:SetPos( self.w - 40, 33 )
 	self.changeStatus:SetSize( 30, 30 )
 	self.changeStatus:SetStrColor( Color( 50, 50, 50, 0 ) )
 	self.changeStatus:SetGradientColor( Color( 50, 50, 50, 0 ) )
@@ -174,12 +174,12 @@ function PANEL:Paint( w, h )
 	draw.SimpleText( LANG( "BVM_Name" ), "catherine_normal20", 0, 5, Color( 255, 255, 255, 255 ), TEXT_ALIGN_LEFT, TEXT_ALIGN_RIGHT )
 
 	if ( PLUGIN:IsActive( self.ent ) ) then
-		draw.SimpleText( LANG( "BVM_UI_OnlineStr" ), "catherine_normal20", w - 50, 40, Color( 50, 50, 50, 255 ), TEXT_ALIGN_RIGHT, TEXT_ALIGN_RIGHT )
+		draw.SimpleText( LANG( "BVM_UI_OnlineStr" ), "catherine_normal20", w - 50, 48, Color( 50, 50, 50, 255 ), TEXT_ALIGN_RIGHT, 1 )
 	else
-		draw.SimpleText( LANG( "BVM_UI_OfflineStr" ), "catherine_normal20", w - 50, 40, Color( 50, 50, 50, 255 ), TEXT_ALIGN_RIGHT, TEXT_ALIGN_RIGHT )
+		draw.SimpleText( LANG( "BVM_UI_OfflineStr" ), "catherine_normal20", w - 50, 48, Color( 50, 50, 50, 255 ), TEXT_ALIGN_RIGHT, 1 )
 	end
 
-	draw.SimpleText( LANG( "Cash_UI_HasStr", catherine.cash.Get( self.player ) ), "catherine_normal20", 10, 35, Color( 50, 50, 50, 255 ), TEXT_ALIGN_LEFT, TEXT_ALIGN_RIGHT )
+	draw.SimpleText( LANG( "Cash_UI_HasStr", catherine.cash.Get( self.player ) ), "catherine_normal20", 10, 48, Color( 50, 50, 50, 255 ), TEXT_ALIGN_LEFT, 1 )
 end
 
 function PANEL:InitializeBeverageVM( ent )
