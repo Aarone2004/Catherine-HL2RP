@@ -16,10 +16,5 @@ You should have received a copy of the GNU General Public License
 along with Catherine.  If not, see <http://www.gnu.org/licenses/>.
 ]]--
 
--- Add the resource pack.
-resource.AddWorkshop( "104491619" )
-resource.AddWorkshop( "105042805" )
-
-catherine.util.AddResourceInFolder( "materials/CAT_HL2RP" )
-catherine.util.AddResourceInFolder( "materials/models/tnb" )
-catherine.util.AddResourceInFolder( "models/humans/tnb" )
+resource.AddWorkshop( "491914592" ) -- Catherine : HL2RP Content - Part 1 <http://steamcommunity.com/sharedfiles/filedetails/?id=491914592>
+resource.AddWorkshop( "491913599" ) -- Catherine : HL2RP Content - Part 2 <http://steamcommunity.com/sharedfiles/filedetails/?id=491913599>

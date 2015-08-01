@@ -1,9 +1,0 @@
-"VertexlitGeneric"
-{
-	"$basetexture" 		"models/tnb/citizens/facewrap1"
-	"$bumpmap" 			"models/tnb/citizens/facewrap_normal"
-	"$nocull"			1
-	
-	$detail 				"models/tnb/combine/noise_detail"
-	$detailscale 			"15"		
-}

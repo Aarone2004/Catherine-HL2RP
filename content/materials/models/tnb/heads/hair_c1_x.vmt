@@ -1,6 +1,0 @@
-"VertexlitGeneric"
-{
-	"$basetexture" 		"models/tnb/heads/hair_c1"
-	"$alphatest" 		"1"
-	"$nocull" 			"1"
-}

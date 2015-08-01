@@ -1,8 +1,0 @@
-"unlitGeneric"
-{
-	"$translucent" 1
-	"$basetexture" "models/tnb/heads/zk_pony"
-    "$model" 1
-	"$nocull" 1
-	"$receiveflashlight" 0	
-} 

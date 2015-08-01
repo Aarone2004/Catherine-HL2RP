@@ -1,9 +1,0 @@
-"UnlitGeneric"
-{
-	"$basetexture" "models/tnb/citizens/rex_lense"
-
-	"$translucent" 1
-	"$selfillum" "1"
-
-
-}

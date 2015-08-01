@@ -1,7 +1,0 @@
-"VertexlitGeneric"
-{
-	"$baseTexture" 		"models/tnb/citizens/male_arm_white"
-	"$bumpmap" 			"models/tnb/citizens/male_arm_normal"
-
-		"$halflambert" "1"
-}

@@ -1,7 +1,0 @@
-"VertexLitGeneric"
-{
-	"$basetexture" 			"models/tnb/citizens/female_citizen1"
-	"$bumpmap" 				"models/tnb/citizens/female_citizen_normal"
-
-	"$halflambert" 		"1"
-}
