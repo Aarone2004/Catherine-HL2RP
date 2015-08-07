@@ -35,6 +35,7 @@ if ( SERVER ) then
 		self:SetUseType( SIMPLE_USE )
 		self:SetNetVar( "active", false )
 		self:SetNetVar( "freq", "XXX.X" )
+		self:SetHealth( 150 )
 		
 		local physObject = self:GetPhysicsObject( )
 		
@@ -74,6 +75,24 @@ if ( SERVER ) then
 				end
 			}
 		} )
+	end
+	
+	function ENT:OnRemove( )
+		local eff = EffectData( )
+		eff:SetStart( self:GetPos( ) )
+		eff:SetOrigin( self:GetPos( ) )
+		eff:SetScale( 8 )
+		util.Effect( "GlassImpact", eff, true, true )
+		
+		self:EmitSound( "physics/body/body_medium_impact_soft" .. math.random( 1, 7 ) .. ".wav" )
+	end
+	
+	function ENT:OnTakeDamage( dmg )
+		self:SetHealth( math.max( self:Health( ) - dmg:GetDamage( ), 0 ) )
+		
+		if ( self:Health( ) <= 0 ) then
+			self:Remove( )
+		end
 	end
 	
 	function ENT:RadioReceived( )
