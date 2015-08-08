@@ -256,7 +256,7 @@ else
 			data.donotThink = true
 			
 			sound.PlayURL( data:GetNetVar( "musicURL", "http://www.kcrw.com/pls/kcrwmusic.pls" ), "3d", function( ent )
-				if ( IsValid( ent ) ) then
+				if ( IsValid( ent ) and IsValid( data ) ) then
 					ent:SetPos( data:GetPos( ) )
 					ent:Play( )
 					ent:SetVolume( data:GetNetVar( "volume", 100 ) / 100 )
@@ -278,8 +278,10 @@ else
 			
 			timer.Remove( timerID )
 			timer.Create( timerID, 2, 1, function( )
+				if ( !IsValid( data ) ) then return end
+				
 				sound.PlayURL( data:GetNetVar( "musicURL", "http://www.kcrw.com/pls/kcrwmusic.pls" ), "3d", function( ent )
-					if ( IsValid( ent ) ) then
+					if ( IsValid( ent ) and IsValid( data ) ) then
 						ent:SetPos( data:GetPos( ) )
 						ent:Play( )
 						ent:SetVolume( data:GetNetVar( "volume", 100 ) / 100 )
@@ -294,8 +296,10 @@ else
 			
 			timer.Remove( timerID )
 			timer.Create( timerID, 2, 1, function( )
+				if ( !IsValid( data ) ) then return end
+				
 				sound.PlayURL( data:GetNetVar( "musicURL", "http://www.kcrw.com/pls/kcrwmusic.pls" ), "3d", function( ent )
-					if ( IsValid( ent ) ) then
+					if ( IsValid( ent ) and IsValid( data ) ) then
 						ent:SetPos( data:GetPos( ) )
 						ent:Play( )
 						ent:SetVolume( data:GetNetVar( "volume", 100 ) / 100 )
@@ -311,7 +315,7 @@ else
 		data.donotThink = true
 		
 		sound.PlayURL( data:GetNetVar( "musicURL", "http://www.kcrw.com/pls/kcrwmusic.pls" ), "3d", function( ent )
-			if ( IsValid( ent ) ) then
+			if ( IsValid( ent ) and IsValid( data ) ) then
 				ent:SetPos( data:GetPos( ) )
 				ent:Play( )
 				ent:SetVolume( data:GetNetVar( "volume", 100 ) / 100 )
