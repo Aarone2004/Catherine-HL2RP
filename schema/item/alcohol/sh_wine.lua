@@ -16,25 +16,26 @@ You should have received a copy of the GNU General Public License
 along with Catherine.  If not, see <http://www.gnu.org/licenses/>.
 ]]--
 
-local ITEM = catherine.item.New( "melon", "FOOD" )
-ITEM.name = "^Item_Name_Melon"
-ITEM.desc = "^Item_Desc_Melon"
-ITEM.model = "models/props_junk/watermelon01.mdl"
-ITEM.weight = 1
-ITEM.staminaAdd = 60
-ITEM.healthAdd = 20
+local ITEM = catherine.item.New( "wine", "ALCOHOL" )
+ITEM.name = "^Item_Name_Wine"
+ITEM.desc = "^Item_Desc_Wine"
+ITEM.model = "models/props_junk/garbage_glassbottle003a.mdl"
+ITEM.cost = 200
+ITEM.weight = 0.6
+ITEM.staminaAdd = 35
+ITEM.hungerRemove = 3
 ITEM.thirstyRemove = 35
-ITEM.hungerRemove = 40
-ITEM.cost = 55
-ITEM.onBusinessFactions = {
-	FACTION_CWU
-}
-ITEM.eatSound = {
-	"physics/flesh/flesh_impact_hard1.wav",
-	"physics/flesh/flesh_impact_hard2.wav",
-	"physics/flesh/flesh_impact_hard3.wav",
-	"physics/flesh/flesh_impact_hard4.wav",
-	"physics/flesh/flesh_impact_hard5.wav"
+ITEM.attributeAdd = {
+	{
+		uniqueID = "jump",
+		boost = 20,
+		removeTime = 400
+	},
+	{
+		uniqueID = "stamina",
+		boost = 20,
+		removeTime = 400
+	}
 }
 
 catherine.item.Register( ITEM )

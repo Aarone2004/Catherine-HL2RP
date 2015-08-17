@@ -235,6 +235,16 @@ catherine.language.Merge( "english", {
 	[ "Item_Notify_Error01_SR" ] = "Radio frequency is must be 101.1 ~ 199.9!",
 	[ "Item_Notify_Error02_SR" ] = "Radio frequency is must be XXX.X!",
 	
+	// Alcohol
+	[ "Item_Name_Beer" ] = "Beer",
+	[ "Item_Desc_Beer" ] = "A bottle filled cool beer.",
+	
+	[ "Item_Name_Whisky" ] = "Whisky",
+	[ "Item_Desc_Whisky" ] = "A bottle filled advanced whisky.",
+	
+	[ "Item_Name_Wine" ] = "Wine",
+	[ "Item_Desc_Wine" ] = "A bottle filled advanced wine.",
+	
 	// Chat
 	[ "Chat_Dispatch" ] = "Combine Dispatch - %s",
 	[ "Chat_Radio" ] = "%s radio says %s",
