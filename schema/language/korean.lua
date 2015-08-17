@@ -235,6 +235,16 @@ catherine.language.Merge( "korean", {
 	[ "Item_Notify_Error01_SR" ] = "라디오 주파수의 범위는 101.1 ~ 199.9 입니다!",
 	[ "Item_Notify_Error02_SR" ] = "라디오 주파수 형식은 XXX.X 가 되어야 합니다!",
 	
+	// Alcohol
+	[ "Item_Name_Beer" ] = "맥주",
+	[ "Item_Desc_Beer" ] = "시원한 맥주가 들어있습니다.",
+	
+	[ "Item_Name_Whisky" ] = "양주",
+	[ "Item_Desc_Whisky" ] = "고급 양주가 들어있습니다.",
+	
+	[ "Item_Name_Wine" ] = "와인",
+	[ "Item_Desc_Wine" ] = "고급 와인이 들어있습니다.",
+	
 	// Chat
 	[ "Chat_Dispatch" ] = "콤바인 방송 - %s",
 	[ "Chat_Radio" ] = "%s 님의 라디오 말 %s",

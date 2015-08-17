@@ -21,7 +21,7 @@ ITEM.name = "^Item_Name_MilkC"
 ITEM.desc = "^Item_Desc_MilkC"
 ITEM.model = "models/props_junk/garbage_milkcarton002a.mdl"
 ITEM.weight = 0.6
-ITEM.staminaSet = 100
+ITEM.staminaAdd = 35
 ITEM.healthAdd = 5
 ITEM.cost = 35
 ITEM.thirstyRemove = 30
@@ -39,8 +39,8 @@ ITEM.func.eat = {
 		pl:EmitSound( type( itemTable.eatSound ) == "table" and table.Random( itemTable.eatSound ) or itemTable.eatSound )
 		pl:SetHealth( math.Clamp( pl:Health( ) + ( itemTable.healthAdd or 0 ), 0, pl:GetMaxHealth( ) ) )
 		
-		if ( itemTable.staminaSet != 0 ) then
-			catherine.character.SetCharVar( pl, "stamina", itemTable.staminaSet )
+		if ( itemTable.staminaAdd != 0 ) then
+			catherine.character.SetCharVar( pl, "stamina", math.Clamp( catherine.character.GetCharVar( pl, "stamina", 0 ) + itemTable.staminaAdd, 0, 100 ) )
 		end
 		
 		if ( itemTable.hungerRemove != 0 ) then
