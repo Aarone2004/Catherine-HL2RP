@@ -35,7 +35,7 @@ function PLUGIN:CharacterLoadingStart( pl )
 	end
 end
 
-function PLUGIN:PlayerNoClip( pl )
+function PLUGIN:PlayerCanNoClip( pl )
 	if ( IsValid( self:GetScannerEntity( pl ) ) ) then
 		return false
 	end
