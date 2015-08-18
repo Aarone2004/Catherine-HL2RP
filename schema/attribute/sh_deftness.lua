@@ -19,5 +19,6 @@ along with Catherine.  If not, see <http://www.gnu.org/licenses/>.
 local ATTRIBUTE = catherine.attribute.New( "deftness" )
 ATTRIBUTE.name = "^Deftness_Title"
 ATTRIBUTE.desc = "^Deftness_Desc"
+ATTRIBUTE.image = "CAT_HL2RP/attribute/deftness2.png"
 
 CAT_ATT_DEFTNESS = catherine.attribute.Register( ATTRIBUTE )

@@ -19,6 +19,6 @@ along with Catherine.  If not, see <http://www.gnu.org/licenses/>.
 local ATTRIBUTE = catherine.attribute.New( "jump" )
 ATTRIBUTE.name = "^Jump_Title"
 ATTRIBUTE.desc = "^Jump_Desc"
-ATTRIBUTE.image = "CAT_HL2RP/attribute/jump.png"
+ATTRIBUTE.image = "CAT_HL2RP/attribute/jump2.png"
 
 CAT_ATT_JUMP = catherine.attribute.Register( ATTRIBUTE )

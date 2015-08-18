@@ -124,6 +124,22 @@ function Schema:GetUnlockTime( pl )
 	return 1 + ( ( 2 * per2 ) + ( 2 * per ) )
 end
 
+function Schema:PlayerTied( pl, target )
+	catherine.attribute.AddProgress( pl, CAT_ATT_DEFTNESS, 0.3 )
+end
+
+function Schema:PlayerUnTied( pl, target )
+	catherine.attribute.AddProgress( pl, CAT_ATT_DEFTNESS, 0.3 )
+end
+
+function Schema:DoorLocked( pl, ent )
+	catherine.attribute.AddProgress( pl, CAT_ATT_DEFTNESS, 0.1 )
+end
+
+function Schema:DoorUnLocked( pl, ent )
+	catherine.attribute.AddProgress( pl, CAT_ATT_DEFTNESS, 0.1 )
+end
+
 function Schema:PlayerCanSpray( pl )
 	return pl:HasItem( "spray_can" )
 end
