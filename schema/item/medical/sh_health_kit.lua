@@ -31,23 +31,19 @@ ITEM.func.use = {
 	canShowIsWorld = true,
 	func = function( pl, itemTable, ent )
 		if ( pl:Alive( ) ) then
-			if ( pl:Health( ) < pl:GetMaxHealth( ) ) then
-				local healAmount = hook.Run( "GetHealAmount", pl, itemTable ) or 35
+			local healAmount = hook.Run( "GetHealAmount", pl, itemTable ) or 35
 
-				pl:SetHealth( math.Clamp( pl:Health( ) + healAmount, 0, pl:GetMaxHealth( ) ) )
-				pl:EmitSound( "items/medshot4.wav", 80 )
-				
-				hook.Run( "PlayerHealed", pl )
-				
-				if ( type( ent ) == "Entity" ) then
-					ent:Remove( )
-				else
-					catherine.inventory.Work( pl, CAT_INV_ACTION_REMOVE, {
-						uniqueID = itemTable.uniqueID
-					} )
-				end
+			pl:SetHealth( math.Clamp( pl:Health( ) + healAmount, 0, pl:GetMaxHealth( ) ) )
+			pl:EmitSound( "items/medshot4.wav", 80 )
+			
+			hook.Run( "PlayerHealed", pl )
+			
+			if ( type( ent ) == "Entity" ) then
+				ent:Remove( )
 			else
-				catherine.util.NotifyLang( pl, "Item_Notify_Error02_Medical" )
+				catherine.inventory.Work( pl, CAT_INV_ACTION_REMOVE, {
+					uniqueID = itemTable.uniqueID
+				} )
 			end
 		else
 			catherine.util.NotifyLang( pl, "Item_Notify_Error04_Medical" )
@@ -67,20 +63,16 @@ ITEM.func.heal = {
 	
 		if ( IsValid( ent ) and ent:IsPlayer( ) ) then
 			if ( ent:Alive( ) ) then
-				if ( ent:Health( ) < ent:GetMaxHealth( ) ) then
-					local healAmount = hook.Run( "GetHealAmount", ent, itemTable ) or 35
+				local healAmount = hook.Run( "GetHealAmount", ent, itemTable ) or 35
+			
+				ent:SetHealth( math.Clamp( ent:Health( ) + healAmount, 0, ent:GetMaxHealth( ) ) )
+				ent:EmitSound( "items/medshot4.wav", 80 )
 				
-					ent:SetHealth( math.Clamp( ent:Health( ) + healAmount, 0, ent:GetMaxHealth( ) ) )
-					ent:EmitSound( "items/medshot4.wav", 80 )
-					
-					hook.Run( "PlayerHealed", ent )
-					
-					catherine.inventory.Work( pl, CAT_INV_ACTION_REMOVE, {
-						uniqueID = itemTable.uniqueID
-					} )
-				else
-					catherine.util.NotifyLang( pl, "Item_Notify_Error01_Medical" )
-				end
+				hook.Run( "PlayerHealed", ent )
+				
+				catherine.inventory.Work( pl, CAT_INV_ACTION_REMOVE, {
+					uniqueID = itemTable.uniqueID
+				} )
 			else
 				catherine.util.NotifyLang( pl, "Item_Notify_Error03_Medical" )
 			end
