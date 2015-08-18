@@ -16,9 +16,9 @@ You should have received a copy of the GNU General Public License
 along with Catherine.  If not, see <http://www.gnu.org/licenses/>.
 ]]--
 
-local ATTRIBUTE = catherine.attribute.New( "jump" )
-ATTRIBUTE.name = "^Jump_Title"
-ATTRIBUTE.desc = "^Jump_Desc"
-ATTRIBUTE.image = "CAT_HL2RP/attribute/jump2.png"
+local ATTRIBUTE = catherine.attribute.New( "deftness" )
+ATTRIBUTE.name = "^Deftness_Title"
+ATTRIBUTE.desc = "^Deftness_Desc"
+ATTRIBUTE.image = "CAT_HL2RP/attribute/deftness2.png"
 
-CAT_ATT_JUMP = catherine.attribute.Register( ATTRIBUTE )
+CAT_ATT_DEFTNESS = catherine.attribute.Register( ATTRIBUTE )

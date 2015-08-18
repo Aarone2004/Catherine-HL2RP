@@ -96,6 +96,50 @@ function Schema:ShowSpare1( pl )
 	end
 end
 
+function Schema:GetTieingTime( pl, target, bool )
+	local leftArmLimbDmg, rightArmLimbDmg = catherine.limb.GetDamage( pl, HITGROUP_LEFTARM ), catherine.limb.GetDamage( pl, HITGROUP_RIGHTARM )
+	local per = math.max( leftArmLimbDmg, rightArmLimbDmg ) / 100
+	local per2 = 1 - ( catherine.attribute.GetProgress( pl, CAT_ATT_DEFTNESS ) / 100 )
+	
+	if ( bool ) then
+		return 1.7 + ( ( 2.5 * per2 ) + ( 2.5 * per ) )
+	else
+		return 1.3 + ( ( 2.5 * per2 ) + ( 2.5 * per ) )
+	end
+end
+
+function Schema:GetLockTime( pl )
+	local leftArmLimbDmg, rightArmLimbDmg = catherine.limb.GetDamage( pl, HITGROUP_LEFTARM ), catherine.limb.GetDamage( pl, HITGROUP_RIGHTARM )
+	local per = math.max( leftArmLimbDmg, rightArmLimbDmg ) / 100
+	local per2 = 1 - ( catherine.attribute.GetProgress( pl, CAT_ATT_DEFTNESS ) / 100 )
+	
+	return 1 + ( ( 2 * per2 ) + ( 2 * per ) )
+end
+
+function Schema:GetUnlockTime( pl )
+	local leftArmLimbDmg, rightArmLimbDmg = catherine.limb.GetDamage( pl, HITGROUP_LEFTARM ), catherine.limb.GetDamage( pl, HITGROUP_RIGHTARM )
+	local per = math.max( leftArmLimbDmg, rightArmLimbDmg ) / 100
+	local per2 = 1 - ( catherine.attribute.GetProgress( pl, CAT_ATT_DEFTNESS ) / 100 )
+	
+	return 1 + ( ( 2 * per2 ) + ( 2 * per ) )
+end
+
+function Schema:PlayerTied( pl, target )
+	catherine.attribute.AddProgress( pl, CAT_ATT_DEFTNESS, 0.3 )
+end
+
+function Schema:PlayerUnTied( pl, target )
+	catherine.attribute.AddProgress( pl, CAT_ATT_DEFTNESS, 0.3 )
+end
+
+function Schema:DoorLocked( pl, ent )
+	catherine.attribute.AddProgress( pl, CAT_ATT_DEFTNESS, 0.1 )
+end
+
+function Schema:DoorUnLocked( pl, ent )
+	catherine.attribute.AddProgress( pl, CAT_ATT_DEFTNESS, 0.1 )
+end
+
 function Schema:PlayerCanSpray( pl )
 	return pl:HasItem( "spray_can" )
 end

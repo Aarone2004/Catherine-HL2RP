@@ -19,6 +19,6 @@ along with Catherine.  If not, see <http://www.gnu.org/licenses/>.
 local ATTRIBUTE = catherine.attribute.New( "medical" )
 ATTRIBUTE.name = "^Medical_Title"
 ATTRIBUTE.desc = "^Medical_Desc"
-ATTRIBUTE.image = "CAT_HL2RP/attribute/medical.png"
+ATTRIBUTE.image = "CAT_HL2RP/attribute/medical2.png"
 
 CAT_ATT_MEDICAL = catherine.attribute.Register( ATTRIBUTE )

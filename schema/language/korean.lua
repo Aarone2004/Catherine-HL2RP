@@ -281,7 +281,10 @@ catherine.language.Merge( "korean", {
 	[ "Jump_Title" ] = "점프력",
 	[ "Jump_Desc" ] = "높을 경우 높이 점프를 뛸 수 있습니다.",
 	
-	[ "Medical_Title" ] = "의료",
+	[ "Deftness_Title" ] = "손재주",
+	[ "Deftness_Desc" ] = "손을 사용하는 작업을 빠르게 할 수 있습니다.",
+	
+	[ "Medical_Title" ] = "의료 기술",
 	[ "Medical_Desc" ] = "높을 경우 체력 회복량이 늘어납니다.",
 	
 	// Help Category

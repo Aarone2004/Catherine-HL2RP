@@ -281,6 +281,9 @@ catherine.language.Merge( "english", {
 	[ "Jump_Title" ] = "Jump",
 	[ "Jump_Desc" ] = "How high you can jump for.",
 	
+	[ "Deftness_Title" ] = "Deftness",
+	[ "Deftness_Desc" ] = "For faster speed use hands.",
+	
 	[ "Medical_Title" ] = "Medical",
 	[ "Medical_Desc" ] = "A high amount of health recovery will increase.",
 	
