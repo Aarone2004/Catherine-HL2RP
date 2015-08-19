@@ -168,7 +168,7 @@ catherine.chat.Register( "radio", {
 	func = function( pl, text, ex )
 		local name = pl:Name( )
 		
-		if ( ex[ 1 ] and LocalPlayer( ) != pl ) then
+		if ( ex[ 1 ] and catherine.pl != pl ) then
 			name = Schema:CalcBadNameString( )
 		end
 		

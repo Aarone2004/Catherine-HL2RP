@@ -25,7 +25,7 @@ netstream.Hook( "catherine_hl2rp.plugin.scanner.BroadcastCaptureData", function(
 	local caller = data.caller
 	local captureData = util.Base64Encode( util.Decompress( data.captureData ) )
 	
-	if ( LocalPlayer( ):GetNetVar( "isScanner" ) ) then
+	if ( catherine.pl:GetNetVar( "isScanner" ) ) then
 		PLUGIN:CreateCapturePanel( captureData, true )
 	else
 		PLUGIN:CreateCapturePanel( captureData )
@@ -171,7 +171,7 @@ function PLUGIN:CreateCapturePanel( data, isScanner )
 end
 
 function PLUGIN:PreDrawOpaqueRenderables( )
-	local viewEnt = LocalPlayer( ):GetViewEntity( )
+	local viewEnt = catherine.pl:GetViewEntity( )
 
 	if ( IsValid( self.lastViewEnt ) and self.lastViewEnt != viewEnt ) then
 		self.lastViewEnt:SetNoDraw( false )
@@ -189,7 +189,7 @@ function PLUGIN:PreDrawOpaqueRenderables( )
 end
 
 function PLUGIN:RenderScreenspaceEffects( )
-	if ( isHidden and LocalPlayer( ):GetNetVar( "isScanner" ) ) then
+	if ( isHidden and catherine.pl:GetNetVar( "isScanner" ) ) then
 		local tab = { }
 		tab[ "$pp_colour_addr" ] = 0.3
 		tab[ "$pp_colour_addg" ] = 0.1
@@ -206,7 +206,7 @@ function PLUGIN:RenderScreenspaceEffects( )
 end
 
 function PLUGIN:CantDrawBar( )
-	return LocalPlayer( ):GetNetVar( "isScanner" )
+	return catherine.pl:GetNetVar( "isScanner" )
 end
 
 function PLUGIN:InputMouseApply( cmd, x, y, ang )
@@ -215,13 +215,13 @@ function PLUGIN:InputMouseApply( cmd, x, y, ang )
 end
 
 function PLUGIN:AdjustMouseSensitivity( )
-	if ( LocalPlayer( ):GetNetVar( "isScanner" ) and isHidden ) then
+	if ( catherine.pl:GetNetVar( "isScanner" ) and isHidden ) then
 		return 0.3
 	end
 end
 
 function PLUGIN:HUDDraw( )
-	if ( !isHidden or !LocalPlayer( ):GetNetVar( "isScanner" ) or !LocalPlayer( ):Alive( ) ) then
+	if ( !isHidden or !catherine.pl:GetNetVar( "isScanner" ) or !catherine.pl:Alive( ) ) then
 		return
 	end
 	
@@ -238,7 +238,7 @@ function PLUGIN:HUDDraw( )
 	surface.DrawLine( scrW / 2 - scrW / 2 / 2 / 2 - 30, scrH / 2 + scrH / 2 / 2, scrW / 2 - scrW / 2 / 2 / 2 - 30, scrH / 4 )
 	surface.DrawLine( scrW / 2 + scrW / 2 / 2 / 2 + 30, scrH / 2 + scrH / 2 / 2, scrW / 2 + scrW / 2 / 2 / 2 + 30, scrH / 4 )
 
-	local pl = LocalPlayer( )
+	local pl = catherine.pl
 	local pos = pl:GetPos( )
 	local ang = pl:GetAngles( )
 	
@@ -277,7 +277,7 @@ function PLUGIN:HUDDraw( )
 end
 
 function Schema:CanDrawCombineOverlay( pl )
-	return !LocalPlayer( ):GetNetVar( "isScanner" )
+	return !catherine.pl:GetNetVar( "isScanner" )
 end
 
 catherine.font.Register( "catherine_hl2rp_scanner15", {

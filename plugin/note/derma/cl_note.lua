@@ -24,7 +24,7 @@ function PANEL:Init( )
 
 	self.ent = nil
 	self.entCheck = CurTime( ) + 1
-	self.player = LocalPlayer( )
+	self.player = catherine.pl
 	self.w, self.h = ScrW( ) * 0.3, ScrH( ) * 0.5
 	self.x, self.y = ScrW( ) / 2 - self.w / 2, ScrH( ) / 2 - self.h / 2
 	self.title = LANG( "Item_Name_Note" )

@@ -23,7 +23,7 @@ function PANEL:Init( )
 	catherine.vgui.root = self
 
 	self.entCheck = CurTime( ) + 1
-	self.player = LocalPlayer( )
+	self.player = catherine.pl
 	self.w, self.h = ScrW( ) * 0.8, ScrH( ) * 0.8
 	self.x, self.y = ScrW( ) / 2 - self.w / 2, ScrH( ) / 2 - self.h / 2
 

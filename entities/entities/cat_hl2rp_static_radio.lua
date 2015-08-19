@@ -105,7 +105,7 @@ else
 	function ENT:Draw( )
 		self:DrawModel( )
 		
-		if ( catherine.util.CalcDistanceByPos( LocalPlayer( ), self ) > 1000 ) then return end
+		if ( catherine.util.CalcDistanceByPos( catherine.pl, self ) > 1000 ) then return end
 		
 		local ang = self:GetAngles( )
 		ang:RotateAroundAxis( ang:Up( ), 90 )

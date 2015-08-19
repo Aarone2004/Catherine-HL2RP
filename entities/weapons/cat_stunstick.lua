@@ -341,7 +341,7 @@ function SWEP:ViewModelDrawn( )
 		return
 	end
 
-	local viewMdl = LocalPlayer( ):GetViewModel( )
+	local viewMdl = catherine.pl:GetViewModel( )
 
 	if ( !IsValid( viewMdl ) ) then
 		return

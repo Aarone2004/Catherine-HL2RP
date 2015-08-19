@@ -22,7 +22,7 @@ local PANEL = { }
 function PANEL:Init( )
 	catherine.vgui.beverage_vm = self
 
-	self.player = LocalPlayer( )
+	self.player = catherine.pl
 	self.w, self.h = ScrW( ) * 0.6, ScrH( ) * 0.8
 	self.x, self.y = ScrW( ) / 2 - self.w / 2, ScrH( ) / 2 - self.h / 2
 	
