@@ -117,7 +117,7 @@ function Schema:CanDrawCombineOverlay( pl )
 end
 
 function Schema:HUDDrawBarBottom( x, y )
-	if ( !LocalPlayer( ):PlayerIsCombine( ) or self:CanDrawCombineOverlay( LocalPlayer( ) ) == false ) then return end
+	if ( !catherine.pl:PlayerIsCombine( ) or self:CanDrawCombineOverlay( catherine.pl ) == false ) then return end
 	local newX, newY = self:OverrideCombineOverlayPos( x, y )
 	
 	self:DrawCombineOverlay( newX or x, newY or y )
@@ -177,7 +177,7 @@ function Schema:DrawCombineOverlay( x, y )
 end
 
 function Schema:HUDBackgroundDraw( )
-	if ( !LocalPlayer( ):PlayerIsCombine( ) ) then return end
+	if ( !catherine.pl:PlayerIsCombine( ) ) then return end
 	
 	if ( !combineOverlayMaterial ) then
 		combineOverlayMaterial = Material( "effects/combine_binocoverlay" )
@@ -189,13 +189,13 @@ function Schema:HUDBackgroundDraw( )
 	surface.SetMaterial( combineOverlayMaterial )
 	surface.DrawTexturedRect( 0, 0, ScrW( ), ScrH( ) )
 	
-	if ( LocalPlayer( ):Team( ) == FACTION_OW ) then
+	if ( catherine.pl:Team( ) == FACTION_OW ) then
 		self:OWHUDPaint( )
 	end
 end
 
 function Schema:HUDDraw( )
-	local pl = LocalPlayer( )
+	local pl = catherine.pl
 	if ( !pl:Alive( ) or !pl:HasItem( "portable_radio" ) or pl:GetInvItemData( "portable_radio", "toggle", false ) == false ) then return end
 	local freq = pl:GetInvItemData( "portable_radio", "freq", "000.0" )
 	local x, y = 15, ScrH( ) * 0.4
@@ -248,7 +248,7 @@ function Schema:HUDDraw( )
 end
 
 function Schema:Think( )
-	local pl = LocalPlayer( )
+	local pl = catherine.pl
 	if ( !pl:PlayerIsCombine( ) or !pl:Alive( ) ) then return end
 	if ( !pl.CAT_HL2RP_nextCombineOverlay ) then pl.CAT_HL2RP_nextCombineOverlay = CurTime( ) end
 	
