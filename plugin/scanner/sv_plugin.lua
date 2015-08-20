@@ -57,6 +57,12 @@ function PLUGIN:CombineClassSetFinished( pl )
 	end
 end
 
+function PLUGIN:CanRecoverHealth( pl )
+	if ( IsValid( self:GetScannerEntity( pl ) ) ) then
+		return false
+	end
+end
+
 function PLUGIN:CharacterNameChanged( pl, newName )
 	if ( pl:Team( ) != FACTION_CP ) then return end
 	
