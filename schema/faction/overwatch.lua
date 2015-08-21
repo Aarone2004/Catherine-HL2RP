@@ -33,11 +33,8 @@ function FACTION:PlayerFirstSpawned( pl )
 	catherine.item.Give( pl, "portable_radio" )
 	catherine.item.Give( pl, "weapon_pistol" )
 	catherine.item.Give( pl, "weapon_ar2" )
-	
-	for i = 1, 2 do
-		catherine.item.Give( pl, "pistol_ammo" )
-		catherine.item.Give( pl, "ar2_ammo" )
-	end
+	catherine.item.Give( pl, "pistol_ammo", 2 )
+	catherine.item.Give( pl, "ar2_ammo", 2 )
 end
 
 function FACTION:PostSetName( pl )
