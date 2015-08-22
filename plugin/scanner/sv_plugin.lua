@@ -22,7 +22,7 @@ function PLUGIN:PlayerDeath( pl )
 	local ent = self:GetScannerEntity( pl )
 	
 	if ( IsValid( ent ) ) then
-		pl.deathBody:Remove( )
+		pl.CAT_deathBody:Remove( )
 		ent:TakeDamage( 999 )
 	end
 end
@@ -54,6 +54,12 @@ function PLUGIN:CombineClassSetFinished( pl )
 		if ( !IsValid( self:GetScannerEntity( pl ) ) ) then
 			self:CreateScanner( pl )
 		end
+	end
+end
+
+function PLUGIN:CanRecoverHealth( pl )
+	if ( IsValid( self:GetScannerEntity( pl ) ) ) then
+		return false
 	end
 end
 

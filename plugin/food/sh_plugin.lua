@@ -112,18 +112,18 @@ else
 	end
 	
 	do
-		catherine.bar.Register( "hunger", false, function( )
-				return catherine.character.GetCharVar( catherine.pl, "hunger", 0 )
-			end, function( )
+		catherine.bar.Register( "hunger", false, function( pl )
+				return catherine.character.GetCharVar( pl, "hunger", 0 )
+			end, function( pl )
 				return 100
-			end, Color( 139, 90, 0 ), 10
+			end, Color( 139, 90, 0 ), 15
 		)
 		
-		catherine.bar.Register( "thirsty", false, function( )
-				return catherine.character.GetCharVar( catherine.pl, "thirsty", 0 )
-			end, function( )
+		catherine.bar.Register( "thirsty", false, function( pl )
+				return catherine.character.GetCharVar( pl, "thirsty", 0 )
+			end, function( pl )
 				return 100
-			end, Color( 99, 184, 255 ), 10
+			end, Color( 99, 184, 255 ), 15
 		)
 	end
 end

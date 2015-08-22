@@ -124,6 +124,10 @@ function Schema:GetUnlockTime( pl )
 	return 1 + ( ( 2 * per2 ) + ( 2 * per ) )
 end
 
+function Schema:GetHealthRecoverInterval( pl )
+	
+end
+
 function Schema:PlayerTied( pl, target )
 	catherine.attribute.AddProgress( pl, CAT_ATT_DEFTNESS, 0.3 )
 end

@@ -72,4 +72,8 @@ function FACTION:PlayerFirstSpawned( pl )
 	pl:SetCharVar( "cid", randomNum )
 end
 
+for k, v in pairs( FACTION.models ) do
+	catherine.animation.Register( ( v:lower( ):find( "female" ) and "citizen_female" or "citizen_male" ), v )
+end
+
 FACTION_CITIZEN = catherine.faction.Register( FACTION )

@@ -111,7 +111,7 @@ end
 
 function Schema:GetRankByName( name )
 	for k, v in pairs( self.CombineRank ) do
-		if ( name:find( k ) ) then
+		if ( name:find( "[%D+]" .. k:PatternSafe( ) .. "[%D+]" ) ) then
 			return k, v
 		end
 	end

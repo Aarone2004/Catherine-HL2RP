@@ -205,8 +205,8 @@ function PLUGIN:RenderScreenspaceEffects( )
 	end
 end
 
-function PLUGIN:CantDrawBar( )
-	return catherine.pl:GetNetVar( "isScanner" )
+function PLUGIN:CanDrawBar( pl )
+	return !pl:GetNetVar( "isScanner" )
 end
 
 function PLUGIN:InputMouseApply( cmd, x, y, ang )

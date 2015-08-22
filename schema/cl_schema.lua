@@ -68,6 +68,9 @@ function Schema:LanguageChanged( )
 end
 
 function Schema:PostRenderScreenColor( pl, data )
+	if ( !pl:Alive( ) ) then return end
+	if ( catherine.deathColAlpha < 0.6 ) then return end
+	
 	return {
 		colour = 0.6
 	}
