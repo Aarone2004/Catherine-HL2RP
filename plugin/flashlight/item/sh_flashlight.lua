@@ -29,22 +29,22 @@ ITEM.onBusinessFactions = {
 }
 
 if ( SERVER ) then
-	local function func( pl )
+	hook.Add( "PreItemDrop", "catherine_hl2rp.item.hooks.flashlight.PreItemDrop", function( pl, itemTable )
 		if ( pl:FlashlightIsOn( ) ) then
 			pl:Flashlight( false )
 		end
-	end
-	
-	hook.Add( "OnItemDrop", "catherine_hl2rp.item.hooks.flashlight.OnItemDrop", function( pl, itemTable )
-		func( pl )
 	end )
 	
-	hook.Add( "OnItemStorageMove", "catherine_hl2rp.item.hooks.weapon_base.OnItemStorageMove", function( pl, itemTable )
-		func( pl )
+	hook.Add( "PreItemStorageMove", "catherine_hl2rp.item.hooks.flashlight.PreItemStorageMove", function( pl, ent, itemTable, data )
+		if ( pl:FlashlightIsOn( ) ) then
+			pl:Flashlight( false )
+		end
 	end )
 	
-	hook.Add( "OnItemVendorSold", "catherine_hl2rp.item.hooks.weapon_base.OnItemVendorSold", function( pl, itemTable )
-		func( pl )
+	hook.Add( "PreItemVendorSell", "catherine_hl2rp.item.hooks.flashlight.PreItemVendorSell", function( pl, ent, itemTable, data )
+		if ( pl:FlashlightIsOn( ) ) then
+			pl:Flashlight( false )
+		end
 	end )
 end
 
