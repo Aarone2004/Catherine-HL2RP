@@ -85,9 +85,11 @@ function PLUGIN:RootWork( pl, target, workID, data )
 			return
 		end
 		
+		hook.Run( "PreItemForceTake", pl, target, itemTable )
+		
 		catherine.item.Take( target, uniqueID )
 		
-		hook.Run( "OnItemForceTake", target, itemTable )
+		hook.Run( "PostItemForceTake", pl, target, itemTable )
 		
 		netstream.Start( pl, "catherine_hl2rp.plugin.root.RefreshPanel", {
 			target:SteamID( ),
