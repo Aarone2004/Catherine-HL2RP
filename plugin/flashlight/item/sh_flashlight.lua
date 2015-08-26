@@ -29,19 +29,25 @@ ITEM.onBusinessFactions = {
 }
 
 if ( SERVER ) then
-	hook.Add( "PreItemDrop", "catherine_hl2rp.item.hooks.flashlight.PreItemDrop", function( pl, itemTable )
+	catherine.item.RegisterHook( "PreItemDrop", ITEM, function( pl )
 		if ( pl:FlashlightIsOn( ) ) then
 			pl:Flashlight( false )
 		end
 	end )
 	
-	hook.Add( "PreItemStorageMove", "catherine_hl2rp.item.hooks.flashlight.PreItemStorageMove", function( pl, ent, itemTable, data )
+	catherine.item.RegisterHook( "PreItemStorageMove", ITEM, function( pl, ent, itemTable, data )
 		if ( pl:FlashlightIsOn( ) ) then
 			pl:Flashlight( false )
 		end
 	end )
 	
-	hook.Add( "PreItemVendorSell", "catherine_hl2rp.item.hooks.flashlight.PreItemVendorSell", function( pl, ent, itemTable, data )
+	catherine.item.RegisterHook( "PreItemVendorSell", ITEM, function( pl, ent, itemTable, data )
+		if ( pl:FlashlightIsOn( ) ) then
+			pl:Flashlight( false )
+		end
+	end )
+	
+	catherine.item.RegisterHook( "PreItemForceTake", ITEM, function( pl, target, itemTable )
 		if ( pl:FlashlightIsOn( ) ) then
 			pl:Flashlight( false )
 		end

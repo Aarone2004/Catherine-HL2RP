@@ -44,9 +44,6 @@ ITEM.func.dropItem = {
 		catherine.inventory.Work( pl, CAT_INV_ACTION_REMOVE, {
 			uniqueID = itemTable.uniqueID
 		} )
-	end,
-	canLook = function( pl, itemTable )
-		return true
 	end
 }
 
