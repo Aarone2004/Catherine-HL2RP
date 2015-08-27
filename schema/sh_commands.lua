@@ -28,8 +28,10 @@ local function checkStaticRadio( pl, text )
 end
 
 catherine.command.Register( {
+	uniqueID = "&uniqueID_radio",
 	command = "radio",
 	syntax = "[Text]",
+	desc = "Run a Radio chat.",
 	runFunc = function( pl, args )
 		local text = table.concat( args, " " )
 		
@@ -68,8 +70,10 @@ catherine.command.Register( {
 } )
 
 catherine.command.Register( {
+	uniqueID = "&uniqueID_request",
 	command = "request",
 	syntax = "[Text]",
+	desc = "Run a Request chat.",
 	runFunc = function( pl, args )
 		if ( pl:HasItem( "request_device" ) ) then
 			local text = table.concat( args, " " )
@@ -86,8 +90,10 @@ catherine.command.Register( {
 } )
 
 catherine.command.Register( {
+	uniqueID = "&uniqueID_dispatch",
 	command = "dispatch",
 	syntax = "[Text]",
+	desc = "Run a Dispatch chat.",
 	runFunc = function( pl, args )
 		local team = pl:Team( )
 	
@@ -111,8 +117,10 @@ catherine.command.Register( {
 } )
 
 catherine.command.Register( {
+	uniqueID = "&uniqueID_breenCast",
 	command = "breencast",
 	syntax = "[Text]",
+	desc = "Run a Breencast chat.",
 	runFunc = function( pl, args )
 		if ( pl:Team( ) == FACTION_ADMIN ) then
 			local text = table.concat( args, " " )
@@ -129,7 +137,9 @@ catherine.command.Register( {
 } )
 
 catherine.command.Register( {
+	uniqueID = "&uniqueID_dispenserAdd",
 	command = "dispenseradd",
+	desc = "Add the Dispenser of this position.",
 	canRun = function( pl ) return pl:IsAdmin( ) end,
 	runFunc = function( pl, args )
 		local pos = pl:GetEyeTraceNoCursor( ).HitPos

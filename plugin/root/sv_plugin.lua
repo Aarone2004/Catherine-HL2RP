@@ -19,7 +19,7 @@ along with Catherine.  If not, see <http://www.gnu.org/licenses/>.
 local PLUGIN = PLUGIN
 
 function PLUGIN:ShowSpare2( pl )
-	catherine.command.Run( pl, "charroot" )
+	catherine.command.Run( pl, "&uniqueID_charRoot" )
 end
 
 function PLUGIN:RootPlayer( pl, target )

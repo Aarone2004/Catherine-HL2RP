@@ -40,7 +40,9 @@ catherine.language.Merge( "korean", {
 } )
 
 catherine.command.Register( {
+	uniqueID = "&uniqueID_charRoot",
 	command = "charroot",
+	desc = "Rooting the looking player.",
 	runFunc = function( pl, args )
 		if ( pl:GetNetVar( "rooting" ) ) then
 			catherine.util.NotifyLang( pl, "Root_Notify_AlreadyDoing" )
@@ -74,6 +76,7 @@ if ( CLIENT ) then
 	netstream.Hook( "catherine_hl2rp.plugin.root.OpenPanel", function( data )
 		local pl = catherine.util.FindPlayerByStuff( "SteamID", data[ 1 ] )
 		local inventory = data[ 2 ]
+		
 		if ( !IsValid( pl ) ) then return end
 		
 		if ( IsValid( catherine.vgui.root ) ) then
@@ -89,6 +92,7 @@ if ( CLIENT ) then
 		if ( IsValid( catherine.vgui.root ) ) then
 			local pl = catherine.util.FindPlayerByStuff( "SteamID", data[ 1 ] )
 			local inventory = data[ 2 ]
+			
 			if ( !IsValid( pl ) ) then return end
 		
 			catherine.vgui.root:InitializeRoot( pl, inventory )

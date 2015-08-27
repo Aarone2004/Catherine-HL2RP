@@ -294,7 +294,7 @@ function Schema:OnChatControl( chatInformation )
 		if ( uniqueID == "ic" ) then
 			for k, v in pairs( ents.FindInSphere( pl:GetPos( ), 100 ) ) do
 				if ( v:GetClass( ) == "cat_hl2rp_static_radio" and v:GetNetVar( "active" ) and ( v:GetNetVar( "freq" ) != "XXX.X" or v:GetNetVar( "freq" ) != "" ) ) then
-					catherine.command.Run( pl, "radio", { text } )
+					catherine.command.Run( pl, "&uniqueID_radio", { text } )
 					
 					return false
 				end
