@@ -62,7 +62,9 @@ catherine.language.Merge( "korean", {
 } )
 
 catherine.command.Register( {
+	uniqueID = "&uniqueID_beverageVmAdd",
 	command = "beveragevmadd",
+	desc = "Add the Beverage Vending Machine NPC of this position.",
 	canRun = function( pl ) return pl:IsAdmin( ) end,
 	runFunc = function( pl, args )
 		local pos, ang = pl:GetEyeTraceNoCursor( ).HitPos + Vector( 0, 0, 48 ), pl:EyeAngles( )
@@ -82,7 +84,9 @@ catherine.command.Register( {
 } )
 
 catherine.command.Register( {
+	uniqueID = "&uniqueID_beverageVmRemove",
 	command = "beveragevmremove",
+	desc = "Remove the looking Beverage Vending Machine NPC.",
 	canRun = function( pl ) return pl:IsAdmin( ) end,
 	runFunc = function( pl, args )
 		local ent = pl:GetEyeTraceNoCursor( ).Entity
