@@ -205,7 +205,7 @@ function PLUGIN:RenderScreenspaceEffects( )
 	end
 end
 
-function PLUGIN:CanDrawBar( pl )
+function PLUGIN:ShouldDrawBar( pl )
 	return !pl:GetNetVar( "isScanner" )
 end
 
