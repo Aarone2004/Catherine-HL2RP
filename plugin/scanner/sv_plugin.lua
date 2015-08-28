@@ -35,6 +35,26 @@ function PLUGIN:CharacterLoadingStart( pl )
 	end
 end
 
+function PLUGIN:WeaponEquip( wep )
+	timer.Simple( 0.05, function( )
+		local pl = IsValid( wep ) and wep:GetOwner( )
+		
+		if ( IsValid( wep ) and IsValid( pl ) and IsValid( self:GetScannerEntity( pl ) ) and pl:HasWeapon( wep:GetClass( ) ) ) then
+			pl:StripWeapon( wep:GetClass( ) )
+		end
+	end )
+end
+
+function PLUGIN:PlayerGiveWeapon( pl, uniqueID )
+	if ( !IsValid( pl ) or !IsValid( self:GetScannerEntity( pl ) ) ) then return end
+
+	timer.Simple( 0, function( )
+		if ( IsValid( pl ) and pl:HasWeapon( uniqueID ) ) then
+			pl:StripWeapon( uniqueID )
+		end
+	end )
+end
+
 function PLUGIN:PlayerCanNoClip( pl )
 	if ( IsValid( self:GetScannerEntity( pl ) ) ) then
 		return false
@@ -47,6 +67,26 @@ function PLUGIN:PlayerUse( pl )
 	end
 end
 
+local blockedWorkID = {
+	"drop",
+	"take",
+	"wear",
+	"takeoff",
+	"drink",
+	"use",
+	"equip",
+	"unequip"
+}
+
+function PLUGIN:PlayerShouldWorkItem( pl, itemTable, workID )
+	if ( IsValid( self:GetScannerEntity( pl ) ) ) then
+		if ( table.HasValue( blockedWorkID, workID ) ) then
+			catherine.util.NotifyLang( pl, "Scanner_Notify_CantWork" )
+			return false
+		end
+	end
+end
+
 function PLUGIN:CombineClassSetFinished( pl )
 	if ( pl:Name( ):find( "SCN" ) ) then
 		catherine.class.Set( pl, CLASS_CP_SCN )
@@ -55,6 +95,13 @@ function PLUGIN:CombineClassSetFinished( pl )
 			self:CreateScanner( pl )
 		end
 	end
+end
+
+function PLUGIN:PlayerShouldWorkRagdoll( pl, status, time )
+	if ( !IsValid( self:GetScannerEntity( pl ) ) ) then return end
+	
+	catherine.util.NotifyLang( pl, "Scanner_Notify_CantWork" )
+	return false
 end
 
 function PLUGIN:CanRecoverHealth( pl )
@@ -178,6 +225,8 @@ function PLUGIN:CreateScanner( pl )
 	catherine.player.SetIgnoreGiveFlagWeapon( pl, true )
 	pl:Spectate( OBS_MODE_CHASE )
 	pl:SpectateEntity( ent )
+	pl:SetNoDraw( true )
+	pl:SetNotSolid( true )
 
 	local timerID = "Catherine.HL2RP.timer.ScannerTick_" .. pl:SteamID( )
 	
