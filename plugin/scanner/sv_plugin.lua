@@ -36,7 +36,9 @@ function PLUGIN:CharacterLoadingStart( pl )
 end
 
 function PLUGIN:PlayerShouldDrown( pl )
-
+	if ( IsValid( self:GetScannerEntity( pl ) ) ) then
+		return false
+	end
 end
 
 function PLUGIN:WeaponEquip( wep )
@@ -111,6 +113,22 @@ end
 function PLUGIN:CanRecoverHealth( pl )
 	if ( IsValid( self:GetScannerEntity( pl ) ) ) then
 		return false
+	end
+end
+
+function PLUGIN:PlayerTick( pl )
+	if ( IsValid( self:GetScannerEntity( pl ) ) ) then
+		if ( ( pl.CAT_HL2RP_nextWaterCheckTick or 0 ) <= CurTime( ) ) then
+			if ( pl:Alive( ) and pl:WaterLevel( ) >= 3 ) then
+				self:PlayerDeath( pl )
+			end
+			
+			pl.CAT_HL2RP_nextWaterCheckTick = CurTime( ) + 1
+		end
+	else
+		if ( pl.CAT_HL2RP_nextWaterCheckTick ) then
+			pl.CAT_HL2RP_nextWaterCheckTick = nil
+		end
 	end
 end
 
