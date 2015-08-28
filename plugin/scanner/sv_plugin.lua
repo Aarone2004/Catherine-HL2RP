@@ -35,6 +35,10 @@ function PLUGIN:CharacterLoadingStart( pl )
 	end
 end
 
+function PLUGIN:PlayerShouldDrown( pl )
+
+end
+
 function PLUGIN:WeaponEquip( wep )
 	timer.Simple( 0.05, function( )
 		local pl = IsValid( wep ) and wep:GetOwner( )
@@ -175,7 +179,7 @@ function PLUGIN:CreateScanner( pl )
 	if ( IsValid( self:GetScannerEntity( pl ) ) ) then
 		return
 	end
-
+	
 	local ent = ents.Create( "npc_cscanner" )
 	ent:SetPos( pl:GetPos( ) )
 	ent:SetAngles( pl:GetAngles( ) )
@@ -185,38 +189,38 @@ function PLUGIN:CreateScanner( pl )
 	ent:SetNetVar( "player", pl )
 	ent:CallOnRemove( "PlayerRestore", function( )
 		if ( !IsValid( pl ) ) then return end
-
+		
 		catherine.player.SetIgnoreGiveFlagWeapon( pl, nil )
 		pl:SetViewEntity( NULL )
 		pl:UnSpectate( )
 		
 		pl:SetNetVar( "fakeModel", nil )
 		pl:SetNetVar( "isScanner", nil )
-
+		
 		if ( ent:Health( ) > 0 ) then
 			pl:Spawn( )
 		else
 			pl:KillSilent( )
 		end
-
+		
 		timer.Simple( 0, function( )
 			pl:SetPos( ent.CAT_HL2RP_latestPos or pl:GetPos( ) )
 		end )
 	end )
-
+	
 	local trackName = "CAT_HL2RP_Scanner_" .. os.clock( )
 	ent.CAT_HL2RP_trackName = trackName
-		
+	
 	local track = ents.Create( "path_track" )
 	track:SetPos( ent:GetPos( ) )
 	track:SetName( trackName )
 	track:Spawn( )
-
+	
 	ent:Fire( "SetFollowTarget", trackName )
 	ent:Fire( "InputShouldInspect", false )
 	ent:Fire( "SetDistanceOverride", "48" )
 	ent:SetKeyValue( "SpawnFlags", 8208 )
-
+	
 	pl:SetNetVar( "fakeModel", ent:GetModel( ) )
 	pl:SetNetVar( "isScanner", true )
 	
@@ -227,7 +231,7 @@ function PLUGIN:CreateScanner( pl )
 	pl:SpectateEntity( ent )
 	pl:SetNoDraw( true )
 	pl:SetNotSolid( true )
-
+	
 	local timerID = "Catherine.HL2RP.timer.ScannerTick_" .. pl:SteamID( )
 	
 	timer.Create( timerID, 0.4, 0, function( )
@@ -239,7 +243,7 @@ function PLUGIN:CreateScanner( pl )
 			timer.Remove( timerID )
 			return
 		end
-
+		
 		local vel = pl:KeyDown( IN_SPEED ) and 64 or 128
 		local changed = false
 		
@@ -260,7 +264,7 @@ function PLUGIN:CreateScanner( pl )
 		if ( changed ) then
 			ent:Fire( "SetFollowTarget", trackName )
 		end
-
+		
 		pl:SetPos( ent:GetPos( ) )
 	end )
 	
@@ -273,7 +277,7 @@ end
 
 netstream.Hook( "catherine_hl2rp.plugin.scanner.ReceiveCaptureData", function( pl, data )
 	local combines = Schema:GetCombines( )
-
+	
 	pl:GetViewEntity( ):EmitSound( "npc/scanner/scanner_photo1.wav", 140 )
 	pl:EmitSound( "npc/scanner/combat_scan5.wav" )
 	
@@ -282,7 +286,7 @@ netstream.Hook( "catherine_hl2rp.plugin.scanner.ReceiveCaptureData", function( p
 		
 		v:EmitSound( "npc/overwatch/radiovoice/preparevisualdownload.wav" )
 	end
-
+	
 	netstream.Start( combines, "catherine_hl2rp.plugin.scanner.BroadcastCaptureData", {
 		caller = pl,
 		captureData = data
