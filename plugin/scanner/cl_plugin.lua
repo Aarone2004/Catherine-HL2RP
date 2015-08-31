@@ -204,7 +204,15 @@ function PLUGIN:RenderScreenspaceEffects( )
 end
 
 function PLUGIN:ShouldDrawBar( pl )
-	return !pl:GetNetVar( "isScanner" )
+	if ( pl:GetNetVar( "isScanner" ) ) then
+		return false
+	end
+end
+
+function PLUGIN:PlayerCanNoClip( pl )
+	if ( pl:GetNetVar( "isScanner" ) ) then
+		return false
+	end
 end
 
 function PLUGIN:InputMouseApply( cmd, x, y, ang )

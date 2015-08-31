@@ -41,26 +41,6 @@ function PLUGIN:PlayerShouldDrown( pl )
 	end
 end
 
-function PLUGIN:WeaponEquip( wep )
-	timer.Simple( 0.05, function( )
-		local pl = IsValid( wep ) and wep:GetOwner( )
-		
-		if ( IsValid( wep ) and IsValid( pl ) and IsValid( self:GetScannerEntity( pl ) ) and pl:HasWeapon( wep:GetClass( ) ) ) then
-			pl:StripWeapon( wep:GetClass( ) )
-		end
-	end )
-end
-
-function PLUGIN:PlayerGiveWeapon( pl, uniqueID )
-	if ( !IsValid( pl ) or !IsValid( self:GetScannerEntity( pl ) ) ) then return end
-
-	timer.Simple( 0, function( )
-		if ( IsValid( pl ) and pl:HasWeapon( uniqueID ) ) then
-			pl:StripWeapon( uniqueID )
-		end
-	end )
-end
-
 function PLUGIN:PlayerCanNoClip( pl )
 	if ( IsValid( self:GetScannerEntity( pl ) ) ) then
 		return false

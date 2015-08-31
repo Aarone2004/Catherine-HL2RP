@@ -215,6 +215,11 @@ catherine.language.Merge( "english", {
 	[ "Item_Name_HealthV" ] = "Health Vial",
 	[ "Item_Desc_HealthV" ] = "A vial filled with green liquid.",
 	
+	[ "Item_Name_AntideP" ] = "Antidepressants",
+	[ "Item_Desc_AntideP" ] = "Heal the Depressive.",
+	[ "Item_FuncStr01_AntideP" ] = "Use",
+	[ "Item_Notify_Error01_AntideP" ] = "You can not use while dead!",
+	
 	[ "Item_FuncStr01_Medical" ] = "Use",
 	[ "Item_FuncStr02_Medical" ] = "Heal",
 	[ "Item_Notify_Error01_Medical" ] = "This person doesn't need heal!",

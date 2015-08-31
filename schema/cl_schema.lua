@@ -70,9 +70,26 @@ end
 function Schema:PostRenderScreenColor( pl, data )
 	if ( !pl:Alive( ) ) then return end
 	if ( catherine.deathColAlpha < 0.6 ) then return end
+	local antidepressants = catherine.character.GetCharVar( pl, "antidepressants_status" )
+	
+	if ( antidepressants == true ) then
+		if ( !self.antidepressantsData ) then
+			self.antidepressantsData = 0.6
+		end
+		
+		self.antidepressantsData = Lerp( 0.003, self.antidepressantsData, 1 )
+	else
+		if ( self.antidepressantsData ) then
+			self.antidepressantsData = Lerp( 0.003, self.antidepressantsData, 0.6 )
+			
+			if ( self.antidepressantsData <= 0.63 ) then
+				self.antidepressantsData = nil
+			end
+		end
+	end
 	
 	return {
-		colour = 0.6
+		colour = self.antidepressantsData and self.antidepressantsData or 0.6
 	}
 end
 

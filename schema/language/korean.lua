@@ -215,6 +215,11 @@ catherine.language.Merge( "korean", {
 	[ "Item_Name_HealthV" ] = "구급 주사",
 	[ "Item_Desc_HealthV" ] = "몸에 주사하는 구급 주사 입니다.",
 	
+	[ "Item_Name_AntideP" ] = "항 우울제",
+	[ "Item_Desc_AntideP" ] = "우울증을 치료하는 데 쓰이는 항 우울제 입니다.",
+	[ "Item_FuncStr01_AntideP" ] = "사용",
+	[ "Item_Notify_Error01_AntideP" ] = "죽은 상태에서는 사용할 수 없습니다!",
+	
 	[ "Item_FuncStr01_Medical" ] = "사용",
 	[ "Item_FuncStr02_Medical" ] = "치료",
 	[ "Item_Notify_Error01_Medical" ] = "이 사람은 치료가 필요하지 않습니다!",
