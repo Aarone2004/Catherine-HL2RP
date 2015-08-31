@@ -77,8 +77,6 @@ function PLUGIN:Capture( pl )
 			} ) )
 		
 			netstream.Start( "catherine_hl2rp.plugin.scanner.ReceiveCaptureData", data )
-		
-			
 		end )
 		
 		self.nextCanCapture = CurTime( ) + 10 + math.random( 5, 10 )
@@ -276,8 +274,10 @@ function PLUGIN:HUDDraw( )
 	end
 end
 
-function Schema:CanDrawCombineOverlay( pl )
-	return !catherine.pl:GetNetVar( "isScanner" )
+function PLUGIN:ShouldDrawCombineOverlay( pl )
+	if ( pl:GetNetVar( "isScanner" ) ) then
+		return false
+	end
 end
 
 catherine.font.Register( "catherine_hl2rp_scanner15", {

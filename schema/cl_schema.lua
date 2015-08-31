@@ -115,12 +115,12 @@ function Schema:OverrideCombineOverlayPos( x, y )
 
 end
 
-function Schema:CanDrawCombineOverlay( pl )
-	
+function Schema:ShouldDrawCombineOverlay( pl )
+
 end
 
 function Schema:HUDDrawBarBottom( x, y )
-	if ( !catherine.pl:PlayerIsCombine( ) or self:CanDrawCombineOverlay( catherine.pl ) == false ) then return end
+	if ( !catherine.pl:PlayerIsCombine( ) or hook.Run( "ShouldDrawCombineOverlay", catherine.pl ) == false ) then return end
 	local newX, newY = self:OverrideCombineOverlayPos( x, y )
 	
 	self:DrawCombineOverlay( newX or x, newY or y )
