@@ -170,7 +170,7 @@ else
 	local cg = Color( 0, 255, 0 )
 	local cr = Color( 255, 0, 0 )
 
-	function ENT:Draw()
+	function ENT:Draw( )
 		self:DrawModel( )
 
 		local pos = self:GetPos( ) + self:GetUp( ) * -8.7 + self:GetForward( ) * -3.85 + self:GetRight( ) * -6
