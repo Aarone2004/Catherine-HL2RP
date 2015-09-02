@@ -79,7 +79,7 @@ if ( SERVER ) then
 			local antidepressantsTimeOut = catherine.character.GetCharVar( pl, "antidepressants_timeOut" )
 			local charID = pl:GetCharacterID( )
 			local timerID = "Catherine.HL2RP.timer.antidepressants.Work." .. charID
-		
+			
 			timer.Remove( timerID )
 			timer.Create( timerID, 10, 0, function( )
 				if ( !IsValid( pl ) or !pl:Alive( ) or charID != pl:GetCharacterID( ) ) then
@@ -100,6 +100,8 @@ if ( SERVER ) then
 	end )
 	
 	catherine.item.RegisterHook( "CharacterLoadingStart", ITEM, function( pl )
+		if ( !pl:IsCharacterLoaded( ) ) then return end
+		
 		if ( catherine.character.GetCharVar( pl, "antidepressants_status" ) == true ) then
 			timer.Remove( "Catherine.HL2RP.timer.antidepressants.Work." .. pl:GetCharacterID( ) )
 		end
