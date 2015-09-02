@@ -90,7 +90,7 @@ function PLUGIN:PlayerShouldWorkRagdoll( pl, status, time )
 	return false
 end
 
-function PLUGIN:CanRecoverHealth( pl )
+function PLUGIN:PlayerShouldRecoverHealth( pl )
 	if ( IsValid( self:GetScannerEntity( pl ) ) ) then
 		return false
 	end
