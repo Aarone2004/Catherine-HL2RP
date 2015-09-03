@@ -123,6 +123,12 @@ function PANEL:RebuildRoot( )
 	local pl = self.player
 	local target = self.ent
 	
+	local targetInv_scrollBar = self.targetInv.VBar
+	local targetInv_scroll = targetInv_scrollBar.Scroll
+	
+	local playerInv_scrollBar = self.playerInv.VBar
+	local playerInv_scroll = playerInv_scrollBar.Scroll
+	
 	self.targetInv:Clear( )
 	self.playerInv:Clear( )
 	
@@ -150,7 +156,7 @@ function PANEL:RebuildRoot( )
 		form:AddItem( lists )
 
 		for k1, v1 in SortedPairsByMemberValue( v, "uniqueID" ) do
-			local w, h = 64, 64
+			local w, h = 54, 54
 			local itemTable = catherine.item.FindByID( k1 )
 			local itemData = v1.itemData
 			local itemDesc = itemTable.GetDesc and itemTable:GetDesc( target, itemData, true ) or nil
@@ -228,9 +234,9 @@ function PANEL:RebuildRoot( )
 		form:AddItem( lists )
 
 		for k1, v1 in SortedPairsByMemberValue( v, "uniqueID" ) do
-			local w, h = 64, 64
+			local w, h = 54, 54
 			local itemTable = catherine.item.FindByID( k1 )
-			local itemData = pl:GetInvItemDatas( k1 )
+			local itemData = v1.itemData
 			local itemDesc = itemTable.GetDesc and itemTable:GetDesc( pl, itemData, true ) or nil
 			local model = itemTable.GetDropModel and itemTable:GetDropModel( ) or itemTable.model
 			local noDrawItemCount = hook.Run( "NoDrawItemCount", pl, itemTable )
@@ -273,6 +279,9 @@ function PANEL:RebuildRoot( )
 		
 		self.playerInv:AddItem( form )
 	end
+	
+	targetInv_scrollBar:AnimateTo( targetInv_scroll, 0, 0, 0 )
+	playerInv_scrollBar:AnimateTo( playerInv_scroll, 0, 0, 0 )
 end
 
 function PANEL:Think( )

@@ -64,7 +64,7 @@ ITEM.func.toggle = {
 }
 
 if ( CLIENT ) then
-	function ITEM:DrawInformation( pl, itemTable, w, h, itemData )
+	function ITEM:DrawInformation( pl, w, h, itemData )
 		if ( itemData.toggle ) then
 			surface.SetDrawColor( 255, 255, 255, 255 )
 			surface.SetMaterial( Material( "CAT/ui/accept.png" ) )

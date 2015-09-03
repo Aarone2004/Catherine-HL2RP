@@ -87,7 +87,6 @@ function PLUGIN:Beverage_VMWork( pl, ent, workID, data )
 		catherine.cash.Take( pl, itemTable.cost )
 		ent:SpawnBeverage( pl, data )
 		netstream.Start( pl, "catherine_hl2rp.plugin.beverage_vm.CloseMenu" )
-		//netstream.Start( pl, "catherine_hl2rp.plugin.beverage_vm.RefreshList" ) // :)
 	elseif ( workID == CAT_HL2RP_BEVERAGE_VM_ACTION_CHANGE_STATUS ) then
 		if ( !pl:PlayerIsCombine( ) ) then return end
 		

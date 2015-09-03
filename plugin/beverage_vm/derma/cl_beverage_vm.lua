@@ -194,7 +194,7 @@ function PANEL:Think( )
 			return
 		end
 		
-		self.entCheck = CurTime( ) + 0.05
+		self.entCheck = CurTime( ) + 0.1
 	end
 end
 
