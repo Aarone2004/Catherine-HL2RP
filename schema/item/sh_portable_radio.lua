@@ -73,8 +73,9 @@ if ( CLIENT ) then
 	end
 	
 	function ITEM:GetDesc( pl, itemData, isInv )
-		return isInv and
-		( LANG( "Item_DataStr01_PR" ) .. " : " .. ( itemData.freq and itemData.freq == "" and "xxx.x" or itemData.freq ) .. "\n" .. LANG( "Item_DataStr02_PR" ) .. " : " .. ( itemData.toggle == true and LANG( "Item_DataStr02_On_PR" ) or LANG( "Item_DataStr02_Off_PR" ) ) )
+		if ( isInv and itemData ) then
+			return LANG( "Item_DataStr01_PR" ) .. " : " .. ( itemData.freq and itemData.freq == "" and "xxx.x" or itemData.freq ) .. "\n" .. LANG( "Item_DataStr02_PR" ) .. " : " .. ( itemData.toggle == true and LANG( "Item_DataStr02_On_PR" ) or LANG( "Item_DataStr02_Off_PR" ) )
+		end
 	end
 end
 
