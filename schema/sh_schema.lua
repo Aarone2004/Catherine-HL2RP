@@ -97,18 +97,6 @@ for k, v in pairs( Schema.CombineRankModel ) do
 	catherine.animation.Register( "metrocop", v )
 end
 
-local citizenFaction = catherine.faction.FindByIndex( FACTION_CITIZEN )
-
-if ( citizenFaction ) then
-	for k, v in pairs( citizenFaction.models or { } ) do
-		if ( v:lower( ):find( "female" ) ) then
-			catherine.animation.Register( "citizen_female", v )
-		else
-			catherine.animation.Register( "citizen_male", v )
-		end
-	end
-end
-
 function Schema:GetRankByName( name )
 	for k, v in pairs( self.CombineRank ) do
 		if ( name:find( "[%D+]" .. k:PatternSafe( ) .. "[%D+]" ) ) then
@@ -213,4 +201,4 @@ catherine.chat.Register( "request", {
 	end
 } )
 
-catherine.cash.SetName( "Token" )
+catherine.cash.SetName( "Token", "Tokens" )
