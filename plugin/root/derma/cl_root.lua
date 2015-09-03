@@ -76,11 +76,11 @@ function PANEL:Paint( w, h )
 	
 	if ( name ) then
 		draw.SimpleText( name, "catherine_normal25", 10, 0, Color( 255, 255, 255, 255 ), TEXT_ALIGN_LEFT, TEXT_ALIGN_RIGHT )
-		draw.SimpleText( LANG( "Cash_UI_TargetHasStr", self.cash ), "catherine_normal20", 10, 30, Color( 50, 50, 50, 255 ), TEXT_ALIGN_LEFT, TEXT_ALIGN_RIGHT )
+		draw.SimpleText( LANG( "Cash_UI_TargetHasStr", catherine.cash.GetCompleteName( self.cash ) ), "catherine_normal20", 10, 30, Color( 50, 50, 50, 255 ), TEXT_ALIGN_LEFT, TEXT_ALIGN_RIGHT )
 	end
 	
 	draw.SimpleText( self.player:Name( ), "catherine_normal25", w / 2 + 20, 0, Color( 255, 255, 255, 255 ), TEXT_ALIGN_LEFT, TEXT_ALIGN_RIGHT )
-	draw.SimpleText( LANG( "Cash_UI_HasStr", catherine.cash.Get( self.player ) ), "catherine_normal20", w / 2 + 20, 30, Color( 50, 50, 50, 255 ), TEXT_ALIGN_LEFT, TEXT_ALIGN_RIGHT )
+	draw.SimpleText( LANG( "Cash_UI_HasStr", catherine.cash.GetCompleteName( catherine.cash.Get( self.player ) ) ), "catherine_normal20", w / 2 + 20, 30, Color( 50, 50, 50, 255 ), TEXT_ALIGN_LEFT, TEXT_ALIGN_RIGHT )
 end
 
 function PANEL:InitializeRoot( ent, inv )
@@ -120,12 +120,15 @@ end
 
 function PANEL:RebuildRoot( )
 	if ( !self.targetInventory or !self.playerInventory ) then return end
+	local pl = self.player
+	local target = self.ent
+	
 	self.targetInv:Clear( )
 	self.playerInv:Clear( )
 	
 	local delta = 0
 	
-	for k, v in pairs( self.targetInventory ) do
+	for k, v in SortedPairs( self.targetInventory ) do
 		local form = vgui.Create( "DForm" )
 		form:SetSize( self.targetInv:GetWide( ), 54 )
 		form:SetName( catherine.util.StuffLanguage( k ) )
@@ -146,39 +149,52 @@ function PANEL:RebuildRoot( )
 		
 		form:AddItem( lists )
 
-		for k1, v1 in pairs( v ) do
-			local w, h = 54, 54
-			local itemTable = catherine.item.FindByID( v1.uniqueID )
-			if ( !itemTable ) then continue end
-			local itemDesc = itemTable.GetDesc and itemTable:GetDesc( self.player, itemTable, self.player:GetInvItemDatas( itemTable.uniqueID ), false ) or nil
-
+		for k1, v1 in SortedPairsByMemberValue( v, "uniqueID" ) do
+			local w, h = 64, 64
+			local itemTable = catherine.item.FindByID( k1 )
+			local itemData = v1.itemData
+			local itemDesc = itemTable.GetDesc and itemTable:GetDesc( target, itemData, true ) or nil
+			local model = itemTable.GetDropModel and itemTable:GetDropModel( ) or itemTable.model
+			local noDrawItemCount = hook.Run( "NoDrawItemCount", target, itemTable )
+			
 			local spawnIcon = vgui.Create( "SpawnIcon" )
 			spawnIcon:SetSize( w, h )
-			spawnIcon:SetModel( itemTable.model )
-			spawnIcon:SetSkin( itemTable.skin or 0 )
+			spawnIcon:SetModel( model, itemTable.skin or 0 )
 			spawnIcon:SetToolTip( catherine.item.GetBasicDesc( itemTable ) .. ( itemDesc and "\n" .. itemDesc or "" ) )
 			spawnIcon.DoClick = function( )
+				if ( !IsValid( target ) ) then
+					return
+				end
+				
 				netstream.Start( "catherine_hl2rp.plugin.root.Work", {
 					self.ent,
 					CAT_ROOT_ACTION_TAKE,
-					{
-						uniqueID = v1.uniqueID
-					}
+					{ uniqueID = k1 }
 				} )
 			end
 			spawnIcon.PaintOver = function( pnl, w, h )
-				if ( catherine.inventory.IsEquipped( v1.uniqueID ) ) then
+				if ( !IsValid( target ) ) then
+					return
+				end
+				
+				if ( v1.itemData.equiped ) then
 					surface.SetDrawColor( 255, 255, 255, 255 )
 					surface.SetMaterial( Material( "CAT/ui/accept.png" ) )
 					surface.DrawTexturedRect( 5, 5, 16, 16 )
 				end
 				
 				if ( itemTable.DrawInformation ) then
-					itemTable:DrawInformation( self.player, itemTable, w, h, self.player:GetInvItemDatas( itemTable.uniqueID ) )
+					itemTable:DrawInformation( target, w, h, itemData )
 				end
 				
-				if ( v1.itemCount > 1 ) then
-					draw.SimpleText( v1.itemCount, "catherine_normal20", 5, h - 25, Color( 50, 50, 50, 255 ), TEXT_ALIGN_LEFT, TEXT_ALIGN_RIGHT )
+				if ( !noDrawItemCount and v1.itemCount > 1 ) then
+					local count = v1.itemCount
+					
+					surface.SetFont( "catherine_normal20" )
+					local tw, th = surface.GetTextSize( count )
+					
+					draw.RoundedBox( 0, 5 - tw / 2, h - 20, tw * 2, 20, Color( 50, 50, 50, 200 ) )
+					draw.SimpleText( count, "catherine_normal20", 5, h - 20, Color( 255, 255, 255, 255 ), TEXT_ALIGN_LEFT, TEXT_ALIGN_RIGHT )
 				end
 			end
 			
@@ -190,7 +206,7 @@ function PANEL:RebuildRoot( )
 	
 	delta = 0
 	
-	for k, v in pairs( self.playerInventory ) do
+	for k, v in SortedPairs( self.playerInventory ) do
 		local form = vgui.Create( "DForm" )
 		form:SetSize( self.playerInv:GetWide( ), 54 )
 		form:SetName( catherine.util.StuffLanguage( k ) )
@@ -211,39 +227,44 @@ function PANEL:RebuildRoot( )
 		
 		form:AddItem( lists )
 
-		for k1, v1 in pairs( v ) do
-			local w, h = 54, 54
-			local itemTable = catherine.item.FindByID( v1.uniqueID )
-			if ( !itemTable ) then continue end
-			local itemDesc = itemTable.GetDesc and itemTable:GetDesc( self.player, itemTable, self.player:GetInvItemDatas( itemTable.uniqueID ), true ) or nil
-
+		for k1, v1 in SortedPairsByMemberValue( v, "uniqueID" ) do
+			local w, h = 64, 64
+			local itemTable = catherine.item.FindByID( k1 )
+			local itemData = pl:GetInvItemDatas( k1 )
+			local itemDesc = itemTable.GetDesc and itemTable:GetDesc( pl, itemData, true ) or nil
+			local model = itemTable.GetDropModel and itemTable:GetDropModel( ) or itemTable.model
+			local noDrawItemCount = hook.Run( "NoDrawItemCount", pl, itemTable )
+			
 			local spawnIcon = vgui.Create( "SpawnIcon" )
 			spawnIcon:SetSize( w, h )
-			spawnIcon:SetModel( itemTable.model )
-			spawnIcon:SetSkin( itemTable.skin or 0 )
+			spawnIcon:SetModel( model, itemTable.skin or 0 )
 			spawnIcon:SetToolTip( catherine.item.GetBasicDesc( itemTable ) .. ( itemDesc and "\n" .. itemDesc or "" ) )
 			spawnIcon.DoClick = function( )
 				netstream.Start( "catherine_hl2rp.plugin.root.Work", {
 					self.ent,
 					CAT_ROOT_ACTION_GIVE,
-					{
-						uniqueID = v1.uniqueID
-					}
+					{ uniqueID = k1 }
 				} )
 			end
 			spawnIcon.PaintOver = function( pnl, w, h )
-				if ( catherine.inventory.IsEquipped( v1.uniqueID ) ) then
+				if ( catherine.inventory.IsEquipped( k1 ) ) then
 					surface.SetDrawColor( 255, 255, 255, 255 )
 					surface.SetMaterial( Material( "CAT/ui/accept.png" ) )
 					surface.DrawTexturedRect( 5, 5, 16, 16 )
 				end
 				
 				if ( itemTable.DrawInformation ) then
-					itemTable:DrawInformation( self.player, itemTable, w, h, self.player:GetInvItemDatas( itemTable.uniqueID ) )
+					itemTable:DrawInformation( pl, w, h, itemData )
 				end
 				
-				if ( v1.itemCount > 1 ) then
-					draw.SimpleText( v1.itemCount, "catherine_normal20", 5, h - 25, Color( 50, 50, 50, 255 ), TEXT_ALIGN_LEFT, TEXT_ALIGN_RIGHT )
+				if ( !noDrawItemCount and v1.itemCount > 1 ) then
+					local count = v1.itemCount
+					
+					surface.SetFont( "catherine_normal20" )
+					local tw, th = surface.GetTextSize( count )
+					
+					draw.RoundedBox( 0, 5 - tw / 2, h - 20, tw * 2, 20, Color( 50, 50, 50, 200 ) )
+					draw.SimpleText( count, "catherine_normal20", 5, h - 20, Color( 255, 255, 255, 255 ), TEXT_ALIGN_LEFT, TEXT_ALIGN_RIGHT )
 				end
 			end
 			
@@ -262,7 +283,7 @@ function PANEL:Think( )
 			return
 		end
 		
-		self.entCheck = CurTime( ) + 0.5
+		self.entCheck = CurTime( ) + 0.3
 	end
 end
 

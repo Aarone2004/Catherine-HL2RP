@@ -69,7 +69,7 @@ function PLUGIN:Beverage_VMWork( pl, ent, workID, data )
 		end
 		
 		if ( !catherine.cash.Has( pl, itemTable.cost ) ) then
-			catherine.util.NotifyLang( pl, "Cash_Notify_HasNot" )
+			catherine.util.NotifyLang( pl, "Cash_Notify_HasNot", catherine.cash.GetOnlySingular( ) )
 			return
 		end
 		
@@ -113,7 +113,7 @@ function PLUGIN:Beverage_VMWork( pl, ent, workID, data )
 		local cost = ( itemTable.cost * data.count ) / self.refillDiscont
 		
 		if ( !catherine.cash.Has( pl, cost ) ) then
-			catherine.util.NotifyLang( pl, "Cash_Notify_HasNot" )
+			catherine.util.NotifyLang( pl, "Cash_Notify_HasNot", catherine.cash.GetOnlySingular( ) )
 			return
 		end
 		

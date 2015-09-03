@@ -126,7 +126,7 @@ function PANEL:RefreshList( )
 
 			draw.SimpleText( itemName, "catherine_normal25", 90, 20, Color( 50, 50, 50, 255 ), TEXT_ALIGN_LEFT, 1 )
 			draw.SimpleText( itemDesc, "catherine_normal15", 90, 60, Color( 50, 50, 50, 255 ), TEXT_ALIGN_LEFT, 1 )
-			draw.SimpleText( itemTable.cost == 0 and LANG( "Item_Free" ) or catherine.cash.GetName( itemTable.cost ), "catherine_normal20", w - 10, 15, Color( 50, 50, 50, 255 ), TEXT_ALIGN_RIGHT, 1 )
+			draw.SimpleText( itemTable.cost == 0 and LANG( "Item_Free" ) or catherine.cash.GetCompleteName( itemTable.cost ), "catherine_normal20", w - 10, 15, Color( 50, 50, 50, 255 ), TEXT_ALIGN_RIGHT, 1 )
 		end
 
 		local spawnIcon = vgui.Create( "SpawnIcon", panel )
@@ -144,7 +144,7 @@ function PANEL:RefreshList( )
 		buyItem:SetStr( "" )
 		buyItem.Click = function( )
 			if ( self.player:PlayerIsCombine( ) and v <= 0 ) then
-				Derma_Query( LANG( "BVM_Notify_RefillQ", catherine.cash.GetName( ( itemTable.cost * PLUGIN.maxItemStockCount ) / PLUGIN.refillDiscont ) ), "", LANG( "Basic_UI_YES" ), function( )
+				Derma_Query( LANG( "BVM_Notify_RefillQ", catherine.cash.GetCompleteName( ( itemTable.cost * PLUGIN.maxItemStockCount ) / PLUGIN.refillDiscont ) ), "", LANG( "Basic_UI_YES" ), function( )
 					netstream.Start( "catherine_hl2rp.plugin.beverage_vm.VMWork", {
 						self.ent,
 						CAT_HL2RP_BEVERAGE_VM_ACTION_REFILL,
@@ -179,7 +179,7 @@ function PANEL:Paint( w, h )
 		draw.SimpleText( LANG( "BVM_UI_OfflineStr" ), "catherine_normal20", w - 50, 48, Color( 50, 50, 50, 255 ), TEXT_ALIGN_RIGHT, 1 )
 	end
 
-	draw.SimpleText( LANG( "Cash_UI_HasStr", catherine.cash.Get( self.player ) ), "catherine_normal20", 10, 48, Color( 50, 50, 50, 255 ), TEXT_ALIGN_LEFT, 1 )
+	draw.SimpleText( LANG( "Cash_UI_HasStr", catherine.cash.GetCompleteName( catherine.cash.Get( self.player ) ) ), "catherine_normal20", 10, 48, Color( 50, 50, 50, 255 ), TEXT_ALIGN_LEFT, 1 )
 end
 
 function PANEL:InitializeBeverageVM( ent )
