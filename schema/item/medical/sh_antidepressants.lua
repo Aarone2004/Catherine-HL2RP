@@ -106,6 +106,16 @@ if ( SERVER ) then
 			timer.Remove( "Catherine.HL2RP.timer.antidepressants.Work." .. pl:GetCharacterID( ) )
 		end
 	end )
+	
+	catherine.item.RegisterHook( "PlayerDeath", ITEM, function( pl )
+		if ( !pl:IsCharacterLoaded( ) ) then return end
+		
+		if ( catherine.character.GetCharVar( pl, "antidepressants_status" ) == true ) then
+			catherine.character.SetCharVar( pl, "antidepressants_status", nil )
+			catherine.character.SetCharVar( pl, "antidepressants_timeOut", nil )
+			timer.Remove( "Catherine.HL2RP.timer.antidepressants.Work." .. pl:GetCharacterID( ) )
+		end
+	end )
 else
 	function ITEM:DoRightClick( pl, itemData )
 		catherine.item.Work( self.uniqueID, "use", true )
