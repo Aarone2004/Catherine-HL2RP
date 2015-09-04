@@ -79,7 +79,7 @@ function SWEP:PrimaryAttack( )
 			end
 
 			if ( catherine.animation.IsClass( pl, "metrocop" ) ) then
-				catherine.animation.SetSeqAnimation( pl, seq )
+				catherine.animation.StartSequence( pl, seq )
 			end
 		end
 		
@@ -300,12 +300,8 @@ function SWEP:SecondaryAttack( )
 			self:SetNextPrimaryFire( CurTime( ) + 1.5 )
 			pl:EmitSound( "weapons/crossbow/hitbod" .. math.random( 1, 2 ) .. ".wav" )
 
-			if ( catherine.animation.Get( pl:GetModel( ) ) == "metrocop") then
-				catherine.animation.SetSeqAnimation( pl, "pushplayer", nil, function( )
-
-				end, function( )
-
-				end )
+			if ( catherine.animation.IsClass( pl, "metrocop" ) ) then
+				catherine.animation.StartSequence( pl, "pushplayer", nil )
 			end
 		end
 	end
