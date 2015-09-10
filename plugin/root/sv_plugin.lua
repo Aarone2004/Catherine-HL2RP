@@ -31,7 +31,7 @@ function PLUGIN:RootPlayer( pl, target )
 	pl:SetNetVar( "rooting", true )
 	
 	netstream.Start( pl, "catherine_hl2rp.plugin.root.OpenPanel", {
-		target:SteamID( ),
+		target,
 		catherine.inventory.Get( target )
 	} )
 end
@@ -61,7 +61,7 @@ function PLUGIN:RootWork( pl, target, workID, data )
 		catherine.item.Take( pl, uniqueID )
 
 		netstream.Start( pl, "catherine_hl2rp.plugin.root.RefreshPanel", {
-			target:SteamID( ),
+			target,
 			catherine.inventory.Get( target )
 		} )
 	elseif ( workID == CAT_ROOT_ACTION_TAKE ) then
@@ -92,7 +92,7 @@ function PLUGIN:RootWork( pl, target, workID, data )
 		hook.Run( "PostItemForceTake", pl, target, itemTable )
 		
 		netstream.Start( pl, "catherine_hl2rp.plugin.root.RefreshPanel", {
-			target:SteamID( ),
+			target,
 			catherine.inventory.Get( target )
 		} )
 	end

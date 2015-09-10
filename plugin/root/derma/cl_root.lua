@@ -39,7 +39,7 @@ function PANEL:Init( )
 	self.targetInv:SetSize( self.w / 2, self.h - 65 )
 	self.targetInv:SetSpacing( 5 )
 	self.targetInv:EnableHorizontal( false )
-	self.targetInv:EnableVerticalScrollbar( true )	
+	self.targetInv:EnableVerticalScrollbar( true )
 	self.targetInv.Paint = function( pnl, w, h )
 		catherine.theme.Draw( CAT_THEME_PNLLIST, w, h )
 	end
@@ -49,7 +49,7 @@ function PANEL:Init( )
 	self.playerInv:SetSize( self.w / 2 - 30, self.h - 65 )
 	self.playerInv:SetSpacing( 5 )
 	self.playerInv:EnableHorizontal( false )
-	self.playerInv:EnableVerticalScrollbar( true )	
+	self.playerInv:EnableVerticalScrollbar( true )
 	self.playerInv.Paint = function( pnl, w, h )
 		catherine.theme.Draw( CAT_THEME_PNLLIST, w, h )
 	end
@@ -83,39 +83,60 @@ function PANEL:Paint( w, h )
 	draw.SimpleText( LANG( "Cash_UI_HasStr", catherine.cash.GetCompleteName( catherine.cash.Get( self.player ) ) ), "catherine_normal20", w / 2 + 20, 30, Color( 50, 50, 50, 255 ), TEXT_ALIGN_LEFT, TEXT_ALIGN_RIGHT )
 end
 
-function PANEL:InitializeRoot( ent, inv )
-	self.ent = ent
-	self.cash = catherine.cash.Get( ent )
-	
-	local targetInventory = inv
-	local tab = { }
-	
-	for k, v in pairs( targetInventory ) do
-		local itemTable = catherine.item.FindByID( k )
-		if ( !itemTable ) then continue end
-		local category = itemTable.category
+function PANEL:InitializeRoot( ent, inv, onlyLocalInv )
+	if ( onlyLocalInv ) then
+		local tab = { }
 		
-		tab[ category ] = tab[ category ] or { }
-		tab[ category ][ v.uniqueID ] = v
-	end
-	
-	self.targetInventory = tab
-
-	local playerInventory = catherine.inventory.Get( )
-	local tab = { }
-	
-	for k, v in pairs( playerInventory ) do
-		local itemTable = catherine.item.FindByID( k )
-		if ( !itemTable ) then continue end
-		local category = itemTable.category
+		for k, v in pairs( catherine.inventory.Get( ) ) do
+			local itemTable = catherine.item.FindByID( k )
+			
+			if ( !itemTable ) then continue end
+			
+			local category = itemTable.category
+			
+			tab[ category ] = tab[ category ] or { }
+			tab[ category ][ k ] = v
+		end
 		
-		tab[ category ] = tab[ category ] or { }
-		tab[ category ][ v.uniqueID ] = v
+		self.playerInventory = tab
+		
+		self:RebuildRoot( )
+	else
+		self.ent = ent
+		self.cash = catherine.cash.Get( ent )
+		
+		local tab = { }
+		
+		for k, v in pairs( inv ) do
+			local itemTable = catherine.item.FindByID( k )
+			
+			if ( !itemTable ) then continue end
+			
+			local category = itemTable.category
+			
+			tab[ category ] = tab[ category ] or { }
+			tab[ category ][ k ] = v
+		end
+		
+		self.targetInventory = tab
+		
+		tab = { }
+		
+		for k, v in pairs( catherine.inventory.Get( ) ) do
+			local itemTable = catherine.item.FindByID( k )
+			
+			if ( !itemTable ) then continue end
+			
+			local category = itemTable.category
+			
+			tab[ category ] = tab[ category ] or { }
+			tab[ category ][ k ] = v
+		end
+		
+		self.playerInventory = tab
+		
+		self:RebuildRoot( )
 	end
-	
-	self.playerInventory = tab
-	
-	self:RebuildRoot( )
 end
 
 function PANEL:RebuildRoot( )
@@ -159,6 +180,7 @@ function PANEL:RebuildRoot( )
 			local w, h = 54, 54
 			local itemTable = catherine.item.FindByID( k1 )
 			local itemData = v1.itemData
+			local overrideItemDesc = itemTable.GetOverrideItemDesc and itemTable:GetOverrideItemDesc( target, itemData, CAT_ITEM_OVERRIDE_DESC_TYPE_ROOT ) or nil
 			local itemDesc = itemTable.GetDesc and itemTable:GetDesc( target, itemData, true ) or nil
 			local model = itemTable.GetDropModel and itemTable:GetDropModel( ) or itemTable.model
 			local noDrawItemCount = hook.Run( "NoDrawItemCount", target, itemTable )
@@ -166,7 +188,13 @@ function PANEL:RebuildRoot( )
 			local spawnIcon = vgui.Create( "SpawnIcon" )
 			spawnIcon:SetSize( w, h )
 			spawnIcon:SetModel( model, itemTable.skin or 0 )
-			spawnIcon:SetToolTip( catherine.item.GetBasicDesc( itemTable ) .. ( itemDesc and "\n" .. itemDesc or "" ) )
+			
+			if ( overrideItemDesc ) then
+				spawnIcon:SetToolTip( overrideItemDesc )
+			else
+				spawnIcon:SetToolTip( catherine.item.GetBasicDesc( itemTable ) .. ( itemDesc and "\n" .. itemDesc or "" ) )
+			end
+			
 			spawnIcon.DoClick = function( )
 				if ( !IsValid( target ) ) then
 					return
@@ -237,6 +265,7 @@ function PANEL:RebuildRoot( )
 			local w, h = 54, 54
 			local itemTable = catherine.item.FindByID( k1 )
 			local itemData = pl:GetInvItemDatas( k1 )
+			local overrideItemDesc = itemTable.GetOverrideItemDesc and itemTable:GetOverrideItemDesc( pl, itemData, CAT_ITEM_OVERRIDE_DESC_TYPE_ROOT_PLAYERINV ) or nil
 			local itemDesc = itemTable.GetDesc and itemTable:GetDesc( pl, itemData, true ) or nil
 			local model = itemTable.GetDropModel and itemTable:GetDropModel( ) or itemTable.model
 			local noDrawItemCount = hook.Run( "NoDrawItemCount", pl, itemTable )
@@ -244,7 +273,13 @@ function PANEL:RebuildRoot( )
 			local spawnIcon = vgui.Create( "SpawnIcon" )
 			spawnIcon:SetSize( w, h )
 			spawnIcon:SetModel( model, itemTable.skin or 0 )
-			spawnIcon:SetToolTip( catherine.item.GetBasicDesc( itemTable ) .. ( itemDesc and "\n" .. itemDesc or "" ) )
+			
+			if ( overrideItemDesc ) then
+				spawnIcon:SetToolTip( overrideItemDesc )
+			else
+				spawnIcon:SetToolTip( catherine.item.GetBasicDesc( itemTable ) .. ( itemDesc and "\n" .. itemDesc or "" ) )
+			end
+			
 			spawnIcon.DoClick = function( )
 				netstream.Start( "catherine_hl2rp.plugin.root.Work", {
 					self.ent,
