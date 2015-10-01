@@ -24,6 +24,8 @@ PLUGIN.desc = "^Disease_Plugin_Desc"
 catherine.language.Merge( "english", {
 	[ "Disease_Plugin_Name" ] = "Disease",
 	[ "Disease_Plugin_Desc" ] = "Added the Disease.",
+	[ "Disease_UI_Notify" ] = "You have cold symptoms.",
+	[ "Disease_UI_Notify2" ] = "You are immune to cold.",
 	[ "Disease_Me_Chat" ] = "*coughs*",
 	[ "Disease_Critical_Me_Chat" ] = "*severe coughs*",
 	[ "Item_Name_ColdMedicine" ] = "Cold Medicine",
@@ -36,7 +38,9 @@ catherine.language.Merge( "english", {
 
 catherine.language.Merge( "korean", {
 	[ "Disease_Plugin_Name" ] = "질병",
-	[ "Disease_Plugin_Desc" ] = "잘못하면 질병에 걸립니다.",
+	[ "Disease_Plugin_Desc" ] = "감기에 걸립니다.",
+	[ "Disease_UI_Notify" ] = "당신은 감기 증상이 있습니다.",
+	[ "Disease_UI_Notify2" ] = "당신은 감기에 면역이 되어있습니다.",
 	[ "Disease_Me_Chat" ] = "기침을 한다.",
 	[ "Disease_Critical_Me_Chat" ] = "심한 기침을 한다.",
 	[ "Item_Name_ColdMedicine" ] = "감기약",
@@ -47,137 +51,213 @@ catherine.language.Merge( "korean", {
 	[ "Item_FuncStr01_C17X.ColdMedicine" ] = "사용"
 } )
 
-if ( CLIENT ) then return end
+if ( SERVER ) then
+	local coughSounds = {
+		"ambient/voices/cough1.wav",
+		"ambient/voices/cough2.wav",
+		"ambient/voices/cough3.wav",
+		"ambient/voices/cough4.wav"
+	}
 
-local coughSounds = {
-	"ambient/voices/cough1.wav",
-	"ambient/voices/cough2.wav",
-	"ambient/voices/cough3.wav",
-	"ambient/voices/cough4.wav"
-}
-
-function PLUGIN:Cough( pl )
-	if ( math.random( 1, 100 ) < 70 ) then
-		pl:EmitSound( table.Random( coughSounds ), 100 )
-		catherine.chat.RunByID( pl, "me", LANG( pl, "Disease_Me_Chat" ) )
-	else
-		pl:EmitSound( table.Random( coughSounds ), 100, 150 )
-		catherine.chat.RunByID( pl, "me", LANG( pl, "Disease_Critical_Me_Chat" ) )
-	end
-end
-
-function PLUGIN:OnSpawnedInCharacter( pl )
-	if ( !catherine.character.GetCharVar( pl, "disease_cold_active" ) ) then return end
-	
-	local charID = pl:GetCharacterID( )
-	local timerID = "Catherine.HL2RP.plugin.disease.AutoHealCold." .. charID
-	local time = catherine.character.GetCharVar( pl, "disease_cold_countdown", 0 )
-	
-	timer.Remove( timerID )
-	timer.Create( timerID, 5, 0, function( )
-		if ( !IsValid( pl ) or pl:GetCharacterID( ) != charID ) then
-			timer.Remove( timerID )
-			return
-		end
-		
-		if ( !catherine.character.GetCharVar( pl, "disease_cold_active" ) ) then
-			timer.Remove( timerID )
-			return
-		end
-		
-		if ( time - 5 > 0 ) then
-			time = time - 5
-			catherine.character.SetCharVar( pl, "disease_cold_countdown", time )
+	function PLUGIN:Cough( pl )
+		if ( math.random( 1, 100 ) < 70 ) then
+			pl:EmitSound( table.Random( coughSounds ), 100 )
+			catherine.chat.RunByID( pl, "me", LANG( pl, "Disease_Me_Chat" ) )
+			self:Infect( pl, false )
 		else
-			timer.Remove( timerID )
-			catherine.character.SetCharVar( pl, "disease_cold_active", nil )
-			catherine.character.SetCharVar( pl, "disease_cold_countdown", nil )
-			
-			if ( !pl.CAT_isLimbForceMotionBlur ) then
-				catherine.util.StopMotionBlur( pl )
+			pl:EmitSound( table.Random( coughSounds ), 100, 150 )
+			catherine.chat.RunByID( pl, "me", LANG( pl, "Disease_Critical_Me_Chat" ) )
+			self:Infect( pl, true )
+		end
+	end
+
+	function PLUGIN:Infect( pl, isCritical )
+		for k, v in pairs( player.GetAllByLoaded( ) ) do
+			if ( v.CAT_HL2RP_diseaseInfect ) then
+				v.CAT_HL2RP_diseaseInfect = nil
 			end
 		end
-	end )
-end
-
-function PLUGIN:CreateColdAutoHealTimer( pl )
-	local isCritical = ( catherine.configs.enable_rpTime and catherine.environment.GetTemperature( ) <= 7 ) and true or false
-	
-	local charID = pl:GetCharacterID( )
-	local timerID = "Catherine.HL2RP.plugin.disease.AutoHealCold." .. charID
-	local time = isCritical and 3000 or ( 1000 + math.random( 100, 1000 ) )
-	
-	timer.Remove( timerID )
-	timer.Create( timerID, 5, 0, function( )
-		if ( !IsValid( pl ) or pl:GetCharacterID( ) != charID ) then
-			timer.Remove( timerID )
-			return
-		end
 		
-		if ( !catherine.character.GetCharVar( pl, "disease_cold_active" ) ) then
-			timer.Remove( timerID )
-			return
-		end
+		local playerPos = pl:GetPos( )
 		
-		if ( time - 5 > 0 ) then
-			time = time - 5
-			catherine.character.SetCharVar( pl, "disease_cold_countdown", time )
+		if ( isCritical ) then
+			for k, v in pairs( ents.FindInSphere( playerPos, 200 + math.random( 10, 100 ) ) ) do
+				if ( IsValid( v ) and v:IsCharacterLoaded( ) and v:IsPlayer( ) and v:Alive( ) ) then
+					local tr = util.TraceLine( {
+						start = playerPos,
+						endpos = v:GetPos( ),
+						filter = pl
+					} )
+					
+					if ( !tr.HitWorld ) then
+						v.CAT_HL2RP_diseaseInfect = true
+					end
+				end
+			end
 		else
-			timer.Remove( timerID )
-			catherine.character.SetCharVar( pl, "disease_cold_active", nil )
-			catherine.character.SetCharVar( pl, "disease_cold_countdown", nil )
-			
-			if ( !pl.CAT_isLimbForceMotionBlur ) then
-				catherine.util.StopMotionBlur( pl )
+			for k, v in pairs( ents.FindInSphere( playerPos, 100 + math.random( 10, 50 ) ) ) do
+				if ( IsValid( v ) and v:IsCharacterLoaded( ) and v:IsPlayer( ) and v:Alive( ) ) then
+					local tr = util.TraceLine( {
+						start = playerPos,
+						endpos = v:GetPos( ),
+						filter = pl
+					} )
+					
+					if ( !tr.HitWorld ) then
+						v.CAT_HL2RP_diseaseInfect = true
+					end
+				end
 			end
 		end
-	end )
-end
-
-function PLUGIN:PlayerShouldDisease( pl )
-	local team = pl:Team( )
-	
-	if ( team == FACTION_CP or team == FACTION_OW ) then
-		return false
 	end
-end
 
-function PLUGIN:PlayerThink( pl )
-	if ( hook.Run( "PlayerShouldDisease", pl ) == false ) then print("RET")return end
-	
-	if ( catherine.character.GetCharVar( pl, "disease_cold_active" ) ) then
-		if ( ( pl.CAT_HL2RP_nextCough or 0 ) <= CurTime( ) ) then
-			self:Cough( pl )
-			pl.CAT_HL2RP_nextCough = CurTime( ) + 15 + math.random( 3, 60 )
+	function PLUGIN:OnSpawnedInCharacter( pl )
+		if ( pl.CAT_HL2RP_diseaseInfect ) then
+			pl.CAT_HL2RP_diseaseInfect = nil
 		end
 		
-		return
+		if ( !catherine.character.GetCharVar( pl, "disease_cold_active" ) ) then return end
+		
+		local charID = pl:GetCharacterID( )
+		local timerID = "Catherine.HL2RP.plugin.disease.AutoHealCold." .. charID
+		local time = catherine.character.GetCharVar( pl, "disease_cold_countdown", 0 )
+		
+		timer.Remove( timerID )
+		timer.Create( timerID, 5, 0, function( )
+			if ( !IsValid( pl ) or pl:GetCharacterID( ) != charID ) then
+				timer.Remove( timerID )
+				return
+			end
+			
+			if ( !catherine.character.GetCharVar( pl, "disease_cold_active" ) ) then
+				timer.Remove( timerID )
+				return
+			end
+			
+			if ( time - 5 > 0 ) then
+				time = time - 5
+				catherine.character.SetCharVar( pl, "disease_cold_countdown", time )
+			else
+				timer.Remove( timerID )
+				catherine.character.SetCharVar( pl, "disease_cold_active", nil )
+				catherine.character.SetCharVar( pl, "disease_cold_countdown", nil )
+				
+				if ( !pl.CAT_isLimbForceMotionBlur ) then
+					catherine.util.StopMotionBlur( pl )
+				end
+			end
+		end )
 	end
-	
-	if ( catherine.character.GetCharVar( pl, "disease_cold_protect", CurTime( ) - 10 ) > CurTime( ) ) then
-		return
-	elseif ( catherine.character.GetCharVar( pl, "disease_cold_protect", CurTime( ) + 10 ) <= CurTime( ) ) then
-		catherine.character.SetCharVar( pl, "disease_cold_protect", nil )
+
+	function PLUGIN:CreateColdAutoHealTimer( pl )
+		local isCritical = ( catherine.configs.enable_rpTime and catherine.environment.GetTemperature( ) <= 7 ) and true or false
+		
+		local charID = pl:GetCharacterID( )
+		local timerID = "Catherine.HL2RP.plugin.disease.AutoHealCold." .. charID
+		local time = isCritical and 3000 or ( 1000 + math.random( 100, 1000 ) )
+		
+		timer.Remove( timerID )
+		timer.Create( timerID, 5, 0, function( )
+			if ( !IsValid( pl ) or pl:GetCharacterID( ) != charID ) then
+				timer.Remove( timerID )
+				return
+			end
+			
+			if ( !catherine.character.GetCharVar( pl, "disease_cold_active" ) ) then
+				timer.Remove( timerID )
+				return
+			end
+			
+			if ( time - 5 > 0 ) then
+				time = time - 5
+				catherine.character.SetCharVar( pl, "disease_cold_countdown", time )
+			else
+				timer.Remove( timerID )
+				catherine.character.SetCharVar( pl, "disease_cold_active", nil )
+				catherine.character.SetCharVar( pl, "disease_cold_countdown", nil )
+				
+				if ( !pl.CAT_isLimbForceMotionBlur ) then
+					catherine.util.StopMotionBlur( pl )
+				end
+			end
+		end )
 	end
-	
-	if ( ( pl.CAT_HL2RP_nextDisease or 0 ) <= CurTime( ) ) then
-		if ( math.random( 1, 150 ) >= 145 ) then
-			catherine.util.StartMotionBlur( pl, 0.4, 1, 0.02 )
-			catherine.character.SetCharVar( pl, "disease_cold_active", true )
-			self:CreateColdAutoHealTimer( pl )
+
+	function PLUGIN:PlayerShouldDisease( pl )
+		local team = pl:Team( )
+		
+		if ( !pl:Alive( ) ) then
+			return false
 		end
 		
-		pl.CAT_HL2RP_nextDisease = CurTime( ) + 150
+		if ( team == FACTION_CP or team == FACTION_OW ) then
+			return false
+		end
 	end
-end
 
-function PLUGIN:PlayerDeath( pl )
-	if ( catherine.character.GetCharVar( pl, "disease_cold_protect", true ) ) then
-		catherine.character.SetCharVar( pl, "disease_cold_protect", nil )
+	function PLUGIN:PlayerThink( pl )
+		if ( hook.Run( "PlayerShouldDisease", pl ) == false ) then return end
+		
+		if ( catherine.character.GetCharVar( pl, "disease_cold_active" ) ) then
+			if ( ( pl.CAT_HL2RP_nextCough or 0 ) <= CurTime( ) ) then
+				self:Cough( pl )
+				pl.CAT_HL2RP_nextCough = CurTime( ) + math.random( 5, 60 )
+			end
+			
+			return
+		end
+		
+		if ( catherine.character.GetCharVar( pl, "disease_cold_protect", CurTime( ) - 10 ) > CurTime( ) ) then
+			return
+		elseif ( catherine.character.GetCharVar( pl, "disease_cold_protect", CurTime( ) + 10 ) <= CurTime( ) ) then
+			catherine.character.SetCharVar( pl, "disease_cold_protect", nil )
+		end
+		
+		if ( ( pl.CAT_HL2RP_nextDisease or 0 ) <= CurTime( ) ) then
+			if ( pl.CAT_HL2RP_diseaseInfect ) then
+				if ( math.random( 1, 150 ) >= 125 + math.random( 1, 10 ) ) then
+					catherine.util.StartMotionBlur( pl, 0.4, 1, 0.02 )
+					catherine.character.SetCharVar( pl, "disease_cold_active", true )
+					self:CreateColdAutoHealTimer( pl )
+				end
+				
+				pl.CAT_HL2RP_nextDisease = CurTime( ) + math.random( 5, 30 )
+				
+				return
+			else
+				if ( math.random( 1, 150 ) >= 145 ) then
+					catherine.util.StartMotionBlur( pl, 0.4, 1, 0.02 )
+					catherine.character.SetCharVar( pl, "disease_cold_active", true )
+					self:CreateColdAutoHealTimer( pl )
+				end
+			end
+			
+			pl.CAT_HL2RP_nextDisease = CurTime( ) + 150
+		end
 	end
-	
-	if ( catherine.character.GetCharVar( pl, "disease_cold_active" ) ) then
-		catherine.character.SetCharVar( pl, "disease_cold_active", nil )
-		catherine.character.SetCharVar( pl, "disease_cold_countdown", nil )
+
+	function PLUGIN:PlayerDeath( pl )
+		if ( pl.CAT_HL2RP_diseaseInfect ) then
+			pl.CAT_HL2RP_diseaseInfect = nil
+		end
+		
+		if ( catherine.character.GetCharVar( pl, "disease_cold_protect" ) ) then
+			catherine.character.SetCharVar( pl, "disease_cold_protect", nil )
+		end
+		
+		if ( catherine.character.GetCharVar( pl, "disease_cold_active" ) ) then
+			catherine.character.SetCharVar( pl, "disease_cold_active", nil )
+			catherine.character.SetCharVar( pl, "disease_cold_countdown", nil )
+		end
+	end
+else
+	function PLUGIN:AddRPInformation( pnl, data, pl )
+		if ( catherine.character.GetCharVar( pl, "disease_cold_active" ) ) then
+			data[ #data + 1 ] = LANG( "Disease_UI_Notify" )
+		end
+		
+		if ( catherine.character.GetCharVar( pl, "disease_cold_protect" ) ) then
+			data[ #data + 1 ] = LANG( "Disease_UI_Notify2" )
+		end
 	end
 end

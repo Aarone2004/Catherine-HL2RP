@@ -101,11 +101,7 @@ function Schema:GetTieingTime( pl, target, bool )
 	local per = math.max( leftArmLimbDmg, rightArmLimbDmg ) / 100
 	local per2 = 1 - ( catherine.attribute.GetProgress( pl, CAT_ATT_DEFTNESS ) / 100 )
 	
-	if ( bool ) then
-		return 1.7 + ( ( 2.5 * per2 ) + ( 2.5 * per ) )
-	else
-		return 1.3 + ( ( 2.5 * per2 ) + ( 2.5 * per ) )
-	end
+	return bool and ( 1.7 + ( ( 2.5 * per ) + ( 2.5 * per2 ) ) ) or ( 1.3 + ( ( 2.5 * per ) + ( 2.5 * per2 ) ) )
 end
 
 function Schema:GetLockTime( pl )
@@ -113,7 +109,7 @@ function Schema:GetLockTime( pl )
 	local per = math.max( leftArmLimbDmg, rightArmLimbDmg ) / 100
 	local per2 = 1 - ( catherine.attribute.GetProgress( pl, CAT_ATT_DEFTNESS ) / 100 )
 	
-	return 1 + ( ( 2 * per2 ) + ( 2 * per ) )
+	return 1 + ( ( 2 * per ) + ( 2 * per2 ) )
 end
 
 function Schema:GetUnlockTime( pl )
@@ -121,7 +117,7 @@ function Schema:GetUnlockTime( pl )
 	local per = math.max( leftArmLimbDmg, rightArmLimbDmg ) / 100
 	local per2 = 1 - ( catherine.attribute.GetProgress( pl, CAT_ATT_DEFTNESS ) / 100 )
 	
-	return 1 + ( ( 2 * per2 ) + ( 2 * per ) )
+	return 1 + ( ( 2 * per ) + ( 2 * per2 ) )
 end
 
 function Schema:GetHealthRecoverInterval( pl )
@@ -152,8 +148,10 @@ function Schema:GetRationCash( pl )
 	return math.random( 20, 40 )
 end
 
-function Schema:CantWorkFoodPlugin( pl )
-	return pl:Team( ) == FACTION_OW or pl:Class( ) == CLASS_CP_SCN
+function Schema:PlayerShouldHungerThirsty( pl )
+	if ( pl:Team( ) == FACTION_OW or pl:Class( ) == CLASS_CP_SCN ) then
+		return false
+	end
 end
 
 function Schema:AdjustRecognizeInfo( pl, target, recognizeList )

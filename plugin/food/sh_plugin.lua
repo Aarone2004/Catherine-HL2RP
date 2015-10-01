@@ -64,7 +64,7 @@ if ( SERVER ) then
 			end
 		end
 		
-		if ( hook.Run( "CantWorkFoodPlugin", pl ) == true or !pl:Alive( ) ) then return end
+		if ( hook.Run( "PlayerShouldHungerThirsty", pl ) == true or !pl:Alive( ) ) then return end
 
 		if ( ( catherine.character.GetCharVar( pl, "thirsty", 0 ) >= 95 or catherine.character.GetCharVar( pl, "hunger", 0 ) >= 95 ) and !pl.CAT_HL2RP_damageNeed ) then
 			pl.CAT_HL2RP_damageNeed = true
