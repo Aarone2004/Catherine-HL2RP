@@ -50,7 +50,7 @@ if ( SERVER ) then
 			return
 		end
 		
-		netstream.Start( pl, "catherine_hl2rp.plugin.beverage_vm.MachineUse", self:EntIndex( ) )
+		netstream.Start( pl, "catherine.hl2rp.plugin.beverage_vm.MachineUse", self:EntIndex( ) )
 	end
 	
 	function ENT:SpawnBeverage( pl, uniqueID )

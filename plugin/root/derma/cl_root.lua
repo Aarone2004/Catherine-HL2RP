@@ -200,7 +200,7 @@ function PANEL:RebuildRoot( )
 					return
 				end
 				
-				netstream.Start( "catherine_hl2rp.plugin.root.Work", {
+				netstream.Start( "catherine.hl2rp.plugin.root.Work", {
 					self.ent,
 					CAT_ROOT_ACTION_TAKE,
 					{ uniqueID = k1 }
@@ -281,7 +281,7 @@ function PANEL:RebuildRoot( )
 			end
 			
 			spawnIcon.DoClick = function( )
-				netstream.Start( "catherine_hl2rp.plugin.root.Work", {
+				netstream.Start( "catherine.hl2rp.plugin.root.Work", {
 					self.ent,
 					CAT_ROOT_ACTION_GIVE,
 					{ uniqueID = k1 }
@@ -339,7 +339,7 @@ function PANEL:Close( )
 		self = nil
 	end )
 	
-	netstream.Start( "catherine_hl2rp.plugin.root.RootClose" )
+	netstream.Start( "catherine.hl2rp.plugin.root.RootClose" )
 end
 
 vgui.Register( "catherine.vgui.root", PANEL, "DFrame" )

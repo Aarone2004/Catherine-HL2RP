@@ -90,7 +90,7 @@ function PLUGIN:WriteNote( pl, ent, text )
 			text = "^Note_ViewStr",
 			icon = "icon16/note.png",
 			func = function( pl, ent )
-				netstream.Start( pl, "catherine_hl2rp.plugin.note.OpenPanel", {
+				netstream.Start( pl, "catherine.hl2rp.plugin.note.OpenPanel", {
 					ent:EntIndex( ),
 					PLUGIN:GetText( ent:GetUniqueID( ) )
 				} )
@@ -101,6 +101,6 @@ function PLUGIN:WriteNote( pl, ent, text )
 	PLUGIN:DataSave( )
 end
 
-netstream.Hook( "catherine_hl2rp.plugin.note.Write", function( pl, data )
+netstream.Hook( "catherine.hl2rp.plugin.note.Write", function( pl, data )
 	PLUGIN:WriteNote( pl, data[ 1 ], data[ 2 ] )
 end )

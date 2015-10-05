@@ -49,7 +49,7 @@ if ( SERVER ) then
 				text = "^Note_ViewStr",
 				icon = "icon16/note.png",
 				func = function( pl, ent )
-					netstream.Start( pl, "catherine_hl2rp.plugin.note.OpenPanel", {
+					netstream.Start( pl, "catherine.hl2rp.plugin.note.OpenPanel", {
 						self:EntIndex( ),
 						PLUGIN:GetText( self:GetUniqueID( ) )
 					} )

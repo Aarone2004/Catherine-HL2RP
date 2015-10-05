@@ -76,7 +76,7 @@ if ( CLIENT ) then
 	CAT_ITEM_OVERRIDE_DESC_TYPE_ROOT = 4
 	CAT_ITEM_OVERRIDE_DESC_TYPE_ROOT_PLAYERINV = 5
 	
-	netstream.Hook( "catherine_hl2rp.plugin.root.OpenPanel", function( data )
+	netstream.Hook( "catherine.hl2rp.plugin.root.OpenPanel", function( data )
 		local pl = data[ 1 ]
 		
 		if ( !IsValid( pl ) ) then return end
@@ -90,7 +90,7 @@ if ( CLIENT ) then
 		catherine.vgui.root:InitializeRoot( pl, data[ 2 ] )
 	end )
 	
-	netstream.Hook( "catherine_hl2rp.plugin.root.RefreshPanel", function( data )
+	netstream.Hook( "catherine.hl2rp.plugin.root.RefreshPanel", function( data )
 		if ( IsValid( catherine.vgui.root ) ) then
 			local pl = data[ 1 ]
 			
@@ -101,7 +101,7 @@ if ( CLIENT ) then
 	end )
 	
 	function PLUGIN:CharacterVarChanged( pl, key )
-		if ( key == "_inv" and pl == catherine.pl ) then
+		if ( key == "_inv" ) then
 			if ( IsValid( catherine.vgui.root ) ) then
 				catherine.vgui.root:InitializeRoot( nil, nil, true )
 			end

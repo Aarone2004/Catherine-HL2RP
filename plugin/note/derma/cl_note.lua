@@ -67,7 +67,7 @@ function PANEL:Init( )
 		if ( !pnl.Cant ) then
 			if ( text != "" ) then
 				if ( self.textLen < PLUGIN.textmaxLen ) then
-					netstream.Start( "catherine_hl2rp.plugin.note.Write", {
+					netstream.Start( "catherine.hl2rp.plugin.note.Write", {
 						self.ent,
 						text
 					} )

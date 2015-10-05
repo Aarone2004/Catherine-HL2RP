@@ -30,7 +30,7 @@ BASE.func.use = {
 	icon = "icon16/magnifier.png",
 	canShowIsWorld = true,
 	func = function( pl, itemTable, ent )
-		netstream.Start( pl, "catherine_hl2rp.plugin.book.OpenPanel", {
+		netstream.Start( pl, "catherine.hl2rp.plugin.book.OpenPanel", {
 			ent:EntIndex( ),
 			itemTable.uniqueID
 		} )

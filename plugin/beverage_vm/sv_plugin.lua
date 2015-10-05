@@ -86,7 +86,7 @@ function PLUGIN:Beverage_VMWork( pl, ent, workID, data )
 		
 		catherine.cash.Take( pl, itemTable.cost )
 		ent:SpawnBeverage( pl, data )
-		netstream.Start( pl, "catherine_hl2rp.plugin.beverage_vm.CloseMenu" )
+		netstream.Start( pl, "catherine.hl2rp.plugin.beverage_vm.CloseMenu" )
 	elseif ( workID == CAT_HL2RP_BEVERAGE_VM_ACTION_CHANGE_STATUS ) then
 		if ( !pl:PlayerIsCombine( ) ) then return end
 		
@@ -98,7 +98,7 @@ function PLUGIN:Beverage_VMWork( pl, ent, workID, data )
 			ent:DoOffline( )
 		end
 		
-		netstream.Start( pl, "catherine_hl2rp.plugin.beverage_vm.RefreshList" )
+		netstream.Start( pl, "catherine.hl2rp.plugin.beverage_vm.RefreshList" )
 	elseif ( workID == CAT_HL2RP_BEVERAGE_VM_ACTION_REFILL ) then
 		if ( !pl:PlayerIsCombine( ) ) then return end
 		
@@ -126,7 +126,7 @@ function PLUGIN:Beverage_VMWork( pl, ent, workID, data )
 		
 		ent:SetNetVar( "sellingItems", stock )
 		catherine.cash.Take( pl, cost )
-		netstream.Start( pl, "catherine_hl2rp.plugin.beverage_vm.RefreshList" )
+		netstream.Start( pl, "catherine.hl2rp.plugin.beverage_vm.RefreshList" )
 	end
 end
 
@@ -138,6 +138,6 @@ function PLUGIN:DataSave( )
 	self:SaveBVMs( )
 end
 
-netstream.Hook( "catherine_hl2rp.plugin.beverage_vm.VMWork", function( pl, data )
+netstream.Hook( "catherine.hl2rp.plugin.beverage_vm.VMWork", function( pl, data )
 	PLUGIN:Beverage_VMWork( pl, data[ 1 ], data[ 2 ], data[ 3 ] )
 end )

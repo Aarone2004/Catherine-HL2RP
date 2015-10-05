@@ -230,7 +230,7 @@ function PLUGIN:CreateScanner( pl )
 	pl:SetNoDraw( true )
 	pl:SetNotSolid( true )
 	
-	local timerID = "Catherine.HL2RP.timer.ScannerTick_" .. pl:SteamID( )
+	local timerID = "Catherine.HL2RP.timer.ScannerTick." .. pl:SteamID( )
 	
 	timer.Create( timerID, 0.4, 0, function( )
 		if ( !IsValid( pl ) or !IsValid( ent ) ) then
@@ -273,7 +273,7 @@ function PLUGIN:GetScannerEntity( pl )
 	return pl.CAT_HL2RP_scannerEnt
 end
 
-netstream.Hook( "catherine_hl2rp.plugin.scanner.ReceiveCaptureData", function( pl, data )
+netstream.Hook( "catherine.hl2rp.plugin.scanner.ReceiveCaptureData", function( pl, data )
 	local combines = Schema:GetCombines( )
 	
 	pl:GetViewEntity( ):EmitSound( "npc/scanner/scanner_photo1.wav", 140 )
@@ -285,7 +285,7 @@ netstream.Hook( "catherine_hl2rp.plugin.scanner.ReceiveCaptureData", function( p
 		v:EmitSound( "npc/overwatch/radiovoice/preparevisualdownload.wav" )
 	end
 	
-	netstream.Start( combines, "catherine_hl2rp.plugin.scanner.BroadcastCaptureData", {
+	netstream.Start( combines, "catherine.hl2rp.plugin.scanner.BroadcastCaptureData", {
 		caller = pl,
 		captureData = data
 	} )

@@ -45,7 +45,7 @@ if ( CLIENT ) then
 	PLUGIN.amount = PLUGIN.amount or 0
 	PLUGIN.alpha = PLUGIN.alpha or 0
 	
-	netstream.Hook( "catherine_hl2rp.plugin.book.OpenPanel", function( data )
+	netstream.Hook( "catherine.hl2rp.plugin.book.OpenPanel", function( data )
 		if ( IsValid( catherine.vgui.book ) ) then
 			catherine.vgui.book:Remove( )
 			catherine.vgui.book = nil

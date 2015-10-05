@@ -112,7 +112,7 @@ end
 
 if ( SERVER ) then return end
 
-netstream.Hook( "catherine_hl2rp.plugin.beverage_vm.MachineUse", function( data )
+netstream.Hook( "catherine.hl2rp.plugin.beverage_vm.MachineUse", function( data )
 	if ( IsValid( catherine.vgui.beverage_vm ) ) then
 		catherine.vgui.beverage_vm:Remove( )
 		catherine.vgui.beverage_vm = nil
@@ -122,13 +122,13 @@ netstream.Hook( "catherine_hl2rp.plugin.beverage_vm.MachineUse", function( data 
 	catherine.vgui.beverage_vm:InitializeBeverageVM( Entity( data ) )
 end )
 
-netstream.Hook( "catherine_hl2rp.plugin.beverage_vm.CloseMenu", function( )
+netstream.Hook( "catherine.hl2rp.plugin.beverage_vm.CloseMenu", function( )
 	if ( IsValid( catherine.vgui.beverage_vm ) ) then
 		catherine.vgui.beverage_vm:Close( )
 	end
 end )
 
-netstream.Hook( "catherine_hl2rp.plugin.beverage_vm.RefreshList", function( )
+netstream.Hook( "catherine.hl2rp.plugin.beverage_vm.RefreshList", function( )
 	if ( IsValid( catherine.vgui.beverage_vm ) ) then
 		catherine.vgui.beverage_vm:RefreshList( )
 	end

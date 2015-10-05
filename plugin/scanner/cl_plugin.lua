@@ -21,7 +21,7 @@ local isHidden = false
 local zoom = 0
 local deltaZoom = zoom
 
-netstream.Hook( "catherine_hl2rp.plugin.scanner.BroadcastCaptureData", function( data )
+netstream.Hook( "catherine.hl2rp.plugin.scanner.BroadcastCaptureData", function( data )
 	local caller = data.caller
 	local captureData = util.Base64Encode( util.Decompress( data.captureData ) )
 	
@@ -76,7 +76,7 @@ function PLUGIN:Capture( pl )
 				y = scrH / 2 - scrH / 4 + 21
 			} ) )
 			
-			netstream.Start( "catherine_hl2rp.plugin.scanner.ReceiveCaptureData", data )
+			netstream.Start( "catherine.hl2rp.plugin.scanner.ReceiveCaptureData", data )
 		end )
 		
 		self.nextCanCapture = CurTime( ) + 10 + math.random( 5, 10 )

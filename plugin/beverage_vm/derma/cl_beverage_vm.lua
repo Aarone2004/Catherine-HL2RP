@@ -56,7 +56,7 @@ function PANEL:Init( )
 	self.changeStatus.Click = function( )
 		if ( !IsValid( self.ent ) or !self.player:PlayerIsCombine( ) ) then return end
 		
-		netstream.Start( "catherine_hl2rp.plugin.beverage_vm.VMWork", {
+		netstream.Start( "catherine.hl2rp.plugin.beverage_vm.VMWork", {
 			self.ent,
 			CAT_HL2RP_BEVERAGE_VM_ACTION_CHANGE_STATUS
 		} )
@@ -145,7 +145,7 @@ function PANEL:RefreshList( )
 		buyItem.Click = function( )
 			if ( self.player:PlayerIsCombine( ) and v <= 0 ) then
 				Derma_Query( LANG( "BVM_Notify_RefillQ", catherine.cash.GetCompleteName( ( itemTable.cost * PLUGIN.maxItemStockCount ) / PLUGIN.refillDiscont ) ), "", LANG( "Basic_UI_YES" ), function( )
-					netstream.Start( "catherine_hl2rp.plugin.beverage_vm.VMWork", {
+					netstream.Start( "catherine.hl2rp.plugin.beverage_vm.VMWork", {
 						self.ent,
 						CAT_HL2RP_BEVERAGE_VM_ACTION_REFILL,
 						{
@@ -155,7 +155,7 @@ function PANEL:RefreshList( )
 					} )
 				end, LANG( "Basic_UI_NO" ), function( ) end )
 			else
-				netstream.Start( "catherine_hl2rp.plugin.beverage_vm.VMWork", {
+				netstream.Start( "catherine.hl2rp.plugin.beverage_vm.VMWork", {
 					self.ent,
 					CAT_HL2RP_BEVERAGE_VM_ACTION_MAIN,
 					k

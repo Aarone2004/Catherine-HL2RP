@@ -30,7 +30,7 @@ function PLUGIN:RootPlayer( pl, target )
 	
 	pl:SetNetVar( "rooting", true )
 	
-	netstream.Start( pl, "catherine_hl2rp.plugin.root.OpenPanel", {
+	netstream.Start( pl, "catherine.hl2rp.plugin.root.OpenPanel", {
 		target,
 		catherine.inventory.Get( target )
 	} )
@@ -60,7 +60,7 @@ function PLUGIN:RootWork( pl, target, workID, data )
 		
 		catherine.item.Take( pl, uniqueID )
 
-		netstream.Start( pl, "catherine_hl2rp.plugin.root.RefreshPanel", {
+		netstream.Start( pl, "catherine.hl2rp.plugin.root.RefreshPanel", {
 			target,
 			catherine.inventory.Get( target )
 		} )
@@ -91,17 +91,17 @@ function PLUGIN:RootWork( pl, target, workID, data )
 		
 		hook.Run( "PostItemForceTake", pl, target, itemTable )
 		
-		netstream.Start( pl, "catherine_hl2rp.plugin.root.RefreshPanel", {
+		netstream.Start( pl, "catherine.hl2rp.plugin.root.RefreshPanel", {
 			target,
 			catherine.inventory.Get( target )
 		} )
 	end
 end
 
-netstream.Hook( "catherine_hl2rp.plugin.root.Work", function( pl, data )
+netstream.Hook( "catherine.hl2rp.plugin.root.Work", function( pl, data )
 	PLUGIN:RootWork( pl, data[ 1 ], data[ 2 ], data[ 3 ] )
 end )
 
-netstream.Hook( "catherine_hl2rp.plugin.root.RootClose", function( pl )
+netstream.Hook( "catherine.hl2rp.plugin.root.RootClose", function( pl )
 	pl:SetNetVar( "rooting", false )
 end )
