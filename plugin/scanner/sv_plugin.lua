@@ -53,20 +53,15 @@ function PLUGIN:PlayerUse( pl )
 	end
 end
 
-local blockedWorkID = {
-	"drop",
-	"take",
-	"wear",
-	"takeoff",
-	"drink",
-	"use",
-	"equip",
-	"unequip"
-}
+function PLUGIN:PlayerShouldOpenRecognizeOrDoorMenu( pl )
+	if ( IsValid( self:GetScannerEntity( pl ) ) ) then
+		return false
+	end
+end
 
 function PLUGIN:PlayerShouldWorkItem( pl, itemTable, workID )
 	if ( IsValid( self:GetScannerEntity( pl ) ) ) then
-		if ( table.HasValue( blockedWorkID, workID ) ) then
+		if ( itemTable.uniqueID != "portable_radio" ) then
 			catherine.util.NotifyLang( pl, "Scanner_Notify_CantWork" )
 			return false
 		end
@@ -174,9 +169,7 @@ function PLUGIN:KeyPress( pl, key )
 end
 
 function PLUGIN:CreateScanner( pl )
-	if ( IsValid( self:GetScannerEntity( pl ) ) ) then
-		return
-	end
+	if ( IsValid( self:GetScannerEntity( pl ) ) ) then return end
 	
 	local ent = ents.Create( "npc_cscanner" )
 	ent:SetPos( pl:GetPos( ) )
