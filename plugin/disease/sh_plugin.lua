@@ -82,7 +82,7 @@ if ( SERVER ) then
 		
 		if ( isCritical ) then
 			for k, v in pairs( ents.FindInSphere( playerPos, 200 + math.random( 10, 100 ) ) ) do
-				if ( IsValid( v ) and v:IsPlayer( ) and v:IsCharacterLoaded( ) and v:Alive( ) ) then
+				if ( IsValid( v ) and v:IsPlayer( ) and pl != v and v:IsCharacterLoaded( ) and v:Alive( ) ) then
 					local tr = util.TraceLine( {
 						start = playerPos,
 						endpos = v:GetPos( ),
@@ -96,7 +96,7 @@ if ( SERVER ) then
 			end
 		else
 			for k, v in pairs( ents.FindInSphere( playerPos, 100 + math.random( 10, 50 ) ) ) do
-				if ( IsValid( v ) and v:IsPlayer( ) and v:IsCharacterLoaded( ) and v:Alive( ) ) then
+				if ( IsValid( v ) and v:IsPlayer( ) and pl != v and v:IsCharacterLoaded( ) and v:Alive( ) ) then
 					local tr = util.TraceLine( {
 						start = playerPos,
 						endpos = v:GetPos( ),
@@ -225,14 +225,14 @@ if ( SERVER ) then
 				
 				return
 			else
-				if ( math.random( 1, 150 ) >= 145 ) then
+				if ( math.random( 1, 200 ) >= 195 ) then
 					catherine.util.StartMotionBlur( pl, 0.4, 1, 0.02 )
 					catherine.character.SetCharVar( pl, "disease_cold_active", true )
 					self:CreateColdAutoHealTimer( pl )
 				end
 			end
 			
-			pl.CAT_HL2RP_nextDisease = CurTime( ) + 150
+			pl.CAT_HL2RP_nextDisease = CurTime( ) + 300
 		end
 	end
 
