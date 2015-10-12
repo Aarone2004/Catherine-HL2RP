@@ -286,6 +286,9 @@ catherine.language.Merge( "korean", {
 	[ "Help_Category_CombineVoice" ] = "콤바인 보이스",
 	[ "Help_Desc_CombineVoice" ] = "콤바인 보이스를 나열합니다 ...",
 	
+	[ "Help_Category_CitizenVoice" ] = "시민 보이스",
+	[ "Help_Desc_CitizenVoice" ] = "시민 보이스를 나열합니다 ...",
+	
 	// Command
 	[ "Command_SpawnDispenser_Fin" ] = "당신은 배급기를 추가했습니다.",
 	
