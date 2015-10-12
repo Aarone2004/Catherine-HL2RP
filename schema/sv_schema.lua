@@ -324,7 +324,7 @@ function Schema:OnChatControl( chatInformation )
 			
 			for k1, v1 in pairs( ex ) do
 				if ( v1:lower( ) == v.command:lower( ) ) then
-					local sound = v.sound
+					local sound = type( v.sound ) == "table" and table.Random( v.sound ) or v.sound
 					
 					if ( isFemale ) then
 						sound = sound:gsub( "male01", "female01" )
