@@ -18,7 +18,7 @@ along with Catherine.  If not, see <http://www.gnu.org/licenses/>.
 
 local PLUGIN = PLUGIN
 PLUGIN.name = "^Scanner_Plugin_Name"
-PLUGIN.author = "L7D, Chessnut"
+PLUGIN.author = "Chessnut, L7D"
 PLUGIN.desc = "^Scanner_Plugin_Desc"
 
 catherine.util.Include( "cl_plugin.lua" )

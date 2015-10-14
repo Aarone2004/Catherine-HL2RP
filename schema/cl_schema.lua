@@ -16,12 +16,17 @@ You should have received a copy of the GNU General Public License
 along with Catherine.  If not, see <http://www.gnu.org/licenses/>.
 ]]--
 
-Schema.combineOverlayMessage = { }
-
-for i = 1, 9 do
-	Schema.combineOverlayMessage[ #Schema.combineOverlayMessage + 1 ] = "^CombineOverlay_Str0" .. i
-end
-
+Schema.combineOverlayMessage = {
+	"^CombineOverlay_Str01",
+	"^CombineOverlay_Str02",
+	"^CombineOverlay_Str03",
+	"^CombineOverlay_Str04",
+	"^CombineOverlay_Str05",
+	"^CombineOverlay_Str06",
+	"^CombineOverlay_Str07",
+	"^CombineOverlay_Str08",
+	"^CombineOverlay_Str09"
+}
 Schema.playercombineOverlays = { }
 local combineOverlayMaterial
 
@@ -138,28 +143,29 @@ end
 
 function Schema:HUDDrawBarBottom( x, y )
 	if ( !catherine.pl:PlayerIsCombine( ) or hook.Run( "ShouldDrawCombineOverlay", catherine.pl ) == false ) then return end
-	local newX, newY = self:OverrideCombineOverlayPos( x, y )
+	local newX, newY = hook.Run( "OverrideCombineOverlayPos", x, y )
 	
 	self:DrawCombineOverlay( newX or x, newY or y )
 end
 
-function Schema:OWHUDPaint( )
-	self.ow_hudData = self.ow_hudData or { }
+function Schema:OverwatchHUDBackgroundDraw( )
+	self.overwatchHUDData = self.overwatchHUDData or { }
 	
 	for i = 1, 100 do
-		self.ow_hudData[ i ] = self.ow_hudData[ i ] or {
+		self.overwatchHUDData[ i ] = self.overwatchHUDData[ i ] or {
 			w = 0,
 			targetW = math.random( 1, 150 ),
 			a = math.Rand( 0, 5 )
 		}
 		
-		local data = self.ow_hudData[ i ]
+		local data = self.overwatchHUDData[ i ]
 
 		data.w = Lerp( 0.01, data.w, data.targetW + ( 10 / 1 ) * math.sin( CurTime( ) + math.Rand( 0, 2 ) ) )
 		
-		self.ow_hudData[ i ] = data
+		self.overwatchHUDData[ i ] = data
 		
 		local h = ScrH( ) * 0.05 + ( ScrH( ) * ( i / 100 ) )
+		
 		draw.RoundedBox( 0, 0, h, data.w, 5, Color( 255, 255, 255, data.a ) )
 		draw.RoundedBox( 0, ScrW( ) - data.w, h, data.w, 5, Color( 255, 255, 255, data.a ) )
 	end
@@ -210,7 +216,7 @@ function Schema:HUDBackgroundDraw( )
 	surface.DrawTexturedRect( 0, 0, ScrW( ), ScrH( ) )
 	
 	if ( catherine.pl:Team( ) == FACTION_OW ) then
-		self:OWHUDPaint( )
+		hook.Run( "OverwatchHUDBackgroundDraw" )
 	end
 end
 

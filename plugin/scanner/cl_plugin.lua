@@ -226,10 +226,7 @@ function PLUGIN:AdjustMouseSensitivity( )
 end
 
 function PLUGIN:HUDDraw( )
-	if ( !isHidden or !catherine.pl:GetNetVar( "isScanner" ) or !catherine.pl:Alive( ) ) then
-		return
-	end
-	
+	if ( !isHidden or !catherine.pl:GetNetVar( "isScanner" ) or !catherine.pl:Alive( ) ) then return end
 	local scrW, scrH = ScrW( ), ScrH( )
 	
 	draw.NoTexture( )
