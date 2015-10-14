@@ -397,7 +397,7 @@ function Schema:ChatPosted( chatInformation )
 	if ( !chatInformation.voice ) then return end
 	local pl = chatInformation.pl
 	local len = 0
-
+	
 	for k, v in pairs( chatInformation.voice ) do
 		len = len + ( k == 1 and 0 or v.len + 0.3 )
 		
@@ -608,17 +608,17 @@ function Schema:OnSpawnedInCharacter( pl )
 	self:AddCombineOverlayMessage( CAT_SCHEMA_COMBINEOVERLAY_GLOBAL, nil, { "CombineOverlay_RFCitizens" }, 7, Color( 150, 255, 150 ) )
 end
 
-function Schema:GetBeepSound( pl, IsOff )
+function Schema:GetBeepSound( pl, isOff )
 	local team = pl:Team( )
 	
 	if ( team == FACTION_CP ) then
-		if ( IsOff ) then
+		if ( isOff ) then
 			return "npc/metropolice/vo/off" .. math.random( 1, 4 ) .. ".wav"
 		else
 			return math.random( 1, 9 ) <= 5 and "npc/metropolice/vo/on" .. math.random( 1, 2 ) .. ".wav" or "npc/overwatch/radiovoice/on3.wav"
 		end
 	elseif ( team == FACTION_OW ) then
-		return IsOff and "npc/combine_soldier/vo/off" .. math.random( 1, 3 ) .. ".wav" or "npc/combine_soldier/vo/on" .. math.random( 1, 2 ) .. ".wav"
+		return isOff and "npc/combine_soldier/vo/off" .. math.random( 1, 3 ) .. ".wav" or "npc/combine_soldier/vo/on" .. math.random( 1, 2 ) .. ".wav"
 	end
 end
 
