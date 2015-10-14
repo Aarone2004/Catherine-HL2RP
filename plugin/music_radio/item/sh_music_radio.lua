@@ -39,7 +39,6 @@ ITEM.func.dropItem = {
 		if ( IsValid( physObject ) ) then
 			physObject:EnableMotion( true )
 			physObject:Wake( )
-			physObject:SetMass( 80 ) // BUG?
 		end
 
 		catherine.inventory.Work( pl, CAT_INV_ACTION_REMOVE, {

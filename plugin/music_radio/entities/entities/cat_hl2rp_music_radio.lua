@@ -44,6 +44,7 @@ if ( SERVER ) then
 		if ( IsValid( physObject ) ) then
 			physObject:EnableMotion( true )
 			physObject:Wake( )
+			physObject:SetMass( 80 )
 		end
 		
 		catherine.entity.RegisterUseMenu( self, {
