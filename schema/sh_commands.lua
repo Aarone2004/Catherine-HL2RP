@@ -37,6 +37,7 @@ catherine.command.Register( {
 		
 		if ( text == "" ) then
 			catherine.util.NotifyLang( pl, "Basic_Notify_InputText" )
+			return
 		end
 		
 		if ( pl:HasItem( "portable_radio" ) ) then

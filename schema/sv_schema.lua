@@ -206,7 +206,7 @@ function Schema:SayRadio( pl, text )
 	local listeners, isStaticRadio = self:GetRadioListeners( pl )
 	local blockPl = nil
 	local radioSignal = pl:GetNetVar( "radioSignal", 0 )
-
+	
 	if ( !isStaticRadio ) then
 		if ( radioSignal == 2 ) then
 			local ex = string.Explode( " ", text )
@@ -231,7 +231,7 @@ function Schema:SayRadio( pl, text )
 			return
 		end
 	end
-
+	
 	catherine.chat.RunByID( pl, "radio", text, listeners, blockPl )
 end
 
