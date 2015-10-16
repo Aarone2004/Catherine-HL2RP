@@ -50,7 +50,7 @@ Schema.CUC = {
 	"Vice",
 	"Echo"
 }
-Schema.CPNamePrefix = "C17-%s-RCT.%s"
+Schema.CPNamePrefix = "MPF-RCT.%s.%s"
 Schema.OWNamePrefix = "OWS-%s.%s"
 local elite, unit = Schema.CombineRankClass.Elite, Schema.CombineRankClass.Unit
 Schema.CombineRank = {
