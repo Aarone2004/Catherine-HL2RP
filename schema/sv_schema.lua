@@ -23,7 +23,7 @@ CAT_SCHEMA_COMBINEOVERLAY_GLOBAL_NOLOCAL = 3
 function Schema:DataSave( )
 	local data = { }
 	local data2 = { }
-
+	
 	for k, v in pairs( ents.FindByClass( "cat_hl2rp_ration_dispenser" ) ) do
 		data[ #data + 1 ] = {
 			pos = v:GetPos( ),
@@ -31,7 +31,7 @@ function Schema:DataSave( )
 			active = v:GetActive( )
 		}
 	end
-
+	
 	for k, v in pairs( ents.FindByClass( "cat_hl2rp_static_radio" ) ) do
 		data2[ #data2 + 1 ] = {
 			pos = v:GetPos( ),
@@ -47,7 +47,7 @@ end
 
 function Schema:DataLoad( )
 	local data = catherine.data.Get( "ration_dispenser", { } )
-
+	
 	for k, v in pairs( data ) do
 		local ent = ents.Create( "cat_hl2rp_ration_dispenser" )
 		ent:SetPos( v.pos )
@@ -60,7 +60,7 @@ function Schema:DataLoad( )
 	end
 	
 	local data = catherine.data.Get( "static_radio", { } )
-
+	
 	for k, v in pairs( data ) do
 		local ent = ents.Create( "cat_hl2rp_static_radio" )
 		ent:SetPos( v.pos )
@@ -79,7 +79,7 @@ function Schema:ShowSpare1( pl )
 	data.endpos = data.start + pl:GetAimVector( ) * 160
 	data.filter = pl
 	local ent = util.TraceLine( data ).Entity
-
+	
 	if ( !IsValid( ent ) ) then
 		catherine.util.NotifyLang( pl, "Entity_Notify_NotPlayer" )
 		return
@@ -88,7 +88,7 @@ function Schema:ShowSpare1( pl )
 	if ( ent:GetClass( ) == "prop_ragdoll" ) then
 		ent = catherine.entity.GetPlayer( ent )
 	end
-
+	
 	if ( IsValid( ent ) and ent:IsPlayer( ) ) then
 		catherine.player.SetTie( pl, ent, true, nil, true )
 	else
@@ -121,7 +121,7 @@ function Schema:GetUnlockTime( pl )
 end
 
 function Schema:GetHealthRecoverInterval( pl )
-	
+
 end
 
 function Schema:PlayerTied( pl, target )
@@ -195,7 +195,7 @@ function Schema:PlayerInteract( pl, target )
 				}
 			} )
 		end
-
+		
 		catherine.entity.OpenUseMenu( pl, target )
 		
 		return true
@@ -285,10 +285,10 @@ end
 function Schema:OnChatControl( chatInformation )
 	local pl = chatInformation.pl
 	local uniqueID = chatInformation.uniqueID
-
+	
 	if ( uniqueID == "ic" or uniqueID == "radio" or uniqueID == "yell" or uniqueID == "whisper" ) then
 		local text = chatInformation.text
-
+		
 		if ( uniqueID == "ic" ) then
 			for k, v in pairs( ents.FindInSphere( pl:GetPos( ), 100 ) ) do
 				if ( v:GetClass( ) == "cat_hl2rp_static_radio" and v:GetNetVar( "active" ) and ( v:GetNetVar( "freq" ) != "XXX.X" or v:GetNetVar( "freq" ) != "" ) ) then
@@ -299,13 +299,12 @@ function Schema:OnChatControl( chatInformation )
 			end
 		end
 		
-		local tab = {
+		local result = {
 			sounds = { },
 			text = text
 		}
-		local ex = string.Explode( ", ", text )
 		local vol = true
-
+		
 		if ( uniqueID == "ic" ) then
 			vol = 80
 		elseif ( uniqueID == "yell" ) then
@@ -313,81 +312,78 @@ function Schema:OnChatControl( chatInformation )
 		elseif ( uniqueID == "whisper" ) then
 			vol = 30
 		end
-
-		for k, v in pairs( self.vo.normalVoice ) do
-			if ( !table.HasValue( v.faction, pl:Team( ) ) ) then continue end
-			local isFemale = false
+		
+		for k, v in pairs( string.Explode( ", ", text ) ) do
+			local lowerText = v:lower( )
 			
-			if ( pl:Team( ) == FACTION_CITIZEN and pl:IsFemale( ) and v.allowFemale ) then
-				isFemale = true
-			end
-			
-			for k1, v1 in pairs( ex ) do
-				if ( v1:lower( ) == v.command:lower( ) ) then
-					local sound = type( v.sound ) == "table" and table.Random( v.sound ) or v.sound
+			for k1, v1 in pairs( self.vo.normalVoice ) do
+				if ( !table.HasValue( v1.faction, pl:Team( ) ) ) then continue end
+				
+				if ( lowerText == v1.command:lower( ) ) then
+					local source = type( v1.sound ) == "table" and table.Random( v1.sound ) or v1.sound
 					
-					if ( isFemale ) then
-						sound = sound:gsub( "male01", "female01" )
+					if ( pl:Team( ) == FACTION_CITIZEN and pl:IsFemale( ) and v1.allowFemale ) then
+						source = source:gsub( "male01", "female01" )
 					end
 					
-					local sounds = {
-						dir = sound,
-						len = SoundDuration( sound ),
+					result.sounds[ #result.sounds + 1 ] = {
+						dir = source,
+						len = SoundDuration( source ),
 						vol = vol
 					}
-
-					tab.sounds[ #tab.sounds + 1 ] = sounds
-					tab.text = k1 == 1 and ( v.output ) or ( tab.text .. ", " .. v.output )
+					result.text = k == 1 and v1.output or ( result.text .. ", " .. v1.output )
 				end
 			end
 		end
-
-		chatInformation.voice = tab.sounds
-		chatInformation.text = tab.text
+		
+		chatInformation.voice = result.sounds
+		chatInformation.text = result.text
 		
 		return chatInformation
 	elseif ( uniqueID == "dispatch" ) then
-		local text = chatInformation.text:lower( )
-		local tab = {
+		local text = chatInformation.text
+		local lowerText = text:lower( )
+		local result = {
 			sounds = { },
 			text = text
 		}
 		
 		for k, v in pairs( self.vo.dispatchVoice ) do
-			if ( v.command:lower( ) == text ) then
-				tab.sounds[ #tab.sounds + 1 ] = {
+			if ( lowerText == v.command:lower( ) ) then
+				result.sounds[ #result.sounds + 1 ] = {
 					dir = v.sound,
 					len = SoundDuration( v.sound ),
 					vol = true
 				}
-				tab.text = v.output
+				result.text = v.output
 			end
 		end
 		
-		chatInformation.voice = tab.sounds
-		chatInformation.text = tab.text
+		chatInformation.voice = result.sounds
+		chatInformation.text = result.text
 		
 		return chatInformation
 	elseif ( uniqueID == "breencast" ) then
-		local text = chatInformation.text:lower( )
-		local tab = {
+		local text = chatInformation.text
+		local lowerText = text:lower( )
+		local result = {
 			sounds = { },
 			text = text
 		}
 		
 		for k, v in pairs( self.vo.breenCast ) do
-			if ( v.command:lower( ) == text ) then
-				tab.sounds[ #tab.sounds + 1 ] = {
+			if ( lowerText == v.command:lower( ) ) then
+				result.sounds[ #result.sounds + 1 ] = {
 					dir = v.sound,
 					len = SoundDuration( v.sound ),
 					vol = true
 				}
-				tab.text = v.output
+				result.text = v.output
 			end
 		end
 		
-		chatInformation.voice = tab.sounds
-		chatInformation.text = tab.text
+		chatInformation.voice = result.sounds
+		chatInformation.text = result.text
 		
 		return chatInformation
 	end
@@ -417,10 +413,10 @@ end
 function Schema:PlayerUseDoor( pl, ent )
 	local partner = catherine.util.GetDoorPartner( ent )
 	local lock = ent.lock or ( IsValid( partner ) and partner.lock )
-
+	
 	if ( IsValid( lock ) and !ent:HasSpawnFlags( 256 ) and !ent:HasSpawnFlags( 1024 ) ) then
 		ent:Fire( "Open", "", 0 )
-	
+		
 		return true
 	end
 	
@@ -522,7 +518,7 @@ end
 
 function Schema:HealthRecovering( pl )
 	if ( !pl:PlayerIsCombine( ) ) then return end
-
+	
 	self:AddCombineOverlayMessage( CAT_SCHEMA_COMBINEOVERLAY_LOCAL, pl, { "CombineOverlay_HealthRecovering", { ( pl:Health( ) / pl:GetMaxHealth( ) ) * 100 } }, 4, Color( 255, 150, 150 ) )
 end
 
@@ -536,10 +532,10 @@ function Schema:PlayerDeath( pl )
 		localMessage = { "CombineOverlay_LocalPlayerDeath_OW" }
 		globalMessage = { "CombineOverlay_PlayerDeath_OW", { name } }
 	end
-
+	
 	self:AddCombineOverlayMessage( CAT_SCHEMA_COMBINEOVERLAY_LOCAL, pl, localMessage, 10, Color( 255, 0, 0 ), 0.04 )
 	self:AddCombineOverlayMessage( CAT_SCHEMA_COMBINEOVERLAY_GLOBAL_NOLOCAL, pl, globalMessage, 10, Color( 255, 0, 0 ), 0.04 )
-
+	
 	for k, v in pairs( self:GetCombines( ) or { } ) do
 		v:EmitSound( "npc/overwatch/radiovoice/on1.wav" )
 		v:EmitSound( "npc/overwatch/radiovoice/lostbiosignalforunit.wav" )
@@ -555,7 +551,7 @@ function Schema:OnSpawnedInCharacter( pl )
 		local rankID, classID = self:GetRankByName( pl:Name( ) )
 		
 		self:AddCombineOverlayMessage( CAT_SCHEMA_COMBINEOVERLAY_LOCAL, pl, { "CombineOverlay_Online" }, 5, Color( 150, 255, 150 ), 0.04 )
-
+		
 		if ( pl:Class( ) != nil and pl:Class( ) != classID ) then
 			if ( rankID and classID ) then
 				catherine.class.Set( pl, classID )
@@ -593,7 +589,7 @@ function Schema:OnSpawnedInCharacter( pl )
 				break
 			end
 		end
-
+		
 		if ( rankID ) then
 			pl:SetModel( self:GetModelByRank( rankID, true ) )
 		end
@@ -631,7 +627,7 @@ end
 function Schema:CharacterNameChanged( pl, newName )
 	if ( pl:Team( ) == FACTION_CP ) then
 		local rankID, classID = self:GetRankByName( pl:Name( ) )
-
+		
 		if ( pl:Class( ) != nil and pl:Class( ) != classID ) then
 			if ( rankID and classID ) then
 				catherine.class.Set( pl, classID )
@@ -662,7 +658,7 @@ function Schema:CharacterNameChanged( pl, newName )
 				break
 			end
 		end
-
+		
 		if ( rankID ) then
 			pl:SetModel( self:GetModelByRank( rankID, true ) )
 		end
@@ -689,7 +685,7 @@ function Schema:GetRadioListeners( pl, isSignalOnly )
 			isStaticRadio = true
 		end
 	end
-
+	
 	if ( #staticRadios > 0 ) then
 		for k, v in pairs( staticRadios ) do
 			for k1, v1 in pairs( player.GetAllByLoaded( ) ) do
@@ -697,7 +693,7 @@ function Schema:GetRadioListeners( pl, isSignalOnly )
 				
 				if ( v1:HasItem( "portable_radio" ) ) then
 					local targetItemDatas = v1:GetInvItemDatas( "portable_radio" )
-				
+					
 					if ( targetItemDatas.freq == v.freq and targetItemDatas.toggle and targetItemDatas.freq and ( targetItemDatas.freq != "xxx.x" and targetItemDatas.freq != "" ) ) then
 						listeners[ #listeners + 1 ] = v1
 					else
@@ -737,7 +733,7 @@ function Schema:GetRadioListeners( pl, isSignalOnly )
 			
 			if ( v:HasItem( "portable_radio" ) ) then
 				local targetItemDatas = v:GetInvItemDatas( "portable_radio" )
-			
+				
 				if ( targetItemDatas.freq == playerFreq and targetItemDatas.toggle and playerToggle and targetItemDatas.freq and ( targetItemDatas.freq != "xxx.x" and targetItemDatas.freq != "" ) ) then
 					listeners[ #listeners + 1 ] = v
 				else
@@ -768,7 +764,7 @@ function Schema:GetRadioListeners( pl, isSignalOnly )
 			end
 		end
 	end
-
+	
 	return listeners, isStaticRadio
 end
 
@@ -787,7 +783,7 @@ local defJumpPower = catherine.configs.playerDefaultJumpPower
 
 function Schema:GetCustomPlayerDefaultJumpPower( pl )
 	local jumpAttribute = catherine.attribute.GetProgress( pl, CAT_ATT_JUMP )
-
+	
 	return defJumpPower + math.min( jumpAttribute * 1.5, 100 )
 end
 
@@ -814,7 +810,7 @@ local radioSignalData = {
 function Schema:CalcRadio( pl )
 	local listeners = self:GetRadioListeners( pl, true )
 	local max = 1000000
-
+	
 	for k, v in pairs( listeners ) do
 		if ( pl == v ) then continue end
 		local dis = catherine.util.CalcDistanceByPos( pl, v )
@@ -823,7 +819,7 @@ function Schema:CalcRadio( pl )
 			max = dis
 		end
 	end
-
+	
 	for k, v in pairs( radioSignalData ) do
 		if ( v[ 2 ] >= max and radioSignalData[ math.min( k + 1, #radioSignalData ) ][ 2 ] > max ) then
 			return v[ 1 ]
