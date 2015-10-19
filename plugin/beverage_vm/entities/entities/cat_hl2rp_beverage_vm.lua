@@ -34,7 +34,7 @@ if ( SERVER ) then
 		self:SetSolid( SOLID_VPHYSICS )
 		self:PhysicsInit( SOLID_VPHYSICS )
 		self:SetUseType( SIMPLE_USE )
-
+		
 		local physObject = self:GetPhysicsObject( )
 		
 		if ( IsValid( physObject ) ) then
@@ -56,7 +56,7 @@ if ( SERVER ) then
 	function ENT:SpawnBeverage( pl, uniqueID )
 		local itemPos = self:GetPos( ) + self:GetForward( ) * 19 + self:GetRight( ) * 4 + self:GetUp( ) * -35
 		local ent = catherine.item.Spawn( uniqueID, itemPos )
-
+		
 		self:EmitSound( "buttons/button4.wav", 100 )
 		self:EmitSound( "buttons/lightswitch2.wav", 100 )
 	end
@@ -70,10 +70,10 @@ if ( SERVER ) then
 	end
 else
 	local glowMat = Material( "sprites/glow04_noz" )
-
+	
 	function ENT:Draw( )
 		self:DrawModel( )
-
+		
 		render.SetMaterial( glowMat )
 		render.DrawSprite( self:GetPos( ) + self:GetForward( ) * 18 + self:GetRight( ) * -22.4 + self:GetUp( ) * 9.3, 10, 10, PLUGIN:IsActive( self ) and Color( 150, 255, 150 ) or Color( 255, 0, 0 ) )
 	end

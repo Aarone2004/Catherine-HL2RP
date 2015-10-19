@@ -58,7 +58,7 @@ if ( SERVER ) then
 		"ambient/voices/cough3.wav",
 		"ambient/voices/cough4.wav"
 	}
-
+	
 	function PLUGIN:Cough( pl )
 		if ( math.random( 1, 100 ) < 70 ) then
 			pl:EmitSound( table.Random( coughSounds ), 100 )
@@ -70,7 +70,7 @@ if ( SERVER ) then
 			self:Infect( pl, true )
 		end
 	end
-
+	
 	function PLUGIN:Infect( pl, isCritical )
 		for k, v in pairs( player.GetAllByLoaded( ) ) do
 			if ( v.CAT_HL2RP_diseaseInfect ) then
@@ -110,7 +110,7 @@ if ( SERVER ) then
 			end
 		end
 	end
-
+	
 	function PLUGIN:OnSpawnedInCharacter( pl )
 		if ( pl.CAT_HL2RP_diseaseInfect ) then
 			pl.CAT_HL2RP_diseaseInfect = nil
@@ -148,7 +148,7 @@ if ( SERVER ) then
 			end
 		end )
 	end
-
+	
 	function PLUGIN:CreateColdAutoHealTimer( pl )
 		local isCritical = ( catherine.configs.enable_rpTime and catherine.environment.GetTemperature( ) <= 7 ) and true or false
 		
@@ -182,7 +182,7 @@ if ( SERVER ) then
 			end
 		end )
 	end
-
+	
 	function PLUGIN:PlayerShouldDisease( pl )
 		local team = pl:Team( )
 		
@@ -194,7 +194,7 @@ if ( SERVER ) then
 			return false
 		end
 	end
-
+	
 	function PLUGIN:PlayerThink( pl )
 		if ( hook.Run( "PlayerShouldDisease", pl ) == false ) then return end
 		
@@ -235,7 +235,7 @@ if ( SERVER ) then
 			pl.CAT_HL2RP_nextDisease = CurTime( ) + 300
 		end
 	end
-
+	
 	function PLUGIN:PlayerDeath( pl )
 		if ( pl.CAT_HL2RP_diseaseInfect ) then
 			pl.CAT_HL2RP_diseaseInfect = nil

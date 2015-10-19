@@ -47,7 +47,7 @@ function PLUGIN:PlayerCanUseDoor( pl, ent )
 	if ( ( pl:PlayerIsCombine( ) or pl:HasItem( "comlock_access_card" ) ) and pl:KeyDown( IN_SPEED ) ) then
 		local partner = catherine.util.GetDoorPartner( ent )
 		local lock = ent.lock or ( IsValid( partner ) and partner.lock )
-
+		
 		if ( IsValid( lock ) ) then
 			lock:Toggle( )
 			
@@ -60,7 +60,7 @@ end
 
 function PLUGIN:DataSave( )
 	local data = { }
-
+	
 	for k, v in pairs( ents.FindByClass( "cat_hl2rp_comlock" ) ) do
 		if ( !IsValid( v.doorParent ) ) then continue end
 		local ent = v.doorParent
@@ -69,10 +69,12 @@ function PLUGIN:DataSave( )
 			index = ent:EntIndex( ),
 			pos = ent:WorldToLocal( v:GetPos( ) ),
 			ang = ent:WorldToLocalAngles( v:GetAngles( ) ),
-			status = v:GetLocked( ) == true and true or nil
+			status = v:GetLocked( ) == true and true or nil,
+			col = v:GetColor( ),
+			mat = v:GetMaterial( )
 		}
 	end
-
+	
 	catherine.data.Set( "comlock", data )
 end
 
@@ -85,7 +87,9 @@ function PLUGIN:DataLoad( )
 				ent:Spawn( )
 				ent:SetDoor( v, v:LocalToWorld( v1.pos ), v:LocalToWorldAngles( v1.ang ) )
 				ent:SetLocked( v1.status )
-
+				ent:SetColor( v1.col )
+				ent:SetMaterial( v1.mat )
+				
 				if ( v1.status and IsValid( ent.doorParent ) ) then
 					local partner = catherine.util.GetDoorPartner( ent.doorParent )
 					

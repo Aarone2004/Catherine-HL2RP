@@ -23,10 +23,12 @@ function PLUGIN:SaveBVMs( )
 	
 	for k, v in pairs( ents.FindByClass( "cat_hl2rp_beverage_vm" ) ) do
 		data[ #data + 1 ] = {
+			pos = v:GetPos( ),
+			ang = v:GetAngles( ),
 			sellingItems = v:GetNetVar( "sellingItems" ),
 			isOffline = v:GetNetVar( "offline" ),
-			pos = v:GetPos( ),
-			ang = v:GetAngles( )
+			col = v:GetColor( ),
+			mat = v:GetMaterial( )
 		}
 	end
 	
@@ -34,14 +36,14 @@ function PLUGIN:SaveBVMs( )
 end
 
 function PLUGIN:LoadBVMs( )
-	local data = catherine.data.Get( "bvms", { } )
-	
-	for k, v in pairs( data ) do
+	for k, v in pairs( catherine.data.Get( "bvms", { } ) ) do
 		local ent = ents.Create( "cat_hl2rp_beverage_vm" )
 		ent:SetPos( v.pos )
 		ent:SetAngles( v.ang )
 		ent:Spawn( )
 		ent:Activate( )
+		ent:SetColor( v.col )
+		ent:SetMaterial( v.mat )
 		
 		if ( v.isOffline ) then
 			ent:SetNetVar( "offline", true )
@@ -53,13 +55,19 @@ function PLUGIN:LoadBVMs( )
 	end
 end
 
+function PLUGIN:DataSave( )
+	self:SaveBVMs( )
+end
+
+function PLUGIN:DataLoad( )
+	self:LoadBVMs( )
+end
+
 function PLUGIN:Beverage_VMWork( pl, ent, workID, data )
 	if ( !IsValid( pl ) or !IsValid( ent ) or !workID ) then return end
 	
 	if ( workID == CAT_HL2RP_BEVERAGE_VM_ACTION_MAIN ) then
-		if ( !self:IsActive( ent ) ) then
-			return
-		end
+		if ( !self:IsActive( ent ) ) then return end
 		
 		local itemTable = catherine.item.FindByID( data )
 		
@@ -80,7 +88,7 @@ function PLUGIN:Beverage_VMWork( pl, ent, workID, data )
 				return
 			end
 		end
-
+		
 		stock[ data ] = math.max( stock[ data ] - 1, 0 )
 		ent:SetNetVar( "sellingItems", stock )
 		
@@ -128,14 +136,6 @@ function PLUGIN:Beverage_VMWork( pl, ent, workID, data )
 		catherine.cash.Take( pl, cost )
 		netstream.Start( pl, "catherine.hl2rp.plugin.beverage_vm.RefreshList" )
 	end
-end
-
-function PLUGIN:DataLoad( )
-	self:LoadBVMs( )
-end
-
-function PLUGIN:DataSave( )
-	self:SaveBVMs( )
 end
 
 netstream.Hook( "catherine.hl2rp.plugin.beverage_vm.VMWork", function( pl, data )
