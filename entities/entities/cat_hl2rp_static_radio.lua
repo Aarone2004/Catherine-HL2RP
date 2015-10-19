@@ -40,7 +40,9 @@ if ( SERVER ) then
 		local physObject = self:GetPhysicsObject( )
 		
 		if ( IsValid( physObject ) ) then
+			physObject:EnableMotion( true )
 			physObject:Wake( )
+			physObject:SetMass( 80 )
 		end
 		
 		catherine.entity.RegisterUseMenu( self, {
@@ -123,7 +125,7 @@ else
 		if ( self:GetNetVar( "active" ) ) then
 			col = Color( 0, 255, 0 )
 		end
-
+		
 		render.SetMaterial( glowMat )
 		render.DrawSprite( self:GetPos( ) + self:GetForward( ) * 10 + self:GetRight( ) * 10 + self:GetUp( ) * 4, 10, 10, col )
 	end
@@ -131,12 +133,12 @@ else
 	function ENT:DrawEntityTargetID( pl, ent, a )
 		local pos = toscreen( self:LocalToWorld( self:OBBCenter( ) ) )
 		local x, y = pos.x, pos.y
-
+		
 		if ( !self.sr_name or !self.sr_desc ) then
 			self.sr_name = LANG( "Item_Name_SR" )
 			self.sr_desc = LANG( "Item_Desc_SR" )
 		end
-
+		
 		draw.SimpleText( self.sr_name, "catherine_outline20", x, y, Color( 255, 255, 255, a ), 1, 1 )
 		draw.SimpleText( self.sr_desc, "catherine_outline15", x, y + 20, Color( 255, 255, 255, a ), 1, 1 )
 	end

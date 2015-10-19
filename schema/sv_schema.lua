@@ -28,7 +28,9 @@ function Schema:DataSave( )
 		data[ #data + 1 ] = {
 			pos = v:GetPos( ),
 			ang = v:GetAngles( ),
-			active = v:GetActive( )
+			active = v:GetActive( ),
+			col = v:GetColor( ),
+			mat = v:GetMaterial( )
 		}
 	end
 	
@@ -37,7 +39,9 @@ function Schema:DataSave( )
 			pos = v:GetPos( ),
 			ang = v:GetAngles( ),
 			active = v:GetNetVar( "active", false ),
-			freq = v:GetNetVar( "freq", "XXX.X" )
+			freq = v:GetNetVar( "freq", "XXX.X" ),
+			col = v:GetColor( ),
+			mat = v:GetMaterial( )
 		}
 	end
 	
@@ -47,25 +51,28 @@ end
 
 function Schema:DataLoad( )
 	local data = catherine.data.Get( "ration_dispenser", { } )
+	local data2 = catherine.data.Get( "static_radio", { } )
 	
 	for k, v in pairs( data ) do
 		local ent = ents.Create( "cat_hl2rp_ration_dispenser" )
 		ent:SetPos( v.pos )
 		ent:SetAngles( v.ang )
 		ent:Spawn( )
+		ent:SetColor( v.col )
+		ent:SetMaterial( v.mat )
 		
 		if ( v.active ) then
 			ent:SetActive( true )
 		end
 	end
 	
-	local data = catherine.data.Get( "static_radio", { } )
-	
-	for k, v in pairs( data ) do
+	for k, v in pairs( data2 ) do
 		local ent = ents.Create( "cat_hl2rp_static_radio" )
 		ent:SetPos( v.pos )
 		ent:SetAngles( v.ang )
 		ent:Spawn( )
+		ent:SetColor( v.col )
+		ent:SetMaterial( v.mat )
 		
 		ent:SetNetVar( "active", v.active )
 		ent:SetNetVar( "freq", v.freq )
