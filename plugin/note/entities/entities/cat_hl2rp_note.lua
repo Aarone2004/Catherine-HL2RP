@@ -41,6 +41,7 @@ if ( SERVER ) then
 		if ( IsValid( physObject ) ) then
 			physObject:EnableMotion( true )
 			physObject:Wake( )
+			physObject:SetMass( 80 )
 		end
 		
 		catherine.entity.RegisterUseMenu( self, {
@@ -57,7 +58,7 @@ if ( SERVER ) then
 			}
 		} )
 	end
-
+	
 	function ENT:Bomb( )
 		local eff = EffectData( )
 		eff:SetStart( self:GetPos( ) )
@@ -67,7 +68,7 @@ if ( SERVER ) then
 		
 		self:EmitSound( "physics/body/body_medium_impact_soft" .. math.random( 1, 7 ) .. ".wav" )
 	end
-
+	
 	function ENT:OnTakeDamage( dmg )
 		self:SetHealth( math.max( self:Health( ) - dmg:GetDamage( ), 0 ) )
 		
@@ -79,7 +80,6 @@ if ( SERVER ) then
 	
 	function ENT:OnRemove( )
 		if ( catherine.shuttingDown ) then return end
-		
 		local uniqueID = self:GetUniqueID( )
 		
 		if ( PLUGIN.data[ uniqueID ] ) then
@@ -98,7 +98,7 @@ else
 			self.notepad_title = LANG( "Item_Name_Note" )
 			self.notepad_desc = LANG( "Entity_Desc_Note01" )
 		end
-
+		
 		draw.SimpleText( self.notepad_title, "catherine_outline20", x, y, Color( 255, 255, 255, a ), 1, 1 )
 		draw.SimpleText( self.notepad_desc, "catherine_outline15", x, y + 25, Color( 255, 255, 255, a ), 1, 1 )
 	end

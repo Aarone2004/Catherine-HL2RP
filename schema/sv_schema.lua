@@ -289,6 +289,13 @@ function Schema:PlayerScaleDamage( pl, attacker, dmgInfo, hitGroup )
 	end
 end
 
+--[[
+	Why?
+	https://github.com/Chessnut/NutScript/blob/1.1/gamemode/core/sh_util.lua#L121
+]]--
+
+local ADJUST_SOUND = SoundDuration( "npc/metropolice/pain1.wav" ) > 0 and "" or "../../hl2/sound/"
+
 function Schema:OnChatControl( chatInformation )
 	local pl = chatInformation.pl
 	local uniqueID = chatInformation.uniqueID
@@ -310,6 +317,7 @@ function Schema:OnChatControl( chatInformation )
 			sounds = { },
 			text = text
 		}
+		local ex = string.Explode( ", ", text )
 		local vol = true
 		
 		if ( uniqueID == "ic" ) then
@@ -320,8 +328,9 @@ function Schema:OnChatControl( chatInformation )
 			vol = 30
 		end
 		
-		for k, v in pairs( string.Explode( ", ", text ) ) do
+		for k, v in pairs( ex ) do
 			local lowerText = v:lower( )
+			local foundVoice = false
 			
 			for k1, v1 in pairs( self.vo.normalVoice ) do
 				if ( !table.HasValue( v1.faction, pl:Team( ) ) ) then continue end
@@ -335,11 +344,19 @@ function Schema:OnChatControl( chatInformation )
 					
 					result.sounds[ #result.sounds + 1 ] = {
 						dir = source,
-						len = SoundDuration( source ),
+						len = SoundDuration( ADJUST_SOUND .. source ),
 						vol = vol
 					}
 					result.text = k == 1 and v1.output or ( result.text .. ", " .. v1.output )
+					
+					foundVoice = true
+					
+					break
 				end
+			end
+			
+			if ( !foundVoice and text != result.text ) then
+				result.text = result.text .. ", " .. v
 			end
 		end
 		
@@ -402,7 +419,7 @@ function Schema:ChatPosted( chatInformation )
 	local len = 0
 	
 	for k, v in pairs( chatInformation.voice ) do
-		len = len + ( k == 1 and 0 or v.len + 0.3 )
+		len = len + ( v.len + 0.5 )
 		
 		timer.Simple( len, function( )
 			if ( !IsValid( pl ) or !pl:Alive( ) ) then return end
@@ -628,7 +645,7 @@ end
 function Schema:ChatTypingChanged( pl, bool )
 	if ( !pl:Alive( ) or !pl:PlayerIsCombine( ) ) then return end
 	
-	pl:EmitSound( self:GetBeepSound( pl, !bool ), 55 )
+	pl:EmitSound( self:GetBeepSound( pl, !bool ), 40 )
 end
 
 function Schema:CharacterNameChanged( pl, newName )

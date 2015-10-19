@@ -87,8 +87,8 @@ function PLUGIN:DataLoad( )
 				ent:Spawn( )
 				ent:SetDoor( v, v:LocalToWorld( v1.pos ), v:LocalToWorldAngles( v1.ang ) )
 				ent:SetLocked( v1.status )
-				ent:SetColor( v1.col )
-				ent:SetMaterial( v1.mat )
+				ent:SetColor( v1.col or Color( 255, 255, 255, 255 ) )
+				ent:SetMaterial( v1.mat or "" )
 				
 				if ( v1.status and IsValid( ent.doorParent ) ) then
 					local partner = catherine.util.GetDoorPartner( ent.doorParent )

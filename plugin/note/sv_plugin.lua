@@ -32,7 +32,10 @@ function PLUGIN:DataSave( )
 			pos = v:GetPos( ),
 			ang = v:GetAngles( ),
 			uniqueID = v:GetUniqueID( ),
-			owner = v:GetNetVar( "owner" )
+			owner = v:GetNetVar( "owner" ),
+			skin = v:GetSkin( ),
+			col = v:GetColor( ),
+			mat = v:GetMaterial( )
 		}
 	end
 	
@@ -49,6 +52,9 @@ function PLUGIN:DataLoad( )
 		ent:SetPos( v.pos )
 		ent:SetAngles( v.ang )
 		ent:Spawn( )
+		ent:SetSkin( v.skin or 0 )
+		ent:SetColor( v.col or Color( 255, 255, 255, 255 ) )
+		ent:SetMaterial( v.mat or "" )
 		
 		ent:SetNetVar( "uniqueID", v.uniqueID )
 		

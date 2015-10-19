@@ -42,8 +42,8 @@ function PLUGIN:LoadBVMs( )
 		ent:SetAngles( v.ang )
 		ent:Spawn( )
 		ent:Activate( )
-		ent:SetColor( v.col )
-		ent:SetMaterial( v.mat )
+		ent:SetColor( v.col or Color( 255, 255, 255, 255 ) )
+		ent:SetMaterial( v.mat or "" )
 		
 		if ( v.isOffline ) then
 			ent:SetNetVar( "offline", true )
