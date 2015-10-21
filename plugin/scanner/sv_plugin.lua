@@ -31,7 +31,16 @@ function PLUGIN:CharacterLoadingStart( pl )
 	local ent = self:GetScannerEntity( pl )
 	
 	if ( IsValid( ent ) ) then
+		catherine.player.SetIgnoreGiveFlagWeapon( pl, nil )
+		pl:SetViewEntity( NULL )
+		pl:UnSpectate( )
+		
+		pl:SetNetVar( "fakeModel", nil )
+		pl:SetNetVar( "isScanner", nil )
+		
+		ent.CAT_HL2RP_scannerNoSpawn = true
 		ent:Remove( )
+		pl.CAT_HL2RP_scannerEnt = nil
 	end
 end
 
@@ -123,6 +132,19 @@ function PLUGIN:CharacterNameChanged( pl, newName )
 		
 		if ( IsValid( ent ) ) then
 			ent:Remove( )
+			pl.CAT_HL2RP_scannerEnt = nil
+		end
+	end
+end
+
+function PLUGIN:PostCleanupMapDelayed( )
+	for k, v in pairs( player.GetAllByLoaded( ) ) do
+		if ( v:Team( ) != FACTION_CP ) then continue end
+		
+		if ( v:Name( ):find( "SCN" ) ) then
+			if ( !IsValid( self:GetScannerEntity( v ) ) ) then
+				self:CreateScanner( v )
+			end
 		end
 	end
 end
@@ -180,6 +202,7 @@ function PLUGIN:CreateScanner( pl )
 	ent:SetNetVar( "player", pl )
 	ent:CallOnRemove( "PlayerRestore", function( )
 		if ( !IsValid( pl ) ) then return end
+		if ( ent.CAT_HL2RP_scannerNoSpawn ) then return end
 		
 		catherine.player.SetIgnoreGiveFlagWeapon( pl, nil )
 		pl:SetViewEntity( NULL )
