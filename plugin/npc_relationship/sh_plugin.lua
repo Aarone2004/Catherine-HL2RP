@@ -32,7 +32,7 @@ catherine.language.Merge( "korean", {
 } )
 
 if ( SERVER ) then
-	local combineNPC = {
+	local combineNPCClass = {
 		"npc_metropolice",
 		"npc_strider",
 		"npc_combine_s",
@@ -49,7 +49,7 @@ if ( SERVER ) then
 		"npc_cscanner",
 		"npc_turret_ground"
 	}
-	local rebelNPC = {
+	local rebelNPCClass = {
 		"npc_citizen",
 		"npc_alyx",
 		"npc_vortigaunt",
@@ -68,9 +68,9 @@ if ( SERVER ) then
 	
 	function PLUGIN:UpdateRelations( pl )
 		for k, v in pairs( ents.FindByClass( "npc_*" ) ) do
-			if ( table.HasValue( combineNPC, v:GetClass( ):lower( ) ) ) then
+			if ( table.HasValue( combineNPCClass, v:GetClass( ):lower( ) ) ) then
 				v:AddEntityRelationship( pl, pl:PlayerIsCombine( ) and D_LI or D_HT )
-			elseif ( table.HasValue( rebelNPC, v:GetClass( ):lower( ) ) ) then
+			elseif ( table.HasValue( rebelNPCClass, v:GetClass( ):lower( ) ) ) then
 				v:AddEntityRelationship( pl, pl:PlayerIsCombine( ) and D_HT or D_LI )
 			end
 		end

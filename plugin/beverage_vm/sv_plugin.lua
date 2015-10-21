@@ -61,6 +61,37 @@ end
 
 function PLUGIN:DataLoad( )
 	self:LoadBVMs( )
+	self:AutoPlaceBeverage( ) // Need to debug
+end
+
+function PLUGIN:AutoPlaceBeverage( )
+	local data = { }
+	
+	for k, v in pairs( ents.FindByClass( "prop_*" ) ) do
+		if ( catherine.entity.IsMapEntity( v ) and v:GetModel( ):lower( ) == "models/props_interiors/vendingmachinesoda01a.mdl" ) then
+			local ent = ents.Create( "cat_hl2rp_beverage_vm" )
+			ent:SetPos( v:GetPos( ) )
+			ent:SetAngles( v:GetAngles( ) )
+			ent:Spawn( )
+			ent:Activate( )
+			
+			data[ #data + 1 ] = v:EntIndex( )
+		end
+	end
+	
+	self:SaveBVMs( )
+	
+	catherine.data.Set( "bvms_auto", data )
+end
+
+function PLUGIN:InitPostEntity( )
+	for k, v in pairs( catherine.data.Get( "bvms_auto", { } ) ) do
+		for k1, v1 in pairs( ents.FindByClass( "prop_*" ) ) do
+			if ( v1:EntIndex( ) == v and v1:GetModel( ):lower( ) == "models/props_interiors/vendingmachinesoda01a.mdl" ) then
+				SafeRemoveEntity( v1 )
+			end
+		end
+	end
 end
 
 function PLUGIN:Beverage_VMWork( pl, ent, workID, data )
