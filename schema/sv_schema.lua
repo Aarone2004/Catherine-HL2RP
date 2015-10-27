@@ -419,7 +419,7 @@ function Schema:ChatPosted( chatInformation )
 	local len = 0
 	
 	for k, v in pairs( chatInformation.voice ) do
-		len = len + ( v.len + 0.5 )
+		len = len + ( k == 1 and 0 or v.len + 0.5 )
 		
 		timer.Simple( len, function( )
 			if ( !IsValid( pl ) or !pl:Alive( ) ) then return end
