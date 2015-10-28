@@ -67,6 +67,7 @@ function Schema:DataSave( )
 			active = v:GetNetVar( "active", false ),
 			musicURL = v:GetNetVar( "musicURL", "http://www.kcrw.com/pls/kcrwmusic.pls" ),
 			currIndex = v:GetNetVar( "currIndex", 1 ),
+			volume = v:GetNetVar( "volume", 100 ),
 			skin = v:GetSkin( ),
 			col = v:GetColor( ),
 			mat = v:GetMaterial( )
@@ -90,6 +91,7 @@ function Schema:DataLoad( )
 		
 		ent:SetNetVar( "active", v.active )
 		ent:SetNetVar( "musicURL", v.musicURL )
+		ent:SetNetVar( "volume", v.volume )
 		ent:SetNetVar( "currIndex", v.currIndex )
 	end
 end

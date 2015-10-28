@@ -38,7 +38,7 @@ if ( SERVER ) then
 		self:SetNetVar( "active", false )
 		self:SetNetVar( "musicURL", table.Random( PLUGIN.radioStations ) )
 		self:SetNetVar( "currIndex", 1 )
-
+		
 		local physObject = self:GetPhysicsObject( )
 		
 		if ( IsValid( physObject ) ) then
@@ -115,7 +115,7 @@ if ( SERVER ) then
 			self:Remove( )
 		end
 	end
-
+	
 	function ENT:PlayMusic( )
 		netstream.Start( nil, "catherine.hl2rp.plugin.musicRadio.PlayMusic", self )
 	end
@@ -161,7 +161,7 @@ else
 		local ang = self:GetAngles( )
 		ang:RotateAroundAxis( ang:Up( ), 90 )
 		ang:RotateAroundAxis( ang:Forward( ), 90 )
-
+		
 		cam.Start3D2D( self:GetPos( ) + self:GetForward( ) * 8.5 + self:GetRight( ) * 5.7 + self:GetUp( ) * 15.5, ang, 0.06 )
 			local volume = self:GetNetVar( "volume", "100" )
 			
@@ -172,14 +172,14 @@ else
 					self.mr_playing = LANG( "Item_PlayingUI_MusicRadio" )
 					self.playingText = ""
 				end
-		
+				
 				if ( ( self.nextPlayingText or 0 ) <= CurTime( ) ) then
 					if ( #self.playingText >= 3 ) then
 						self.playingText = ""
 					else
 						self.playingText = self.playingText .. "."
 					end
-
+					
 					self.nextPlayingText = CurTime( ) + 0.5
 				end
 				
@@ -200,7 +200,7 @@ else
 		if ( self:GetNetVar( "active" ) ) then
 			col = Color( 0, 255, 0 )
 		end
-
+		
 		render.SetMaterial( glowMat )
 		render.DrawSprite( self:GetPos( ) + self:GetForward( ) * 10 + self:GetRight( ) * 10 + self:GetUp( ) * 4, 10, 10, col )
 	end
