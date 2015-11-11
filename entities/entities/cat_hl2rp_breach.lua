@@ -47,10 +47,12 @@ if ( SERVER ) then
 				text = "^Breach_BlastStr",
 				icon = "icon16/lock_open.png",
 				func = function( pl, ent )
-					catherine.util.ForceDoorOpen( self:GetParent( ) )
-					self:Explode( )
-					self:CreateDummyBreach( )
-					self:Remove( )
+					if ( IsValid( self:GetParent( ) ) ) then
+						catherine.util.ForceDoorOpen( self:GetParent( ) )
+						self:Explode( )
+						self:CreateDummyBreach( )
+						self:Remove( )
+					end
 				end
 			}
 		} )
