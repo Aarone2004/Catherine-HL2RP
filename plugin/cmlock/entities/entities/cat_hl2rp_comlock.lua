@@ -18,8 +18,6 @@ along with Catherine.  If not, see <http://www.gnu.org/licenses/>.
 
 AddCSLuaFile( )
 
-DEFINE_BASECLASS( "base_gmodentity" )
-
 ENT.Type = "anim"
 ENT.PrintName = "Catherine HL2RP Combine Lock"
 ENT.Author = "Chessnut"

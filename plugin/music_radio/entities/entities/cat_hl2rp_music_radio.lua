@@ -20,8 +20,6 @@ local PLUGIN = PLUGIN
 
 AddCSLuaFile( )
 
-DEFINE_BASECLASS( "base_gmodentity" )
-
 ENT.Type = "anim"
 ENT.PrintName = "Catherine HL2RP Music Radio"
 ENT.Author = "L7D"
@@ -234,12 +232,12 @@ else
 	function ENT:DrawEntityTargetID( pl, ent, a )
 		local pos = toscreen( self:LocalToWorld( self:OBBCenter( ) ) )
 		local x, y = pos.x, pos.y
-
+		
 		if ( !self.mr_name or !self.mr_desc ) then
 			self.mr_name = LANG( "Item_Name_MusicRadio" )
 			self.mr_desc = LANG( "Item_Desc_MusicRadio" )
 		end
-
+		
 		draw.SimpleText( self.mr_name, "catherine_outline20", x, y, Color( 255, 255, 255, a ), 1, 1 )
 		draw.SimpleText( self.mr_desc, "catherine_outline15", x, y + 20, Color( 255, 255, 255, a ), 1, 1 )
 	end
@@ -315,16 +313,23 @@ else
 	netstream.Hook( "catherine.hl2rp.plugin.musicRadio.PlayMusic", function( data )
 		data.donotThink = true
 		
-		sound.PlayURL( data:GetNetVar( "musicURL", "http://www.kcrw.com/pls/kcrwmusic.pls" ), "3d", function( ent )
-			if ( IsValid( ent ) and IsValid( data ) ) then
-				ent:SetPos( data:GetPos( ) )
-				ent:Play( )
-				ent:SetVolume( data:GetNetVar( "volume", 100 ) / 100 )
-				
-				data.soundEnt = ent
-				data.donotThink = false
-			end
-		end )
+		if ( !IsValid( data.soundEnt ) ) then
+			sound.PlayURL( data:GetNetVar( "musicURL", "http://www.kcrw.com/pls/kcrwmusic.pls" ), "3d", function( ent )
+				if ( IsValid( ent ) and IsValid( data ) ) then
+					if ( IsValid( data.soundEnt ) or !data.musicStop ) then
+						ent:Stop( )
+					else
+						ent:SetPos( data:GetPos( ) )
+						ent:Play( )
+						ent:SetVolume( data:GetNetVar( "volume", 100 ) / 100 )
+						
+						data.soundEnt = ent
+						data.donotThink = false
+						data.musicStop = false
+					end
+				end
+			end )
+		end
 	end )
 	
 	netstream.Hook( "catherine.hl2rp.plugin.musicRadio.StopMusic", function( data )
@@ -332,5 +337,7 @@ else
 			data.soundEnt:Stop( )
 			data.soundEnt = nil
 		end
+		
+		data.musicStop = true
 	end )
 end
