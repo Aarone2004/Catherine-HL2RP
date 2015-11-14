@@ -150,6 +150,8 @@ if ( SERVER ) then
 else
 	local glowMat = Material( "sprites/glow04_noz" )
 	local toscreen = FindMetaTable( "Vector" ).ToScreen
+	local soundChanel = { }
+	local soundChanelAni = { }
 	
 	function ENT:Draw( )
 		self:DrawModel( )
@@ -164,6 +166,23 @@ else
 			local volume = self:GetNetVar( "volume", "100" )
 			
 			draw.RoundedBox( 0, 0, 0, 290, 70, Color( 50, 50, 50, 255 ) )
+			
+			if ( IsValid( self.soundEnt ) ) then
+				local start = 0
+				
+				self.soundEnt:FFT( soundChanel, FFT_1024 )
+				
+				for k, v in pairs( soundChanel ) do
+					if ( start <= 290 ) then
+						if ( !soundChanelAni[ k ] ) then soundChanelAni[ k ] = 0 end
+						
+						soundChanelAni[ k ] = Lerp( 0.3, soundChanelAni[ k ], math.Clamp( v * 200, 0, 60 ) )
+						
+						draw.RoundedBox( 0, start, 65 - soundChanelAni[ k ], 5, soundChanelAni[ k ], Color( 255, 255, 255, 100 ) )
+						start = start + 6
+					end
+				end
+			end
 			
 			if ( self:GetNetVar( "active" ) ) then
 				if ( !self.mr_playing or !self.playingText ) then
