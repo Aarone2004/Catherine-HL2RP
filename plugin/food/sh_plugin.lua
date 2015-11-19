@@ -40,7 +40,14 @@ if ( SERVER ) then
 		catherine.character.SetCharVar( pl, "hunger", 0 )
 		catherine.character.SetCharVar( pl, "thirsty", 0 )
 	end
-
+	
+	function PLUGIN:OnSpawnedInCharacter( pl )
+		if ( hook.Run( "PlayerShouldHungerThirsty", pl ) == false ) then
+			catherine.character.SetCharVar( pl, "hunger", 0 )
+			catherine.character.SetCharVar( pl, "thirsty", 0 )
+		end
+	end
+	
 	function PLUGIN:PlayerThink( pl )
 		if ( pl.CAT_HL2RP_damageNeed ) then
 			if ( pl.CAT_HL2RP_damageWaitTick ) then
@@ -64,8 +71,8 @@ if ( SERVER ) then
 			end
 		end
 		
-		if ( hook.Run( "PlayerShouldHungerThirsty", pl ) == true or !pl:Alive( ) ) then return end
-
+		if ( hook.Run( "PlayerShouldHungerThirsty", pl ) == false or !pl:Alive( ) ) then return end
+		
 		if ( ( catherine.character.GetCharVar( pl, "thirsty", 0 ) >= 95 or catherine.character.GetCharVar( pl, "hunger", 0 ) >= 95 ) and !pl.CAT_HL2RP_damageNeed ) then
 			pl.CAT_HL2RP_damageNeed = true
 		elseif ( pl.CAT_HL2RP_damageNeed ) then
