@@ -87,6 +87,16 @@ function PLUGIN:CombineClassSetFinished( pl )
 	end
 end
 
+function PLUGIN:CombineClassSetFinishedOnNameChanged( pl )
+	if ( pl:Name( ):find( "SCN" ) ) then
+		catherine.class.Set( pl, CLASS_CP_SCN )
+		
+		if ( !IsValid( self:GetScannerEntity( pl ) ) ) then
+			self:CreateScanner( pl )
+		end
+	end
+end
+
 function PLUGIN:PlayerShouldWorkRagdoll( pl, status, time )
 	if ( !IsValid( self:GetScannerEntity( pl ) ) ) then return end
 	

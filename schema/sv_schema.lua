@@ -428,7 +428,11 @@ function Schema:ChatPosted( chatInformation )
 				pl:EmitSound( v.dir, 70 )
 				catherine.util.PlaySimpleSound( chatInformation.target and chatInformation.target or nil, v.dir )
 			else
-				pl:EmitSound( v.dir, v.vol )
+				if ( chatInformation.uniqueID == "radio" ) then
+					catherine.util.PlaySimpleSound( chatInformation.target and chatInformation.target or nil, v.dir )
+				else
+					pl:EmitSound( v.dir, v.vol )
+				end
 			end
 		end )
 	end
@@ -673,6 +677,8 @@ function Schema:CharacterNameChanged( pl, newName )
 				catherine.class.Set( pl, CLASS_CP_UNIT )
 			end
 		end
+		
+		hook.Run( "CombineClassSetFinishedOnNameChanged", pl )
 	elseif ( pl:Team( ) == FACTION_OW ) then
 		local rankID = nil
 		
