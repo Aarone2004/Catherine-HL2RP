@@ -444,7 +444,7 @@ function Schema:PlayerUseDoor( pl, ent )
 		return true
 	end
 	
-	if ( pl:PlayerIsCombine( ) and !ent:HasSpawnFlags( 256 ) and !ent:HasSpawnFlags( 1024 ) ) then
+	if ( ( pl:PlayerIsCombine( ) or pl:Team( ) == FACTION_ADMIN ) and !ent:HasSpawnFlags( 256 ) and !ent:HasSpawnFlags( 1024 ) ) then
 		ent:Fire( "Open", "", 0 )
 		
 		return true
