@@ -43,26 +43,8 @@ function Schema:PrefixCombineOverlayMessage( )
 end
 
 function Schema:GetCharacterPanelLoadModel( characterDatas )
-	if ( characterDatas._faction == "cp" ) then
-		if ( characterDatas._name:find( "SCN" ) ) then
-			return "models/combine_scanner.mdl"
-		end
-		
-		local rankID, classID = self:GetRankByName( characterDatas._name )
-
-		return self:GetModelByRank( rankID )
-	elseif ( characterDatas._faction == "ow" ) then
-		local rankID = nil
-		local name = characterDatas._name
-		
-		for k, v in pairs( self.OverWatchRankModel ) do
-			if ( name:find( k ) ) then
-				rankID = k
-				break
-			end
-		end
-
-		return self:GetModelByRank( rankID, true )
+	if ( characterDatas._faction == "cp" and characterDatas._name:find( "SCN" ) ) then
+		return "models/combine_scanner.mdl"
 	end
 	
 	return characterDatas._model
