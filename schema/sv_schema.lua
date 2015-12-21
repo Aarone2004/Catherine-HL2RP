@@ -583,18 +583,14 @@ function Schema:OnSpawnedInCharacter( pl )
 		if ( pl:Class( ) != nil and pl:Class( ) != classID ) then
 			if ( rankID and classID ) then
 				catherine.class.Set( pl, classID )
-				pl:SetModel( self:GetModelByRank( rankID ) )
 			else
 				if ( pl:Class( ) == CLASS_CP_UNIT ) then return end
 				
 				catherine.class.Set( pl, CLASS_CP_UNIT )
 			end
-		elseif ( pl:Class( ) != nil and pl:Class( ) == classID and self:GetModelByRank( rankID ) != pl:GetModel( ) ) then
-			pl:SetModel( self:GetModelByRank( rankID ) )
 		elseif ( pl:Class( ) == nil ) then
 			if ( rankID and classID ) then
 				catherine.class.Set( pl, classID )
-				pl:SetModel( self:GetModelByRank( rankID ) )
 			else
 				if ( pl:Class( ) == CLASS_CP_UNIT ) then return end
 				
@@ -609,6 +605,32 @@ function Schema:OnSpawnedInCharacter( pl )
 		
 		return
 	elseif ( pl:Team( ) == FACTION_OW ) then
+		pl:SetMaxHealth( 255 )
+		pl:SetHealth( 255 )
+		pl:SetArmor( 255 )
+		
+		return
+	end
+	
+	self:AddCombineOverlayMessage( CAT_SCHEMA_COMBINEOVERLAY_GLOBAL, nil, { "CombineOverlay_RFCitizens" }, 7, Color( 150, 255, 150 ) )
+end
+
+function Schema:PlayerFirstSpawned( pl )
+	if ( pl:Team( ) == FACTION_CP ) then
+		local rankID, classID = self:GetRankByName( pl:Name( ) )
+		
+		if ( pl:Class( ) != nil and pl:Class( ) != classID ) then
+			if ( rankID and classID ) then
+				pl:SetModel( self:GetModelByRank( rankID ) )
+			end
+		elseif ( pl:Class( ) != nil and pl:Class( ) == classID and self:GetModelByRank( rankID ) != pl:GetModel( ) ) then
+			pl:SetModel( self:GetModelByRank( rankID ) )
+		elseif ( pl:Class( ) == nil ) then
+			if ( rankID and classID ) then
+				pl:SetModel( self:GetModelByRank( rankID ) )
+			end
+		end
+	elseif ( pl:Team( ) == FACTION_OW ) then
 		local rankID = nil
 		
 		for k, v in pairs( self.OverWatchRankModel ) do
@@ -621,15 +643,7 @@ function Schema:OnSpawnedInCharacter( pl )
 		if ( rankID ) then
 			pl:SetModel( self:GetModelByRank( rankID, true ) )
 		end
-		
-		pl:SetMaxHealth( 255 )
-		pl:SetHealth( 255 )
-		pl:SetArmor( 255 )
-		
-		return
 	end
-	
-	self:AddCombineOverlayMessage( CAT_SCHEMA_COMBINEOVERLAY_GLOBAL, nil, { "CombineOverlay_RFCitizens" }, 7, Color( 150, 255, 150 ) )
 end
 
 function Schema:GetBeepSound( pl, isOff )
