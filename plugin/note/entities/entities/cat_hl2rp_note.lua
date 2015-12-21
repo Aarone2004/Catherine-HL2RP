@@ -33,6 +33,7 @@ if ( SERVER ) then
 		self:PhysicsInit( SOLID_VPHYSICS )
 		self:SetMoveType( MOVETYPE_VPHYSICS )
 		self:SetUseType( SIMPLE_USE )
+		self:SetHealth( 40 )
 		
 		local physObject = self:GetPhysicsObject( )
 		
