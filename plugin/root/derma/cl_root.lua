@@ -315,8 +315,8 @@ function PANEL:RebuildRoot( )
 		self.playerInv:AddItem( form )
 	end
 	
-	targetInv_scrollBar:AnimateTo( targetInv_scroll, 0, 0, 0 )
-	playerInv_scrollBar:AnimateTo( playerInv_scroll, 0, 0, 0 )
+	targetInv_scrollBar:SetScroll( targetInv_scroll, 0, 0, 0 )
+	playerInv_scrollBar:SetScroll( playerInv_scroll, 0, 0, 0 )
 end
 
 function PANEL:Think( )

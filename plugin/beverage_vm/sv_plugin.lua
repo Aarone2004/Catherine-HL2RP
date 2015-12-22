@@ -61,41 +61,48 @@ end
 
 function PLUGIN:DataLoad( )
 	self:LoadBVMs( )
-	self:AutoPlaceBeverage( )
+	// self:AutoPlaceBeverage( )
 end
 
+--[[
 function PLUGIN:PostCleanupMapDelayed( )
 	self:AutoPlaceBeverage( )
 end
 
 function PLUGIN:AutoPlaceBeverage( )
-	local oldData = catherine.data.Get( "bvms_auto", { } )
 	local data = { }
 	
 	for k, v in pairs( ents.FindByClass( "prop_*" ) ) do
-		if ( catherine.entity.IsMapEntity( v ) and v:GetModel( ):lower( ) == "models/props_interiors/vendingmachinesoda01a.mdl" and !table.HasValue( oldData, v:EntIndex( ) ) ) then
-			local ent = ents.Create( "cat_hl2rp_beverage_vm" )
-			ent:SetPos( v:GetPos( ) )
-			ent:SetAngles( v:GetAngles( ) )
-			ent:Spawn( )
-			ent:Activate( )
+		if ( catherine.entity.IsMapEntity( v ) and v:GetModel( ):lower( ) == "models/props_interiors/vendingmachinesoda01a.mdl" ) then
+			local alreadyValid = false
 			
-			data[ #data + 1 ] = v:EntIndex( )
-			SafeRemoveEntity( v )
+			for k1, v1 in pairs( ents.FindInSphere( v:GetPos( ), 32 ) ) do
+				if ( IsValid( v1 ) and v1:GetClass( ):find( "prop_" ) and v1:GetModel( ):lower( ) == "models/props_interiors/vendingmachinesoda01a.mdl" ) then
+					alreadyValid = true
+					break
+				end
+			end
+			
+			if ( !alreadyValid ) then
+				local ent = ents.Create( "cat_hl2rp_beverage_vm" )
+				ent:SetPos( v:GetPos( ) )
+				ent:SetAngles( v:GetAngles( ) )
+				ent:Spawn( )
+				ent:Activate( )
+				
+				SafeRemoveEntity( v )
+			end
 		end
 	end
 	
 	self:SaveBVMs( )
-	
-	catherine.data.Set( "bvms_auto", data )
 end
+]]--
 
 function PLUGIN:InitPostEntity( )
-	for k, v in pairs( catherine.data.Get( "bvms_auto", { } ) ) do
-		for k1, v1 in pairs( ents.FindByClass( "prop_*" ) ) do
-			if ( v1:EntIndex( ) == v and v1:GetModel( ):lower( ) == "models/props_interiors/vendingmachinesoda01a.mdl" ) then
-				SafeRemoveEntity( v1 )
-			end
+	for k, v in pairs( ents.FindByClass( "prop_*" ) ) do
+		if ( IsValid( v ) and v:GetModel( ):lower( ) == "models/props_interiors/vendingmachinesoda01a.mdl" ) then
+			SafeRemoveEntity( v )
 		end
 	end
 end
