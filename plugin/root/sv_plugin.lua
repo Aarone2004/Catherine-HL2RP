@@ -23,6 +23,11 @@ function PLUGIN:ShowSpare2( pl )
 end
 
 function PLUGIN:RootPlayer( pl, target )
+	if ( pl:IsTied( ) ) then
+		catherine.util.NotifyLang( pl, "Root_Notify_CantRoot" )
+		return
+	end
+	
 	if ( !target:IsTied( ) ) then
 		catherine.util.NotifyLang( pl, "Root_Notify_CantRoot" )
 		return
