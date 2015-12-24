@@ -20,7 +20,7 @@ local PLUGIN = PLUGIN
 PLUGIN.name = "^BVM_Plugin_Name"
 PLUGIN.author = "L7D"
 PLUGIN.desc = "^BVM_Plugin_Desc"
-PLUGIN.sellingItems = {
+PLUGIN.defaultSellingItems = {
 	[ "breenwater" ] = 50,
 	[ "red_breenwater" ] = 30,
 	[ "gold_breenwater" ] = 10
@@ -76,6 +76,8 @@ catherine.command.Register( {
 		ent:SetAngles( ang )
 		ent:Spawn( )
 		ent:Activate( )
+		ent:SetNetVar( "offline", false )
+		ent:SetNetVar( "sellingItems", PLUGIN.defaultSellingItems )
 		
 		PLUGIN:SaveBVMs( )
 		
@@ -101,10 +103,6 @@ catherine.command.Register( {
 		end
 	end
 } )
-
-function PLUGIN:GetSellingItems( ent )
-	return ent:GetNetVar( "sellingItems", self.sellingItems )
-end
 
 function PLUGIN:IsActive( ent )
 	return !ent:GetNetVar( "offline" )

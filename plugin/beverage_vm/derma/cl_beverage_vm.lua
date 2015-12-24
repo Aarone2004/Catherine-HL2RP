@@ -95,7 +95,7 @@ function PANEL:RefreshList( )
 	
 	self.Lists:Clear( )
 	
-	for k, v in pairs( PLUGIN:GetSellingItems( self.ent ) ) do
+	for k, v in pairs( self.ent:GetNetVar( "sellingItems", PLUGIN.defaultSellingItems ) ) do
 		local itemTable = catherine.item.FindByID( k )
 		if ( !itemTable ) then continue end
 		local itemName = catherine.util.StuffLanguage( itemTable.name )

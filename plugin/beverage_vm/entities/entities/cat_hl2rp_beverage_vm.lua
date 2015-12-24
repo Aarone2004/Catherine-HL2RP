@@ -32,6 +32,8 @@ if ( SERVER ) then
 		self:SetSolid( SOLID_VPHYSICS )
 		self:PhysicsInit( SOLID_VPHYSICS )
 		self:SetUseType( SIMPLE_USE )
+		self:SetNetVar( "offline", false )
+		self:SetNetVar( "sellingItems", PLUGIN.defaultSellingItems )
 		
 		local physObject = self:GetPhysicsObject( )
 		

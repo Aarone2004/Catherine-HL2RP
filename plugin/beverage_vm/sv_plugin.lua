@@ -25,10 +25,10 @@ function PLUGIN:SaveBVMs( )
 		data[ #data + 1 ] = {
 			pos = v:GetPos( ),
 			ang = v:GetAngles( ),
-			sellingItems = v:GetNetVar( "sellingItems" ),
-			isOffline = v:GetNetVar( "offline" ),
+			mat = v:GetMaterial( ),
 			col = v:GetColor( ),
-			mat = v:GetMaterial( )
+			items = table.Copy( v:GetNetVar( "sellingItems", self.defaultSellingItems ) ),
+			isOffline = v:GetNetVar( "offline", false )
 		}
 	end
 	
@@ -49,8 +49,10 @@ function PLUGIN:LoadBVMs( )
 			ent:SetNetVar( "offline", true )
 		end
 		
-		if ( v.sellingItems ) then
-			ent:SetNetVar( "sellingItems", v.sellingItems )
+		if ( v.items ) then
+			ent:SetNetVar( "sellingItems", v.items )
+		else
+			ent:SetNetVar( "sellingItems", self.defaultSellingItems )
 		end
 	end
 end
@@ -61,43 +63,7 @@ end
 
 function PLUGIN:DataLoad( )
 	self:LoadBVMs( )
-	// self:AutoPlaceBeverage( )
 end
-
---[[
-function PLUGIN:PostCleanupMapDelayed( )
-	self:AutoPlaceBeverage( )
-end
-
-function PLUGIN:AutoPlaceBeverage( )
-	local data = { }
-	
-	for k, v in pairs( ents.FindByClass( "prop_*" ) ) do
-		if ( catherine.entity.IsMapEntity( v ) and v:GetModel( ):lower( ) == "models/props_interiors/vendingmachinesoda01a.mdl" ) then
-			local alreadyValid = false
-			
-			for k1, v1 in pairs( ents.FindInSphere( v:GetPos( ), 32 ) ) do
-				if ( IsValid( v1 ) and v1:GetClass( ):find( "prop_" ) and v1:GetModel( ):lower( ) == "models/props_interiors/vendingmachinesoda01a.mdl" ) then
-					alreadyValid = true
-					break
-				end
-			end
-			
-			if ( !alreadyValid ) then
-				local ent = ents.Create( "cat_hl2rp_beverage_vm" )
-				ent:SetPos( v:GetPos( ) )
-				ent:SetAngles( v:GetAngles( ) )
-				ent:Spawn( )
-				ent:Activate( )
-				
-				SafeRemoveEntity( v )
-			end
-		end
-	end
-	
-	self:SaveBVMs( )
-end
-]]--
 
 function PLUGIN:InitPostEntity( )
 	for k, v in pairs( ents.FindByClass( "prop_*" ) ) do
@@ -125,7 +91,7 @@ function PLUGIN:Beverage_VMWork( pl, ent, workID, data )
 			return
 		end
 		
-		local stock = self:GetSellingItems( ent )
+		local stock = table.Copy( ent:GetNetVar( "sellingItems", self.defaultSellingItems ) )
 		
 		for k, v in pairs( stock ) do
 			if ( k == data and stock[ data ] <= 0 ) then
@@ -168,7 +134,7 @@ function PLUGIN:Beverage_VMWork( pl, ent, workID, data )
 			return
 		end
 		
-		local stock = self:GetSellingItems( ent )
+		local stock = table.Copy( ent:GetNetVar( "sellingItems", self.defaultSellingItems ) )
 		
 		for k, v in pairs( stock ) do
 			if ( k == data.uniqueID ) then
@@ -177,6 +143,7 @@ function PLUGIN:Beverage_VMWork( pl, ent, workID, data )
 		end
 		
 		ent:SetNetVar( "sellingItems", stock )
+		
 		catherine.cash.Take( pl, cost )
 		netstream.Start( pl, "catherine.hl2rp.plugin.beverage_vm.RefreshList" )
 	end
