@@ -124,6 +124,8 @@ function SWEP:PrimaryAttack( )
 		end
 		
 		if ( IsValid( ent ) and ent:IsPlayer( ) ) then
+			if ( !ent:Alive( ) ) then return end
+			
 			ent:ViewPunch( Angle( -20, math.random( -15, 15 ), math.random( -10, 10 ) ) )
 			
 			if ( !ent:IsRagdolled( ) ) then

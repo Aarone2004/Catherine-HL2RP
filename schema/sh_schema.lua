@@ -95,6 +95,12 @@ Schema.BadRadioStrings = {
 
 for k, v in pairs( Schema.CombineRankModel ) do
 	catherine.animation.Register( "metrocop", v )
+	player_manager.AddValidModel( "police", v )
+end
+
+for k, v in pairs( file.Find( "models/dpfilms/metropolice/*.mdl", "GAME" ) ) do
+	catherine.animation.Register( "metrocop", "models/dpfilms/metropolice/" .. v )
+	player_manager.AddValidModel( "police", "models/dpfilms/metropolice/" .. v )
 end
 
 function Schema:GetRankByName( name )
