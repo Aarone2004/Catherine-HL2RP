@@ -22,7 +22,7 @@ catherine.language.Merge( "korean", {
 	[ "Basic_Schema_Desc" ] = "이곳은 안전합니다.",
 	[ "Basic_Schema_IntroTitle" ] = "2016 년, 17번 지구",
 	[ "Basic_Schema_IntroDesc" ] = "이곳은 안전합니다.",
-	[ "Basic_Schema_Author" ] = "개발 및 디자인 - %s.",
+	[ "Basic_Schema_Author" ] = "스키마 개발 및 디자인 '%s'",
 	
 	// Faction Name
 	[ "Faction_Name_Citizen" ] = "시민",
