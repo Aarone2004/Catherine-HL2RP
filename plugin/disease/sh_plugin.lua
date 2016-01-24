@@ -118,6 +118,8 @@ if ( SERVER ) then
 		
 		if ( !catherine.character.GetCharVar( pl, "disease_cold_active" ) ) then return end
 		
+		catherine.util.StartMotionBlur( pl, 0.4, 1, 0.02 )
+		
 		local charID = pl:GetCharacterID( )
 		local timerID = "Catherine.HL2RP.plugin.disease.AutoHealCold." .. charID
 		local time = catherine.character.GetCharVar( pl, "disease_cold_countdown", 0 )
