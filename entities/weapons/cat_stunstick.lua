@@ -154,7 +154,7 @@ function SWEP:PrimaryAttack( )
 					
 					ent:DispatchTraceAttack( dmgInfo, data.start, data.endpos )
 					
-					catherine.util.ScreenColorEffect( ent, Color( 255, 255, 255 ), 2, 0.005 )
+					catherine.util.ScreenColorEffect( ent, Color( 255, 255, 255 ), 0.7, 0.07 )
 				else
 					local dmgInfo = DamageInfo( )
 					dmgInfo:SetInflictor( self )
@@ -173,7 +173,7 @@ function SWEP:PrimaryAttack( )
 						decalCount = 1
 					} )
 					
-					catherine.util.ScreenColorEffect( ent, Color( 255, 150, 150 ), 0.8, 0.005 )
+					catherine.util.ScreenColorEffect( ent, Color( 255, 150, 150 ), 0.7, 0.07 )
 				end
 				
 				catherine.player.SetIgnoreScreenColor( ent, nil )
@@ -204,9 +204,9 @@ function SWEP:PrimaryAttack( )
 				catherine.player.SetIgnoreScreenColor( ent, true )
 				
 				if ( active ) then
-					catherine.util.ScreenColorEffect( ent, Color( 255, 255, 255 ), 0.5, 0.005 )
+					catherine.util.ScreenColorEffect( ent, Color( 255, 255, 255 ), 0.7, 0.07 )
 				else
-					catherine.util.ScreenColorEffect( ent, Color( 255, 150, 150 ), 0.5, 0.005 )
+					catherine.util.ScreenColorEffect( ent, Color( 255, 150, 150 ), 0.7, 0.07 )
 				end
 				
 				if ( active ) then

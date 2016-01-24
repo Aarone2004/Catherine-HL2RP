@@ -20,7 +20,7 @@ CAT_SCHEMA_COMBINEOVERLAY_LOCAL = 1
 CAT_SCHEMA_COMBINEOVERLAY_GLOBAL = 2
 CAT_SCHEMA_COMBINEOVERLAY_GLOBAL_NOLOCAL = 3
 
-function Schema:DataSave( )
+hook.Add( "DataSave", "Schema.DataSave", function( )
 	local data = { }
 	local data2 = { }
 	
@@ -47,9 +47,9 @@ function Schema:DataSave( )
 	
 	catherine.data.Set( "ration_dispenser", data )
 	catherine.data.Set( "static_radio", data2 )
-end
+end )
 
-function Schema:DataLoad( )
+hook.Add( "DataLoad", "Schema.DataLoad", function( )
 	local data = catherine.data.Get( "ration_dispenser", { } )
 	local data2 = catherine.data.Get( "static_radio", { } )
 	
@@ -77,7 +77,7 @@ function Schema:DataLoad( )
 		ent:SetNetVar( "active", v.active )
 		ent:SetNetVar( "freq", v.freq )
 	end
-end
+end )
 
 function Schema:ShowSpare1( pl )
 	if ( !pl:HasItem( "zip_tie" ) ) then return end

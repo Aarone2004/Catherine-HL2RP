@@ -22,7 +22,7 @@ catherine.language.Merge( "english", {
 	[ "Basic_Schema_Desc" ] = "This place is safe.",
 	[ "Basic_Schema_IntroTitle" ] = "City 17, 2016",
 	[ "Basic_Schema_IntroDesc" ] = "This place is safe.",
-	[ "Basic_Schema_Author" ] = "Schema development and design by '%s'",
+	[ "Basic_Schema_Author" ] = "Half-Life 2 schema development and design by '%s'",
 	
 	// Faction Name
 	[ "Faction_Name_Citizen" ] = "Citizen",
