@@ -18,3 +18,5 @@ along with Catherine.  If not, see <http://www.gnu.org/licenses/>.
 
 resource.AddWorkshop( "491914592" ) -- Catherine : HL2RP Content - Part 1 <http://steamcommunity.com/sharedfiles/filedetails/?id=491914592>
 resource.AddWorkshop( "491913599" ) -- Catherine : HL2RP Content - Part 2 <http://steamcommunity.com/sharedfiles/filedetails/?id=491913599>
+resource.AddWorkshop( "615716655" ) -- Catherine : HL2RP Content - Part 3 <http://steamcommunity.com/sharedfiles/filedetails/?id=615716655>
+resource.AddWorkshop( "615718252" ) -- Catherine : HL2RP Content - Part 4 <http://steamcommunity.com/sharedfiles/filedetails/?id=615718252>

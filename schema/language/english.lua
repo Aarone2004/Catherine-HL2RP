@@ -282,6 +282,9 @@ catherine.language.Merge( "english", {
 	[ "Medical_Title" ] = "Medical",
 	[ "Medical_Desc" ] = "A high amount of health recovery will increase.",
 	
+	[ "Power_Title" ] = "Power",
+	[ "Power_Desc" ] = "A high amount of Punch damage will increase.",
+	
 	// Help Category
 	[ "Help_Category_CombineVoice" ] = "Combine Voice",
 	[ "Help_Desc_CombineVoice" ] = "The listed of Combine Voices ...",

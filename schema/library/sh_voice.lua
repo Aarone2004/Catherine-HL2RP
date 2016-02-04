@@ -206,7 +206,7 @@ Schema.vo.RegisterNormal( COMBINE, "Zero", "Zero!", "npc/metropolice/vo/zero.wav
 Schema.vo.RegisterNormal( COMBINE, "Zone", "Zone!", "npc/metropolice/vo/zone.wav" )
 
 // Citizen voice stuff.
-//Schema.vo.RegisterNormal( CITIZEN, "Command", "Answer", "Sound" )
+//Schema.vo.RegisterNormal( CITIZEN, "Command", "Answer", "vo/npc/male01/answer01.wav", true )
 
 if ( CLIENT ) then
 	local voiceHTMLBase = [[

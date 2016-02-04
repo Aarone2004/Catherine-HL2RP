@@ -20,7 +20,7 @@ local FACTION = catherine.faction.New( "citizen" )
 FACTION.name = "^Faction_Name_Citizen"
 FACTION.color = Color( 131, 139, 131 )
 FACTION.desc = "^Faction_Desc_Citizen"
-FACTION.factionImage = "CAT_HL2RP/faction/citizen2.png"
+FACTION.factionImage = "CAT_HL2RP/faction/citizen_v2.png"
 FACTION.salary = 3
 FACTION.models = {
 	"models/humans/tnb/citizens/male_01.mdl",

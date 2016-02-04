@@ -289,6 +289,10 @@ function Schema:PlayerScaleDamage( pl, attacker, dmgInfo, hitGroup )
 	end
 end
 
+function Schema:AdjustPunchDamage( pl, ent )
+	return 8 + ( 6 * ( catherine.attribute.GetProgress( pl, CAT_ATT_POWER ) / 100 ) )
+end
+
 --[[
 	Why?
 	https://github.com/Chessnut/NutScript/blob/1.1/gamemode/core/sh_util.lua#L121
@@ -327,20 +331,23 @@ function Schema:OnChatControl( chatInformation )
 		elseif ( uniqueID == "whisper" ) then
 			vol = 30
 		end
+		local team = pl:Team( )
 		
 		for k, v in pairs( ex ) do
 			local lowerText = v:lower( )
 			local foundVoice = false
 			
 			for k1, v1 in pairs( self.vo.normalVoice ) do
-				if ( !table.HasValue( v1.faction, pl:Team( ) ) ) then continue end
+				if ( !table.HasValue( v1.faction, team ) ) then continue end
 				
 				if ( lowerText == v1.command:lower( ) ) then
 					local source = type( v1.sound ) == "table" and table.Random( v1.sound ) or v1.sound
 					
-					if ( pl:Team( ) == FACTION_CITIZEN and pl:IsFemale( ) and v1.allowFemale ) then
+					if ( ( team == FACTION_CITIZEN or team == FACTION_CWU ) and pl:IsFemale( ) and v1.allowFemale ) then
 						source = source:gsub( "male01", "female01" )
 					end
+					
+					source = hook.Run( "AdjustChatVoiceSource", pl, v, v1, source ) or source
 					
 					result.sounds[ #result.sounds + 1 ] = {
 						dir = source,
@@ -504,6 +511,12 @@ end
 
 function Schema:PlayerHealed( pl )
 	catherine.attribute.AddProgress( pl, CAT_ATT_MEDICAL, 0.07 )
+end
+
+function Schema:PlayerThrowPunch( pl, ent, damage, tr, hit )
+	if ( hit ) then
+		catherine.attribute.AddProgress( pl, CAT_ATT_POWER, 0.05 )
+	end
 end
 
 function Schema:GetPlayerPainSound( pl )

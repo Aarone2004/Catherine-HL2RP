@@ -282,6 +282,9 @@ catherine.language.Merge( "korean", {
 	[ "Medical_Title" ] = "의료 기술",
 	[ "Medical_Desc" ] = "높을 경우 체력 회복량이 늘어납니다.",
 	
+	[ "Power_Title" ] = "힘",
+	[ "Power_Desc" ] = "높을 경우 주먹의 데미지가 높아집니다.",
+	
 	// Help Category
 	[ "Help_Category_CombineVoice" ] = "콤바인 보이스",
 	[ "Help_Desc_CombineVoice" ] = "콤바인 보이스를 나열합니다 ...",
