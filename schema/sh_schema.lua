@@ -39,14 +39,27 @@ Schema.CombineRankClass = {
 }
 Schema.CUC = {
 	"Alpha",
+	"Stinger",
+	"Shadow",
 	"Savage",
 	"Reaper",
 	"Victor",
-	"Sector",
 	"Dagger",
+	"Blade",
 	"Razor",
+	"Nomad",
+	"Judge",
 	"Sword",
+	"Hotel",
+	"Storm",
+	"Spear",
 	"Vamp",
+	"November",
+	"Mike",
+	"Grid",
+	"Kilo",
+	"Jury",
+	"King",
 	"Vice",
 	"Echo"
 }
