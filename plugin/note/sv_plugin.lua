@@ -104,6 +104,8 @@ function PLUGIN:WriteNote( pl, ent, text )
 		}
 	} )
 	
+	catherine.log.Add( CAT_LOG_FLAG_BASIC, pl:Name( ) .. ", " .. pl:SteamName( ) .. ", " .. pl:SteamID( ) .. " has writed a new note. < Value : " .. text .. " >" )
+	
 	PLUGIN:DataSave( )
 end
 
