@@ -18,7 +18,7 @@ along with Catherine.  If not, see <http://www.gnu.org/licenses/>.
 
 local CLASS = catherine.class.New( "cp_unit" )
 CLASS.name = "Civil Protection Unit"
-CLASS.desc = "TEST"
+CLASS.desc = "A Civil Protection Unit."
 CLASS.faction = FACTION_CP
 CLASS.cantJoinUsingMenu = true
 CLASS.isDefault = true
