@@ -30,7 +30,7 @@ ITEM.itemData = {
 }
 
 if ( CLIENT ) then
-	function ITEM:GetDesc( pl, itemTable, itemData, isInv )
+	function ITEM:GetDesc( pl, itemData, isInv )
 		return "#" .. ( itemData.cid or "00000" ) .. ", " .. ( itemData.name or "Citizen" )
 	end
 end

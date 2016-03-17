@@ -28,116 +28,137 @@ function PANEL:Init( )
 	self.x, self.y = ScrW( ) / 2 - self.w / 2, ScrH( ) / 2 - self.h / 2
 
 	self:SetSize( self.w, self.h )
-	self:SetPos( ScrW( ), self.y )
+	self:SetPos( self.x, self.y )
 	self:SetTitle( "" )
 	self:MakePopup( )
+	self:SetDraggable( false )
 	self:ShowCloseButton( false )
-	self:MoveTo( ScrW( ) / 2 - self.w / 2, self.y, 0.2, 0 )
+	self:SetAlpha( 0 )
+	self:AlphaTo( 255, 0.2, 0 )
 	
 	self.targetInv = vgui.Create( "DPanelList", self )
 	self.targetInv:SetPos( 10, 55 )
-	self.targetInv:SetSize( self.w / 2, self.h - 65 )
+	self.targetInv:SetSize( self.w / 2 - 20, self.h - 65 )
 	self.targetInv:SetSpacing( 5 )
 	self.targetInv:EnableHorizontal( false )
-	self.targetInv:EnableVerticalScrollbar( true )	
-	self.targetInv.Paint = function( pnl, w, h )
-		catherine.theme.Draw( CAT_THEME_PNLLIST, w, h )
-	end
+	self.targetInv:EnableVerticalScrollbar( true )
+	self.targetInv:SetDrawBackground( false )
 	
 	self.playerInv = vgui.Create( "DPanelList", self )
-	self.playerInv:SetPos( self.w / 2 + 20, 55 )
-	self.playerInv:SetSize( self.w / 2 - 30, self.h - 65 )
+	self.playerInv:SetPos( self.w / 2, 55 )
+	self.playerInv:SetSize( self.w / 2 - 10, self.h - 65 )
 	self.playerInv:SetSpacing( 5 )
 	self.playerInv:EnableHorizontal( false )
-	self.playerInv:EnableVerticalScrollbar( true )	
-	self.playerInv.Paint = function( pnl, w, h )
-		catherine.theme.Draw( CAT_THEME_PNLLIST, w, h )
-	end
+	self.playerInv:EnableVerticalScrollbar( true )
+	self.playerInv:SetDrawBackground( false )
 
 	self.close = vgui.Create( "catherine.vgui.button", self )
 	self.close:SetPos( self.w - 30, 0 )
-	self.close:SetSize( 30, 25 )
+	self.close:SetSize( 30, 23 )
 	self.close:SetStr( "X" )
 	self.close:SetStrFont( "catherine_normal30" )
-	self.close:SetStrColor( Color( 255, 150, 150, 255 ) )
-	self.close:SetGradientColor( Color( 255, 150, 150, 255 ) )
+	self.close:SetStrColor( Color( 0, 0, 0, 255 ) )
 	self.close.Click = function( )
-		if ( self.closing ) then return end
-		
 		self:Close( )
 	end
 end
 
 function PANEL:Paint( w, h )
 	catherine.theme.Draw( CAT_THEME_MENU_BACKGROUND, w, h )
+	draw.RoundedBox( 0, 0, 0, w, 25, Color( 255, 255, 255, 255 ) )
 	
 	if ( !IsValid( self.ent ) ) then return end
 	local name = self.ent:Name( )
 	
 	if ( name ) then
-		draw.SimpleText( name, "catherine_normal25", 10, 0, Color( 255, 255, 255, 255 ), TEXT_ALIGN_LEFT, TEXT_ALIGN_RIGHT )
-		draw.SimpleText( LANG( "Cash_UI_TargetHasStr", self.cash ), "catherine_normal20", 10, 30, Color( 50, 50, 50, 255 ), TEXT_ALIGN_LEFT, TEXT_ALIGN_RIGHT )
+		draw.SimpleText( name, "catherine_lightUI20", 10, 13, Color( 0, 0, 0, 255 ), TEXT_ALIGN_LEFT, 1 )
+		draw.SimpleText( LANG( "Cash_UI_TargetHasStr", catherine.cash.GetCompleteName( self.cash ) ), "catherine_lightUI15", 10, 40, Color( 255, 255, 255, 255 ), TEXT_ALIGN_LEFT, 1 )
 	end
 	
-	draw.SimpleText( self.player:Name( ), "catherine_normal25", w / 2 + 20, 0, Color( 255, 255, 255, 255 ), TEXT_ALIGN_LEFT, TEXT_ALIGN_RIGHT )
-	draw.SimpleText( LANG( "Cash_UI_HasStr", catherine.cash.Get( self.player ) ), "catherine_normal20", w / 2 + 20, 30, Color( 50, 50, 50, 255 ), TEXT_ALIGN_LEFT, TEXT_ALIGN_RIGHT )
+	draw.SimpleText( self.player:Name( ), "catherine_lightUI20", w / 2, 13, Color( 0, 0, 0, 255 ), TEXT_ALIGN_LEFT, 1 )
+	draw.SimpleText( LANG( "Cash_UI_HasStr", catherine.cash.GetCompleteName( catherine.cash.Get( self.player ) ) ), "catherine_lightUI15", w / 2, 40, Color( 255, 255, 255, 255 ), TEXT_ALIGN_LEFT, 1 )
 end
 
-function PANEL:InitializeRoot( ent, inv )
-	self.ent = ent
-	self.cash = catherine.cash.Get( ent )
-	
-	local targetInventory = inv
-	local tab = { }
-	
-	for k, v in pairs( targetInventory ) do
-		local itemTable = catherine.item.FindByID( k )
-		if ( !itemTable ) then continue end
-		local category = itemTable.category
+function PANEL:InitializeRoot( ent, inv, onlyLocalInv )
+	if ( onlyLocalInv ) then
+		local tab = { }
 		
-		tab[ category ] = tab[ category ] or { }
-		tab[ category ][ v.uniqueID ] = v
-	end
-	
-	self.targetInventory = tab
-
-	local playerInventory = catherine.inventory.Get( )
-	local tab = { }
-	
-	for k, v in pairs( playerInventory ) do
-		local itemTable = catherine.item.FindByID( k )
-		if ( !itemTable ) then continue end
-		local category = itemTable.category
+		for k, v in pairs( catherine.inventory.Get( ) ) do
+			local itemTable = catherine.item.FindByID( k )
+			
+			if ( !itemTable ) then continue end
+			
+			local category = itemTable.category
+			
+			tab[ category ] = tab[ category ] or { }
+			tab[ category ][ k ] = v
+		end
 		
-		tab[ category ] = tab[ category ] or { }
-		tab[ category ][ v.uniqueID ] = v
+		self.playerInventory = tab
+		
+		self:RebuildRoot( )
+	else
+		self.ent = ent
+		self.cash = catherine.cash.Get( ent )
+		
+		local tab = { }
+		
+		for k, v in pairs( inv ) do
+			local itemTable = catherine.item.FindByID( k )
+			
+			if ( !itemTable ) then continue end
+			
+			local category = itemTable.category
+			
+			tab[ category ] = tab[ category ] or { }
+			tab[ category ][ k ] = v
+		end
+		
+		self.targetInventory = tab
+		
+		tab = { }
+		
+		for k, v in pairs( catherine.inventory.Get( ) ) do
+			local itemTable = catherine.item.FindByID( k )
+			
+			if ( !itemTable ) then continue end
+			
+			local category = itemTable.category
+			
+			tab[ category ] = tab[ category ] or { }
+			tab[ category ][ k ] = v
+		end
+		
+		self.playerInventory = tab
+		
+		self:RebuildRoot( )
 	end
-	
-	self.playerInventory = tab
-	
-	self:RebuildRoot( )
 end
 
 function PANEL:RebuildRoot( )
 	if ( !self.targetInventory or !self.playerInventory ) then return end
+	local pl = self.player
+	local target = self.ent
+	
+	local targetInv_scrollBar = self.targetInv.VBar
+	local targetInv_scroll = targetInv_scrollBar.Scroll
+	
+	local playerInv_scrollBar = self.playerInv.VBar
+	local playerInv_scroll = playerInv_scrollBar.Scroll
+	
 	self.targetInv:Clear( )
 	self.playerInv:Clear( )
 	
-	local delta = 0
-	
-	for k, v in pairs( self.targetInventory ) do
+	for k, v in SortedPairs( self.targetInventory ) do
 		local form = vgui.Create( "DForm" )
 		form:SetSize( self.targetInv:GetWide( ), 54 )
 		form:SetName( catherine.util.StuffLanguage( k ) )
-		form:SetAlpha( 0 )
-		form:AlphaTo( 255, 0.1, delta )
-		form.Paint = function( pnl, w, h )
-			catherine.theme.Draw( CAT_THEME_FORM, w, h )
-		end
-		form.Header:SetFont( "catherine_normal15" )
-		form.Header:SetTextColor( Color( 90, 90, 90, 255 ) )
-		delta = delta + 0.05
-
+		form:SetName( catherine.util.StuffLanguage( k ):upper( ) )
+		form.Paint = function( pnl, w, h ) end
+		form.Header:SetFont( "catherine_lightUI25" )
+		form.Header:SetTall( 25 )
+		form.Header:SetTextColor( Color( 255, 255, 255, 255 ) )
+		
 		local lists = vgui.Create( "DPanelList", form )
 		lists:SetSize( form:GetWide( ), form:GetTall( ) )
 		lists:SetSpacing( 3 )
@@ -145,40 +166,60 @@ function PANEL:RebuildRoot( )
 		lists:EnableVerticalScrollbar( false )	
 		
 		form:AddItem( lists )
-
-		for k1, v1 in pairs( v ) do
+		
+		for k1, v1 in SortedPairsByMemberValue( v, "uniqueID" ) do
 			local w, h = 54, 54
-			local itemTable = catherine.item.FindByID( v1.uniqueID )
-			if ( !itemTable ) then continue end
-			local itemDesc = itemTable.GetDesc and itemTable:GetDesc( self.player, itemTable, self.player:GetInvItemDatas( itemTable.uniqueID ), false ) or nil
-
+			local itemTable = catherine.item.FindByID( k1 )
+			local itemData = v1.itemData
+			local overrideItemDesc = itemTable.GetOverrideItemDesc and itemTable:GetOverrideItemDesc( target, itemData, CAT_ITEM_OVERRIDE_DESC_TYPE_ROOT ) or nil
+			local itemDesc = itemTable.GetDesc and itemTable:GetDesc( target, itemData, true ) or nil
+			local model = itemTable.GetDropModel and itemTable:GetDropModel( ) or itemTable.model
+			local noDrawItemCount = hook.Run( "NoDrawItemCount", target, itemTable )
+			
 			local spawnIcon = vgui.Create( "SpawnIcon" )
 			spawnIcon:SetSize( w, h )
-			spawnIcon:SetModel( itemTable.model )
-			spawnIcon:SetSkin( itemTable.skin or 0 )
-			spawnIcon:SetToolTip( catherine.item.GetBasicDesc( itemTable ) .. ( itemDesc and "\n" .. itemDesc or "" ) )
+			spawnIcon:SetModel( model, itemTable.skin or 0 )
+			
+			if ( overrideItemDesc ) then
+				spawnIcon:SetToolTip( overrideItemDesc )
+			else
+				spawnIcon:SetToolTip( catherine.item.GetBasicDesc( itemTable ) .. ( itemDesc and "\n" .. itemDesc or "" ) )
+			end
+			
 			spawnIcon.DoClick = function( )
-				netstream.Start( "catherine_hl2rp.plugin.root.Work", {
+				if ( !IsValid( target ) ) then
+					return
+				end
+				
+				netstream.Start( "catherine.hl2rp.plugin.root.Work", {
 					self.ent,
 					CAT_ROOT_ACTION_TAKE,
-					{
-						uniqueID = v1.uniqueID
-					}
+					{ uniqueID = k1 }
 				} )
 			end
 			spawnIcon.PaintOver = function( pnl, w, h )
-				if ( catherine.inventory.IsEquipped( v1.uniqueID ) ) then
+				if ( !IsValid( target ) ) then
+					return
+				end
+				
+				if ( v1.itemData.equiped ) then
 					surface.SetDrawColor( 255, 255, 255, 255 )
 					surface.SetMaterial( Material( "CAT/ui/accept.png" ) )
 					surface.DrawTexturedRect( 5, 5, 16, 16 )
 				end
 				
 				if ( itemTable.DrawInformation ) then
-					itemTable:DrawInformation( self.player, itemTable, w, h, self.player:GetInvItemDatas( itemTable.uniqueID ) )
+					itemTable:DrawInformation( target, w, h, itemData )
 				end
 				
-				if ( v1.itemCount > 1 ) then
-					draw.SimpleText( v1.itemCount, "catherine_normal20", 5, h - 25, Color( 50, 50, 50, 255 ), TEXT_ALIGN_LEFT, TEXT_ALIGN_RIGHT )
+				if ( !noDrawItemCount and v1.itemCount > 1 ) then
+					local count = v1.itemCount
+					
+					surface.SetFont( "catherine_normal20" )
+					local tw, th = surface.GetTextSize( count )
+					
+					draw.RoundedBox( 0, 5 - tw / 2, h - 20, tw * 2, 20, Color( 255, 255, 255, 200 ) )
+					draw.SimpleText( count, "catherine_normal20", 5, h - 20, Color( 50, 50, 50, 255 ), TEXT_ALIGN_LEFT, TEXT_ALIGN_RIGHT )
 				end
 			end
 			
@@ -188,21 +229,15 @@ function PANEL:RebuildRoot( )
 		self.targetInv:AddItem( form )
 	end
 	
-	delta = 0
-	
-	for k, v in pairs( self.playerInventory ) do
+	for k, v in SortedPairs( self.playerInventory ) do
 		local form = vgui.Create( "DForm" )
 		form:SetSize( self.playerInv:GetWide( ), 54 )
-		form:SetName( catherine.util.StuffLanguage( k ) )
-		form:SetAlpha( 0 )
-		form:AlphaTo( 255, 0.1, delta )
-		form.Paint = function( pnl, w, h )
-			catherine.theme.Draw( CAT_THEME_FORM, w, h )
-		end
-		form.Header:SetFont( "catherine_normal15" )
-		form.Header:SetTextColor( Color( 90, 90, 90, 255 ) )
-		delta = delta + 0.05
-
+		form:SetName( catherine.util.StuffLanguage( k ):upper( ) )
+		form.Paint = function( pnl, w, h ) end
+		form.Header:SetFont( "catherine_lightUI25" )
+		form.Header:SetTall( 25 )
+		form.Header:SetTextColor( Color( 255, 255, 255, 255 ) )
+		
 		local lists = vgui.Create( "DPanelList", form )
 		lists:SetSize( form:GetWide( ), form:GetTall( ) )
 		lists:SetSpacing( 3 )
@@ -210,40 +245,52 @@ function PANEL:RebuildRoot( )
 		lists:EnableVerticalScrollbar( false )	
 		
 		form:AddItem( lists )
-
-		for k1, v1 in pairs( v ) do
+		
+		for k1, v1 in SortedPairsByMemberValue( v, "uniqueID" ) do
 			local w, h = 54, 54
-			local itemTable = catherine.item.FindByID( v1.uniqueID )
-			if ( !itemTable ) then continue end
-			local itemDesc = itemTable.GetDesc and itemTable:GetDesc( self.player, itemTable, self.player:GetInvItemDatas( itemTable.uniqueID ), true ) or nil
-
+			local itemTable = catherine.item.FindByID( k1 )
+			local itemData = pl:GetInvItemDatas( k1 )
+			local overrideItemDesc = itemTable.GetOverrideItemDesc and itemTable:GetOverrideItemDesc( pl, itemData, CAT_ITEM_OVERRIDE_DESC_TYPE_ROOT_PLAYERINV ) or nil
+			local itemDesc = itemTable.GetDesc and itemTable:GetDesc( pl, itemData, true ) or nil
+			local model = itemTable.GetDropModel and itemTable:GetDropModel( ) or itemTable.model
+			local noDrawItemCount = hook.Run( "NoDrawItemCount", pl, itemTable )
+			
 			local spawnIcon = vgui.Create( "SpawnIcon" )
 			spawnIcon:SetSize( w, h )
-			spawnIcon:SetModel( itemTable.model )
-			spawnIcon:SetSkin( itemTable.skin or 0 )
-			spawnIcon:SetToolTip( catherine.item.GetBasicDesc( itemTable ) .. ( itemDesc and "\n" .. itemDesc or "" ) )
+			spawnIcon:SetModel( model, itemTable.skin or 0 )
+			
+			if ( overrideItemDesc ) then
+				spawnIcon:SetToolTip( overrideItemDesc )
+			else
+				spawnIcon:SetToolTip( catherine.item.GetBasicDesc( itemTable ) .. ( itemDesc and "\n" .. itemDesc or "" ) )
+			end
+			
 			spawnIcon.DoClick = function( )
-				netstream.Start( "catherine_hl2rp.plugin.root.Work", {
+				netstream.Start( "catherine.hl2rp.plugin.root.Work", {
 					self.ent,
 					CAT_ROOT_ACTION_GIVE,
-					{
-						uniqueID = v1.uniqueID
-					}
+					{ uniqueID = k1 }
 				} )
 			end
 			spawnIcon.PaintOver = function( pnl, w, h )
-				if ( catherine.inventory.IsEquipped( v1.uniqueID ) ) then
+				if ( catherine.inventory.IsEquipped( k1 ) ) then
 					surface.SetDrawColor( 255, 255, 255, 255 )
 					surface.SetMaterial( Material( "CAT/ui/accept.png" ) )
 					surface.DrawTexturedRect( 5, 5, 16, 16 )
 				end
 				
 				if ( itemTable.DrawInformation ) then
-					itemTable:DrawInformation( self.player, itemTable, w, h, self.player:GetInvItemDatas( itemTable.uniqueID ) )
+					itemTable:DrawInformation( pl, w, h, itemData )
 				end
 				
-				if ( v1.itemCount > 1 ) then
-					draw.SimpleText( v1.itemCount, "catherine_normal20", 5, h - 25, Color( 50, 50, 50, 255 ), TEXT_ALIGN_LEFT, TEXT_ALIGN_RIGHT )
+				if ( !noDrawItemCount and v1.itemCount > 1 ) then
+					local count = v1.itemCount
+					
+					surface.SetFont( "catherine_normal20" )
+					local tw, th = surface.GetTextSize( count )
+					
+					draw.RoundedBox( 0, 5 - tw / 2, h - 20, tw * 2, 20, Color( 255, 255, 255, 200 ) )
+					draw.SimpleText( count, "catherine_normal20", 5, h - 20, Color( 50, 50, 50, 255 ), TEXT_ALIGN_LEFT, TEXT_ALIGN_RIGHT )
 				end
 			end
 			
@@ -252,6 +299,9 @@ function PANEL:RebuildRoot( )
 		
 		self.playerInv:AddItem( form )
 	end
+	
+	targetInv_scrollBar:AnimateTo( targetInv_scroll, 0.3, 0, 0.1 )
+	playerInv_scrollBar:AnimateTo( playerInv_scroll, 0.3, 0, 0.1 )
 end
 
 function PANEL:Think( )
@@ -262,19 +312,21 @@ function PANEL:Think( )
 			return
 		end
 		
-		self.entCheck = CurTime( ) + 0.5
+		self.entCheck = CurTime( ) + 0.3
 	end
 end
 
 function PANEL:Close( )
+	if ( self.closing ) then return end
+	
 	self.closing = true
 	
-	self:MoveTo( ScrW( ), self.y, 0.2, 0, nil, function( )
+	self:AlphaTo( 0, 0.2, 0, function( )
 		self:Remove( )
 		self = nil
 	end )
 	
-	netstream.Start( "catherine_hl2rp.plugin.root.RootClose" )
+	netstream.Start( "catherine.hl2rp.plugin.root.RootClose" )
 end
 
 vgui.Register( "catherine.vgui.root", PANEL, "DFrame" )

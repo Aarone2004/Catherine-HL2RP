@@ -20,8 +20,6 @@ local PLUGIN = PLUGIN
 
 AddCSLuaFile( )
 
-DEFINE_BASECLASS( "base_gmodentity" )
-
 ENT.Type = "anim"
 ENT.PrintName = "Catherine HL2RP Music Radio"
 ENT.Author = "L7D"
@@ -38,12 +36,13 @@ if ( SERVER ) then
 		self:SetNetVar( "active", false )
 		self:SetNetVar( "musicURL", table.Random( PLUGIN.radioStations ) )
 		self:SetNetVar( "currIndex", 1 )
-
+		
 		local physObject = self:GetPhysicsObject( )
 		
 		if ( IsValid( physObject ) ) then
 			physObject:EnableMotion( true )
 			physObject:Wake( )
+			physObject:SetMass( 80 )
 		end
 		
 		catherine.entity.RegisterUseMenu( self, {
@@ -114,7 +113,7 @@ if ( SERVER ) then
 			self:Remove( )
 		end
 	end
-
+	
 	function ENT:PlayMusic( )
 		netstream.Start( nil, "catherine.hl2rp.plugin.musicRadio.PlayMusic", self )
 	end
@@ -151,6 +150,8 @@ if ( SERVER ) then
 else
 	local glowMat = Material( "sprites/glow04_noz" )
 	local toscreen = FindMetaTable( "Vector" ).ToScreen
+	local soundChanel = { }
+	local soundChanelAni = { }
 	
 	function ENT:Draw( )
 		self:DrawModel( )
@@ -160,25 +161,42 @@ else
 		local ang = self:GetAngles( )
 		ang:RotateAroundAxis( ang:Up( ), 90 )
 		ang:RotateAroundAxis( ang:Forward( ), 90 )
-
+		
 		cam.Start3D2D( self:GetPos( ) + self:GetForward( ) * 8.5 + self:GetRight( ) * 5.7 + self:GetUp( ) * 15.5, ang, 0.06 )
 			local volume = self:GetNetVar( "volume", "100" )
 			
 			draw.RoundedBox( 0, 0, 0, 290, 70, Color( 50, 50, 50, 255 ) )
+			
+			if ( IsValid( self.soundEnt ) ) then
+				local start = 0
+				
+				self.soundEnt:FFT( soundChanel, FFT_1024 )
+				
+				for k, v in pairs( soundChanel ) do
+					if ( start <= 290 ) then
+						if ( !soundChanelAni[ k ] ) then soundChanelAni[ k ] = 0 end
+						
+						soundChanelAni[ k ] = Lerp( 0.3, soundChanelAni[ k ], math.Clamp( v * 200, 0, 60 ) )
+						
+						draw.RoundedBox( 0, start, 65 - soundChanelAni[ k ], 5, soundChanelAni[ k ], Color( 255, 255, 255, 100 ) )
+						start = start + 6
+					end
+				end
+			end
 			
 			if ( self:GetNetVar( "active" ) ) then
 				if ( !self.mr_playing or !self.playingText ) then
 					self.mr_playing = LANG( "Item_PlayingUI_MusicRadio" )
 					self.playingText = ""
 				end
-		
+				
 				if ( ( self.nextPlayingText or 0 ) <= CurTime( ) ) then
 					if ( #self.playingText >= 3 ) then
 						self.playingText = ""
 					else
 						self.playingText = self.playingText .. "."
 					end
-
+					
 					self.nextPlayingText = CurTime( ) + 0.5
 				end
 				
@@ -199,7 +217,7 @@ else
 		if ( self:GetNetVar( "active" ) ) then
 			col = Color( 0, 255, 0 )
 		end
-
+		
 		render.SetMaterial( glowMat )
 		render.DrawSprite( self:GetPos( ) + self:GetForward( ) * 10 + self:GetRight( ) * 10 + self:GetUp( ) * 4, 10, 10, col )
 	end
@@ -233,12 +251,12 @@ else
 	function ENT:DrawEntityTargetID( pl, ent, a )
 		local pos = toscreen( self:LocalToWorld( self:OBBCenter( ) ) )
 		local x, y = pos.x, pos.y
-
+		
 		if ( !self.mr_name or !self.mr_desc ) then
 			self.mr_name = LANG( "Item_Name_MusicRadio" )
 			self.mr_desc = LANG( "Item_Desc_MusicRadio" )
 		end
-
+		
 		draw.SimpleText( self.mr_name, "catherine_outline20", x, y, Color( 255, 255, 255, a ), 1, 1 )
 		draw.SimpleText( self.mr_desc, "catherine_outline15", x, y + 20, Color( 255, 255, 255, a ), 1, 1 )
 	end
@@ -314,16 +332,23 @@ else
 	netstream.Hook( "catherine.hl2rp.plugin.musicRadio.PlayMusic", function( data )
 		data.donotThink = true
 		
-		sound.PlayURL( data:GetNetVar( "musicURL", "http://www.kcrw.com/pls/kcrwmusic.pls" ), "3d", function( ent )
-			if ( IsValid( ent ) and IsValid( data ) ) then
-				ent:SetPos( data:GetPos( ) )
-				ent:Play( )
-				ent:SetVolume( data:GetNetVar( "volume", 100 ) / 100 )
-				
-				data.soundEnt = ent
-				data.donotThink = false
-			end
-		end )
+		if ( !IsValid( data.soundEnt ) ) then
+			sound.PlayURL( data:GetNetVar( "musicURL", "http://www.kcrw.com/pls/kcrwmusic.pls" ), "3d", function( ent )
+				if ( IsValid( ent ) and IsValid( data ) ) then
+					if ( IsValid( data.soundEnt ) or !data.musicStop ) then
+						ent:Stop( )
+					else
+						ent:SetPos( data:GetPos( ) )
+						ent:Play( )
+						ent:SetVolume( data:GetNetVar( "volume", 100 ) / 100 )
+						
+						data.soundEnt = ent
+						data.donotThink = false
+						data.musicStop = false
+					end
+				end
+			end )
+		end
 	end )
 	
 	netstream.Hook( "catherine.hl2rp.plugin.musicRadio.StopMusic", function( data )
@@ -331,5 +356,7 @@ else
 			data.soundEnt:Stop( )
 			data.soundEnt = nil
 		end
+		
+		data.musicStop = true
 	end )
 end

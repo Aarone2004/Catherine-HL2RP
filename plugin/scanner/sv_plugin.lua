@@ -31,7 +31,22 @@ function PLUGIN:CharacterLoadingStart( pl )
 	local ent = self:GetScannerEntity( pl )
 	
 	if ( IsValid( ent ) ) then
+		catherine.player.SetIgnoreGiveFlagWeapon( pl, nil )
+		pl:SetViewEntity( NULL )
+		pl:UnSpectate( )
+		
+		pl:SetNetVar( "fakeModel", nil )
+		pl:SetNetVar( "isScanner", nil )
+		
+		ent.CAT_HL2RP_scannerNoSpawn = true
 		ent:Remove( )
+		pl.CAT_HL2RP_scannerEnt = nil
+	end
+end
+
+function PLUGIN:PlayerShouldDrown( pl )
+	if ( IsValid( self:GetScannerEntity( pl ) ) ) then
+		return false
 	end
 end
 
@@ -47,6 +62,21 @@ function PLUGIN:PlayerUse( pl )
 	end
 end
 
+function PLUGIN:PlayerShouldOpenRecognizeOrDoorMenu( pl )
+	if ( IsValid( self:GetScannerEntity( pl ) ) ) then
+		return false
+	end
+end
+
+function PLUGIN:PlayerShouldWorkItem( pl, itemTable, workID )
+	if ( IsValid( self:GetScannerEntity( pl ) ) ) then
+		if ( itemTable.uniqueID != "portable_radio" ) then
+			catherine.util.NotifyLang( pl, "Scanner_Notify_CantWork" )
+			return false
+		end
+	end
+end
+
 function PLUGIN:CombineClassSetFinished( pl )
 	if ( pl:Name( ):find( "SCN" ) ) then
 		catherine.class.Set( pl, CLASS_CP_SCN )
@@ -57,9 +87,42 @@ function PLUGIN:CombineClassSetFinished( pl )
 	end
 end
 
-function PLUGIN:CanRecoverHealth( pl )
+function PLUGIN:CombineClassSetFinishedOnNameChanged( pl )
+	if ( pl:Name( ):find( "SCN" ) ) then
+		catherine.class.Set( pl, CLASS_CP_SCN )
+		
+		if ( !IsValid( self:GetScannerEntity( pl ) ) ) then
+			self:CreateScanner( pl )
+		end
+	end
+end
+
+function PLUGIN:PlayerShouldWorkRagdoll( pl, status, time )
+	if ( !IsValid( self:GetScannerEntity( pl ) ) ) then return end
+	
+	catherine.util.NotifyLang( pl, "Scanner_Notify_CantWork" )
+	return false
+end
+
+function PLUGIN:PlayerShouldRecoverHealth( pl )
 	if ( IsValid( self:GetScannerEntity( pl ) ) ) then
 		return false
+	end
+end
+
+function PLUGIN:PlayerTick( pl )
+	if ( IsValid( self:GetScannerEntity( pl ) ) ) then
+		if ( ( pl.CAT_HL2RP_nextWaterCheckTick or 0 ) <= CurTime( ) ) then
+			if ( pl:Alive( ) and pl:WaterLevel( ) >= 3 ) then
+				self:PlayerDeath( pl )
+			end
+			
+			pl.CAT_HL2RP_nextWaterCheckTick = CurTime( ) + 1
+		end
+	else
+		if ( pl.CAT_HL2RP_nextWaterCheckTick ) then
+			pl.CAT_HL2RP_nextWaterCheckTick = nil
+		end
 	end
 end
 
@@ -79,6 +142,19 @@ function PLUGIN:CharacterNameChanged( pl, newName )
 		
 		if ( IsValid( ent ) ) then
 			ent:Remove( )
+			pl.CAT_HL2RP_scannerEnt = nil
+		end
+	end
+end
+
+function PLUGIN:PostCleanupMapDelayed( )
+	for k, v in pairs( player.GetAllByLoaded( ) ) do
+		if ( v:Team( ) != FACTION_CP ) then continue end
+		
+		if ( v:Name( ):find( "SCN" ) ) then
+			if ( !IsValid( self:GetScannerEntity( v ) ) ) then
+				self:CreateScanner( v )
+			end
 		end
 	end
 end
@@ -125,10 +201,8 @@ function PLUGIN:KeyPress( pl, key )
 end
 
 function PLUGIN:CreateScanner( pl )
-	if ( IsValid( self:GetScannerEntity( pl ) ) ) then
-		return
-	end
-
+	if ( IsValid( self:GetScannerEntity( pl ) ) ) then return end
+	
 	local ent = ents.Create( "npc_cscanner" )
 	ent:SetPos( pl:GetPos( ) )
 	ent:SetAngles( pl:GetAngles( ) )
@@ -138,38 +212,39 @@ function PLUGIN:CreateScanner( pl )
 	ent:SetNetVar( "player", pl )
 	ent:CallOnRemove( "PlayerRestore", function( )
 		if ( !IsValid( pl ) ) then return end
-
+		if ( ent.CAT_HL2RP_scannerNoSpawn ) then return end
+		
 		catherine.player.SetIgnoreGiveFlagWeapon( pl, nil )
 		pl:SetViewEntity( NULL )
 		pl:UnSpectate( )
 		
 		pl:SetNetVar( "fakeModel", nil )
 		pl:SetNetVar( "isScanner", nil )
-
+		
 		if ( ent:Health( ) > 0 ) then
 			pl:Spawn( )
 		else
 			pl:KillSilent( )
 		end
-
+		
 		timer.Simple( 0, function( )
 			pl:SetPos( ent.CAT_HL2RP_latestPos or pl:GetPos( ) )
 		end )
 	end )
-
+	
 	local trackName = "CAT_HL2RP_Scanner_" .. os.clock( )
 	ent.CAT_HL2RP_trackName = trackName
-		
+	
 	local track = ents.Create( "path_track" )
 	track:SetPos( ent:GetPos( ) )
 	track:SetName( trackName )
 	track:Spawn( )
-
+	
 	ent:Fire( "SetFollowTarget", trackName )
 	ent:Fire( "InputShouldInspect", false )
 	ent:Fire( "SetDistanceOverride", "48" )
 	ent:SetKeyValue( "SpawnFlags", 8208 )
-
+	
 	pl:SetNetVar( "fakeModel", ent:GetModel( ) )
 	pl:SetNetVar( "isScanner", true )
 	
@@ -178,8 +253,10 @@ function PLUGIN:CreateScanner( pl )
 	catherine.player.SetIgnoreGiveFlagWeapon( pl, true )
 	pl:Spectate( OBS_MODE_CHASE )
 	pl:SpectateEntity( ent )
-
-	local timerID = "Catherine.HL2RP.timer.ScannerTick_" .. pl:SteamID( )
+	pl:SetNoDraw( true )
+	pl:SetNotSolid( true )
+	
+	local timerID = "Catherine.HL2RP.timer.ScannerTick." .. pl:SteamID( )
 	
 	timer.Create( timerID, 0.4, 0, function( )
 		if ( !IsValid( pl ) or !IsValid( ent ) ) then
@@ -190,7 +267,7 @@ function PLUGIN:CreateScanner( pl )
 			timer.Remove( timerID )
 			return
 		end
-
+		
 		local vel = pl:KeyDown( IN_SPEED ) and 64 or 128
 		local changed = false
 		
@@ -211,7 +288,7 @@ function PLUGIN:CreateScanner( pl )
 		if ( changed ) then
 			ent:Fire( "SetFollowTarget", trackName )
 		end
-
+		
 		pl:SetPos( ent:GetPos( ) )
 	end )
 	
@@ -222,9 +299,9 @@ function PLUGIN:GetScannerEntity( pl )
 	return pl.CAT_HL2RP_scannerEnt
 end
 
-netstream.Hook( "catherine_hl2rp.plugin.scanner.ReceiveCaptureData", function( pl, data )
+netstream.Hook( "catherine.hl2rp.plugin.scanner.ReceiveCaptureData", function( pl, data )
 	local combines = Schema:GetCombines( )
-
+	
 	pl:GetViewEntity( ):EmitSound( "npc/scanner/scanner_photo1.wav", 140 )
 	pl:EmitSound( "npc/scanner/combat_scan5.wav" )
 	
@@ -233,8 +310,8 @@ netstream.Hook( "catherine_hl2rp.plugin.scanner.ReceiveCaptureData", function( p
 		
 		v:EmitSound( "npc/overwatch/radiovoice/preparevisualdownload.wav" )
 	end
-
-	netstream.Start( combines, "catherine_hl2rp.plugin.scanner.BroadcastCaptureData", {
+	
+	netstream.Start( combines, "catherine.hl2rp.plugin.scanner.BroadcastCaptureData", {
 		caller = pl,
 		captureData = data
 	} )

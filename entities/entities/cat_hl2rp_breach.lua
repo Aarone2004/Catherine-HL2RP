@@ -18,8 +18,6 @@ along with Catherine.  If not, see <http://www.gnu.org/licenses/>.
 
 AddCSLuaFile( )
 
-DEFINE_BASECLASS( "base_gmodentity" )
-
 ENT.Type = "anim"
 ENT.PrintName = "Catherine HL2RP Breach"
 ENT.Author = "L7D"
@@ -47,10 +45,12 @@ if ( SERVER ) then
 				text = "^Breach_BlastStr",
 				icon = "icon16/lock_open.png",
 				func = function( pl, ent )
-					catherine.util.ForceDoorOpen( self:GetParent( ) )
-					self:Explode( )
-					self:CreateDummyBreach( )
-					self:Remove( )
+					if ( IsValid( self:GetParent( ) ) ) then
+						catherine.util.ForceDoorOpen( self:GetParent( ) )
+						self:Explode( )
+						self:CreateDummyBreach( )
+						self:Remove( )
+					end
 				end
 			}
 		} )

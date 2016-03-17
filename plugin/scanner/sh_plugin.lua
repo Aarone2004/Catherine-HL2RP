@@ -18,18 +18,20 @@ along with Catherine.  If not, see <http://www.gnu.org/licenses/>.
 
 local PLUGIN = PLUGIN
 PLUGIN.name = "^Scanner_Plugin_Name"
-PLUGIN.author = "L7D, Chessnut"
+PLUGIN.author = "Chessnut, L7D"
 PLUGIN.desc = "^Scanner_Plugin_Desc"
 
 catherine.util.Include( "cl_plugin.lua" )
 catherine.util.Include( "sv_plugin.lua" )
 
 catherine.language.Merge( "english", {
-	[ "Scanner_Plugin_Name" ] = "Flashlight",
-	[ "Scanner_Plugin_Desc" ] = "Good stuff."
+	[ "Scanner_Plugin_Name" ] = "Combine Scanner",
+	[ "Scanner_Plugin_Desc" ] = "Good stuff.",
+	[ "Scanner_Notify_CantWork" ] = "You can't do this if you are scanner!"
 } )
 
 catherine.language.Merge( "korean", {
-	[ "Scanner_Plugin_Name" ] = "손전등",
-	[ "Scanner_Plugin_Desc" ] = "손전등을 추가합니다."
+	[ "Scanner_Plugin_Name" ] = "콤바인 스캐너",
+	[ "Scanner_Plugin_Desc" ] = "콤바인 스캐너를 추가합니다.",
+	[ "Scanner_Notify_CantWork" ] = "당신이 스캐너일 경우 이 작업을 할 수 없습니다!"
 } )

@@ -64,7 +64,7 @@ ITEM.func.toggle = {
 }
 
 if ( CLIENT ) then
-	function ITEM:DrawInformation( pl, itemTable, w, h, itemData )
+	function ITEM:DrawInformation( pl, w, h, itemData )
 		if ( itemData.toggle ) then
 			surface.SetDrawColor( 255, 255, 255, 255 )
 			surface.SetMaterial( Material( "CAT/ui/accept.png" ) )
@@ -72,8 +72,10 @@ if ( CLIENT ) then
 		end
 	end
 	
-	function ITEM:GetDesc( pl, itemTable, itemData, isInv )
-		return isInv and ( LANG( "Item_DataStr01_PR" ) .. " : " .. ( itemData.freq and itemData.freq == "" and "xxx.x" or itemData.freq ) .. "\n" .. LANG( "Item_DataStr02_PR" ) .. " : " .. ( itemData.toggle == true and LANG( "Item_DataStr02_On_PR" ) or LANG( "Item_DataStr02_Off_PR" ) ) )
+	function ITEM:GetDesc( pl, itemData, isInv )
+		if ( isInv and itemData ) then
+			return LANG( "Item_DataStr01_PR" ) .. " : " .. ( itemData.freq and itemData.freq == "" and "xxx.x" or itemData.freq ) .. "\n" .. LANG( "Item_DataStr02_PR" ) .. " : " .. ( itemData.toggle == true and LANG( "Item_DataStr02_On_PR" ) or LANG( "Item_DataStr02_Off_PR" ) )
+		end
 	end
 end
 

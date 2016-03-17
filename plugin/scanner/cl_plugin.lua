@@ -21,7 +21,7 @@ local isHidden = false
 local zoom = 0
 local deltaZoom = zoom
 
-netstream.Hook( "catherine_hl2rp.plugin.scanner.BroadcastCaptureData", function( data )
+netstream.Hook( "catherine.hl2rp.plugin.scanner.BroadcastCaptureData", function( data )
 	local caller = data.caller
 	local captureData = util.Base64Encode( util.Decompress( data.captureData ) )
 	
@@ -34,7 +34,7 @@ end )
 	
 function PLUGIN:CalcView( pl, pos, ang, fov )
 	local viewEnt = pl:GetViewEntity( )
-
+	
 	if ( IsValid( viewEnt ) and viewEnt:GetClass( ):find( "scanner" ) ) then
 		return {
 			angles = pl:GetAimVector( ):Angle( ),
@@ -52,9 +52,9 @@ end
 function PLUGIN:Capture( pl )
 	if ( ( self.nextCanCapture or 0 ) <= CurTime( ) ) then
 		local scrW, scrH = ScrW( ), ScrH( )
-
+		
 		local light = DynamicLight( 0 )
-
+		
 		if ( light ) then
 			light.r = 255
 			light.g = 255
@@ -65,7 +65,7 @@ function PLUGIN:Capture( pl )
 			light.DieTime = CurTime( ) + 0.5
 			light.pos = self.lastViewEnt:GetPos( )
 		end
-
+		
 		timer.Simple( 0.05, function( )
 			local data = util.Compress( render.Capture( {
 				format = "jpeg",
@@ -75,10 +75,8 @@ function PLUGIN:Capture( pl )
 				x = scrW / 2 - scrW / 2 / 2 / 2 - 29,
 				y = scrH / 2 - scrH / 4 + 21
 			} ) )
-		
-			netstream.Start( "catherine_hl2rp.plugin.scanner.ReceiveCaptureData", data )
-		
 			
+			netstream.Start( "catherine.hl2rp.plugin.scanner.ReceiveCaptureData", data )
 		end )
 		
 		self.nextCanCapture = CurTime( ) + 10 + math.random( 5, 10 )
@@ -96,7 +94,6 @@ function PLUGIN:CreateCapturePanel( data, isScanner )
 				prevPanel = nil
 			end )
 		end
-		
 	else
 		if ( IsValid( prevPanel ) ) then
 			prevPanel:MoveTo( ScrW( ), 10, 0.5, 0, nil, function( )
@@ -114,7 +111,7 @@ function PLUGIN:CreateCapturePanel( data, isScanner )
 		</html>
 	]], data, panelW, panelH )
 	
-
+	
 	if ( isScanner ) then
 		local panel = vgui.Create( "DPanel" )
 		panel:SetSize( panelW, panelH )
@@ -172,18 +169,18 @@ end
 
 function PLUGIN:PreDrawOpaqueRenderables( )
 	local viewEnt = catherine.pl:GetViewEntity( )
-
+	
 	if ( IsValid( self.lastViewEnt ) and self.lastViewEnt != viewEnt ) then
 		self.lastViewEnt:SetNoDraw( false )
 		self.lastViewEnt = nil
-
+		
 		isHidden = false
 	end
-
+	
 	if ( IsValid( viewEnt ) and viewEnt:GetClass( ):find( "scanner" ) ) then
 		viewEnt:SetNoDraw( true )
 		self.lastViewEnt = viewEnt
-
+		
 		isHidden = true
 	end
 end
@@ -200,13 +197,21 @@ function PLUGIN:RenderScreenspaceEffects( )
 		tab[ "$pp_colour_mulr" ] = 0
 		tab[ "$pp_colour_mulg" ] = 0
 		tab[ "$pp_colour_mulb" ] = 0
-
+		
 		DrawColorModify( tab )
 	end
 end
 
-function PLUGIN:CanDrawBar( pl )
-	return !pl:GetNetVar( "isScanner" )
+function PLUGIN:ShouldDrawBar( pl )
+	if ( pl:GetNetVar( "isScanner" ) ) then
+		return false
+	end
+end
+
+function PLUGIN:PlayerCanNoClip( pl )
+	if ( pl:GetNetVar( "isScanner" ) ) then
+		return false
+	end
 end
 
 function PLUGIN:InputMouseApply( cmd, x, y, ang )
@@ -221,10 +226,7 @@ function PLUGIN:AdjustMouseSensitivity( )
 end
 
 function PLUGIN:HUDDraw( )
-	if ( !isHidden or !catherine.pl:GetNetVar( "isScanner" ) or !catherine.pl:Alive( ) ) then
-		return
-	end
-	
+	if ( !isHidden or !catherine.pl:GetNetVar( "isScanner" ) or !catherine.pl:Alive( ) ) then return end
 	local scrW, scrH = ScrW( ), ScrH( )
 	
 	draw.NoTexture( )
@@ -237,7 +239,7 @@ function PLUGIN:HUDDraw( )
 	surface.DrawLine( scrW / 2 - scrW / 2 / 2 / 2 - 30, scrH / 2 + scrH / 2 / 2 - 20, scrW / 2 + scrW / 2 / 2 / 2 + 30, scrH / 2 + scrH / 2 / 2 - 20 )
 	surface.DrawLine( scrW / 2 - scrW / 2 / 2 / 2 - 30, scrH / 2 + scrH / 2 / 2, scrW / 2 - scrW / 2 / 2 / 2 - 30, scrH / 4 )
 	surface.DrawLine( scrW / 2 + scrW / 2 / 2 / 2 + 30, scrH / 2 + scrH / 2 / 2, scrW / 2 + scrW / 2 / 2 / 2 + 30, scrH / 4 )
-
+	
 	local pl = catherine.pl
 	local pos = pl:GetPos( )
 	local ang = pl:GetAngles( )
@@ -248,7 +250,7 @@ function PLUGIN:HUDDraw( )
 	draw.SimpleText( "ANGLES ( P:" .. math.floor( ang[ 1 ] ) .. ", Y:" .. math.floor( ang[ 2 ] ) .. ", R:" .. math.floor( ang[ 3 ] ) .. " )", "catherine_hl2rp_scanner15", scrW - 10, scrH - 40, Color( 255, 255, 255, 255 ), TEXT_ALIGN_RIGHT, 1 )
 	draw.SimpleText( "UNIT #" .. pl:Name( ) .. "", "catherine_hl2rp_scanner30", scrW - 10, 50, Color( 255, 255, 255, 255 ), TEXT_ALIGN_RIGHT, 1 )
 	draw.SimpleText( "ZOOM  ( " .. ( math.Round( zoom / 40, 2 ) * 100 ) .. "% )", "catherine_hl2rp_scanner15", scrW - 10, scrH - 60, Color( 255, 255, 255, 255 ), TEXT_ALIGN_RIGHT, 1 )
-
+	
 	local nextCanCapture = math.floor( ( self.nextCanCapture or 0 ) - CurTime( ) )
 	
 	if ( nextCanCapture > 0 ) then
@@ -269,15 +271,17 @@ function PLUGIN:HUDDraw( )
 		data.endpos = data.start + pl:GetAimVector( ) * 500
 		data.filter = viewEnt
 		local ent = util.TraceLine( data ).Entity
-
+		
 		ent = ( IsValid( ent ) and ent:IsPlayer( ) ) and ent:Name( ) or "NULL"
-
+		
 		draw.SimpleText( "TARGET ( " .. ent .. " )", "catherine_hl2rp_scanner20", scrW - 10, scrH - 120, Color( 0, 255, 255, 255 ), TEXT_ALIGN_RIGHT, 1 )
 	end
 end
 
-function Schema:CanDrawCombineOverlay( pl )
-	return !catherine.pl:GetNetVar( "isScanner" )
+function PLUGIN:ShouldDrawCombineOverlay( pl )
+	if ( pl:GetNetVar( "isScanner" ) ) then
+		return false
+	end
 end
 
 catherine.font.Register( "catherine_hl2rp_scanner15", {

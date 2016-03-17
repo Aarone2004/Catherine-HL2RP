@@ -23,6 +23,11 @@ function PLUGIN:ShowSpare2( pl )
 end
 
 function PLUGIN:RootPlayer( pl, target )
+	if ( pl:IsTied( ) ) then
+		catherine.util.NotifyLang( pl, "Root_Notify_CantRoot" )
+		return
+	end
+	
 	if ( !target:IsTied( ) ) then
 		catherine.util.NotifyLang( pl, "Root_Notify_CantRoot" )
 		return
@@ -30,8 +35,8 @@ function PLUGIN:RootPlayer( pl, target )
 	
 	pl:SetNetVar( "rooting", true )
 	
-	netstream.Start( pl, "catherine_hl2rp.plugin.root.OpenPanel", {
-		target:SteamID( ),
+	netstream.Start( pl, "catherine.hl2rp.plugin.root.OpenPanel", {
+		target,
 		catherine.inventory.Get( target )
 	} )
 end
@@ -46,8 +51,8 @@ function PLUGIN:RootWork( pl, target, workID, data )
 			return
 		end
 
-		if ( itemTable.IsPersistent ) then
-			catherine.util.NotifyLang( pl, "Inventory_Notify_IsPersistent" )
+		if ( itemTable.isPersistent ) then
+			catherine.util.NotifyLang( pl, "Inventory_Notify_isPersistent" )
 			return
 		end
 		
@@ -60,8 +65,8 @@ function PLUGIN:RootWork( pl, target, workID, data )
 		
 		catherine.item.Take( pl, uniqueID )
 
-		netstream.Start( pl, "catherine_hl2rp.plugin.root.RefreshPanel", {
-			target:SteamID( ),
+		netstream.Start( pl, "catherine.hl2rp.plugin.root.RefreshPanel", {
+			target,
 			catherine.inventory.Get( target )
 		} )
 	elseif ( workID == CAT_ROOT_ACTION_TAKE ) then
@@ -73,8 +78,8 @@ function PLUGIN:RootWork( pl, target, workID, data )
 			return
 		end
 
-		if ( itemTable.IsPersistent ) then
-			catherine.util.NotifyLang( pl, "Inventory_Notify_IsPersistent" )
+		if ( itemTable.isPersistent ) then
+			catherine.util.NotifyLang( pl, "Inventory_Notify_isPersistent" )
 			return
 		end
 		
@@ -91,17 +96,17 @@ function PLUGIN:RootWork( pl, target, workID, data )
 		
 		hook.Run( "PostItemForceTake", pl, target, itemTable )
 		
-		netstream.Start( pl, "catherine_hl2rp.plugin.root.RefreshPanel", {
-			target:SteamID( ),
+		netstream.Start( pl, "catherine.hl2rp.plugin.root.RefreshPanel", {
+			target,
 			catherine.inventory.Get( target )
 		} )
 	end
 end
 
-netstream.Hook( "catherine_hl2rp.plugin.root.Work", function( pl, data )
+netstream.Hook( "catherine.hl2rp.plugin.root.Work", function( pl, data )
 	PLUGIN:RootWork( pl, data[ 1 ], data[ 2 ], data[ 3 ] )
 end )
 
-netstream.Hook( "catherine_hl2rp.plugin.root.RootClose", function( pl )
+netstream.Hook( "catherine.hl2rp.plugin.root.RootClose", function( pl )
 	pl:SetNetVar( "rooting", false )
 end )

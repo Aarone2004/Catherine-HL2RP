@@ -39,18 +39,31 @@ Schema.CombineRankClass = {
 }
 Schema.CUC = {
 	"Alpha",
+	"Stinger",
+	"Shadow",
 	"Savage",
 	"Reaper",
 	"Victor",
-	"Sector",
 	"Dagger",
+	"Blade",
 	"Razor",
+	"Nomad",
+	"Judge",
 	"Sword",
+	"Hotel",
+	"Storm",
+	"Spear",
 	"Vamp",
+	"November",
+	"Mike",
+	"Grid",
+	"Kilo",
+	"Jury",
+	"King",
 	"Vice",
 	"Echo"
 }
-Schema.CPNamePrefix = "C17-%s-RCT.%s"
+Schema.CPNamePrefix = "MPF-RCT.%s.%s"
 Schema.OWNamePrefix = "OWS-%s.%s"
 local elite, unit = Schema.CombineRankClass.Elite, Schema.CombineRankClass.Unit
 Schema.CombineRank = {
@@ -95,18 +108,12 @@ Schema.BadRadioStrings = {
 
 for k, v in pairs( Schema.CombineRankModel ) do
 	catherine.animation.Register( "metrocop", v )
+	player_manager.AddValidModel( "police", v )
 end
 
-local citizenFaction = catherine.faction.FindByIndex( FACTION_CITIZEN )
-
-if ( citizenFaction ) then
-	for k, v in pairs( citizenFaction.models or { } ) do
-		if ( v:lower( ):find( "female" ) ) then
-			catherine.animation.Register( "citizen_female", v )
-		else
-			catherine.animation.Register( "citizen_male", v )
-		end
-	end
+for k, v in pairs( file.Find( "models/dpfilms/metropolice/*.mdl", "GAME" ) ) do
+	catherine.animation.Register( "metrocop", "models/dpfilms/metropolice/" .. v )
+	player_manager.AddValidModel( "police", "models/dpfilms/metropolice/" .. v )
 end
 
 function Schema:GetRankByName( name )
@@ -213,4 +220,4 @@ catherine.chat.Register( "request", {
 	end
 } )
 
-catherine.cash.SetName( "Token" )
+catherine.cash.SetName( "Token", "Tokens" )

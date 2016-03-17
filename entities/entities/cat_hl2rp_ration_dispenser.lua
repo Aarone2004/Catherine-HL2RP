@@ -15,15 +15,12 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with Catherine.  If not, see <http://www.gnu.org/licenses/>.
 ]]--
---[[ This Entity are still developing! ]]--
 
 AddCSLuaFile( )
 
-DEFINE_BASECLASS( "base_gmodentity" )
-
 ENT.Type = "anim"
 ENT.PrintName = "Catherine HL2RP Ration Dispenser"
-ENT.Author = "L7D, Chessnut"
+ENT.Author = "Chessnut, L7D"
 ENT.Spawnable = false
 ENT.AdminSpawnable = false
 
@@ -50,11 +47,11 @@ if ( SERVER ) then
 		dummyEnt:Activate( )
 		
 		self.dummyEnt = dummyEnt
-
+		
 		self:DeleteOnRemove( self.dummyEnt )
 		
 		local physObject = self:GetPhysicsObject( )
-
+		
 		if ( IsValid( physObject ) ) then
 			physObject:EnableMotion( false )
 			physObject:Sleep( )
@@ -72,7 +69,7 @@ if ( SERVER ) then
 		ent:SetParent( self.dummyEnt )
 		ent:SetNotSolid( true )
 		ent:Spawn( )
-
+		
 		timer.Simple( 2, function( )
 			if ( IsValid( self ) and IsValid( ent ) ) then
 				ent:Remove( )
@@ -84,10 +81,8 @@ if ( SERVER ) then
 	end
 	
 	function ENT:Use( pl )
-		if ( self.working or ( self.nextCanUse or 0 ) >= CurTime( ) ) then
-			return
-		end
-
+		if ( self.working or ( self.nextCanUse or 0 ) >= CurTime( ) ) then return end
+		
 		if ( pl:Team( ) == FACTION_CITIZEN ) then
 			if ( self:GetActive( ) ) then
 				if ( pl:GetNetVar( "dispenseTime", CurTime( ) ) <= CurTime( ) ) then
@@ -95,13 +90,13 @@ if ( SERVER ) then
 						self.working = true
 						self:EmitSound( "ambient/machines/combine_terminal_idle2.wav" )
 						self:SetForceMode( 1 )
-
+						
 						timer.Simple( 5 + math.random( 2, 5 ), function( )
 							if ( !IsValid( self ) or !IsValid( pl ) ) then
 								self.working = false
 								return
 							end
-
+							
 							pl:SetNetVar( "dispenseTime", CurTime( ) + 900 )
 							self:CreateRation( )
 							self.dummyEnt:Fire( "SetAnimation", "dispense_package", 0 )

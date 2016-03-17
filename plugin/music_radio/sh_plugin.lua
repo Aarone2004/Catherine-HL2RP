@@ -66,7 +66,11 @@ function Schema:DataSave( )
 			ang = v:GetAngles( ),
 			active = v:GetNetVar( "active", false ),
 			musicURL = v:GetNetVar( "musicURL", "http://www.kcrw.com/pls/kcrwmusic.pls" ),
-			currIndex = v:GetNetVar( "currIndex", 1 )
+			currIndex = v:GetNetVar( "currIndex", 1 ),
+			volume = v:GetNetVar( "volume", 100 ),
+			skin = v:GetSkin( ),
+			col = v:GetColor( ),
+			mat = v:GetMaterial( )
 		}
 	end
 	
@@ -81,9 +85,13 @@ function Schema:DataLoad( )
 		ent:SetPos( v.pos )
 		ent:SetAngles( v.ang )
 		ent:Spawn( )
+		ent:SetSkin( v.skin or 0 )
+		ent:SetColor( v.col or Color( 255, 255, 255, 255 ) )
+		ent:SetMaterial( v.mat or "" )
 		
 		ent:SetNetVar( "active", v.active )
 		ent:SetNetVar( "musicURL", v.musicURL )
+		ent:SetNetVar( "volume", v.volume )
 		ent:SetNetVar( "currIndex", v.currIndex )
 	end
 end

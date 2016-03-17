@@ -16,12 +16,17 @@ You should have received a copy of the GNU General Public License
 along with Catherine.  If not, see <http://www.gnu.org/licenses/>.
 ]]--
 
-Schema.combineOverlayMessage = { }
-
-for i = 1, 9 do
-	Schema.combineOverlayMessage[ #Schema.combineOverlayMessage + 1 ] = "^CombineOverlay_Str0" .. i
-end
-
+Schema.combineOverlayMessage = {
+	"^CombineOverlay_Str01",
+	"^CombineOverlay_Str02",
+	"^CombineOverlay_Str03",
+	"^CombineOverlay_Str04",
+	"^CombineOverlay_Str05",
+	"^CombineOverlay_Str06",
+	"^CombineOverlay_Str07",
+	"^CombineOverlay_Str08",
+	"^CombineOverlay_Str09"
+}
 Schema.playercombineOverlays = { }
 local combineOverlayMaterial
 
@@ -38,26 +43,8 @@ function Schema:PrefixCombineOverlayMessage( )
 end
 
 function Schema:GetCharacterPanelLoadModel( characterDatas )
-	if ( characterDatas._faction == "cp" ) then
-		if ( characterDatas._name:find( "SCN" ) ) then
-			return "models/combine_scanner.mdl"
-		end
-		
-		local rankID, classID = self:GetRankByName( characterDatas._name )
-
-		return self:GetModelByRank( rankID )
-	elseif ( characterDatas._faction == "ow" ) then
-		local rankID = nil
-		local name = characterDatas._name
-		
-		for k, v in pairs( self.OverWatchRankModel ) do
-			if ( name:find( k ) ) then
-				rankID = k
-				break
-			end
-		end
-
-		return self:GetModelByRank( rankID, true )
+	if ( characterDatas._faction == "cp" and characterDatas._name:find( "SCN" ) ) then
+		return "models/combine_scanner.mdl"
 	end
 	
 	return characterDatas._model
@@ -70,9 +57,26 @@ end
 function Schema:PostRenderScreenColor( pl, data )
 	if ( !pl:Alive( ) ) then return end
 	if ( catherine.deathColAlpha < 0.6 ) then return end
+	local antidepressants = catherine.character.GetCharVar( pl, "antidepressants_status" )
+	
+	if ( antidepressants == true ) then
+		if ( !self.antidepressantsData ) then
+			self.antidepressantsData = 0.6
+		end
+		
+		self.antidepressantsData = Lerp( 0.003, self.antidepressantsData, 1 )
+	else
+		if ( self.antidepressantsData ) then
+			self.antidepressantsData = Lerp( 0.003, self.antidepressantsData, 0.6 )
+			
+			if ( self.antidepressantsData <= 0.63 ) then
+				self.antidepressantsData = nil
+			end
+		end
+	end
 	
 	return {
-		colour = 0.6
+		colour = self.antidepressantsData and self.antidepressantsData or 0.6
 	}
 end
 
@@ -115,34 +119,35 @@ function Schema:OverrideCombineOverlayPos( x, y )
 
 end
 
-function Schema:CanDrawCombineOverlay( pl )
-	
+function Schema:ShouldDrawCombineOverlay( pl )
+
 end
 
 function Schema:HUDDrawBarBottom( x, y )
-	if ( !catherine.pl:PlayerIsCombine( ) or self:CanDrawCombineOverlay( catherine.pl ) == false ) then return end
-	local newX, newY = self:OverrideCombineOverlayPos( x, y )
+	if ( !catherine.pl:PlayerIsCombine( ) or hook.Run( "ShouldDrawCombineOverlay", catherine.pl ) == false ) then return end
+	local newX, newY = hook.Run( "OverrideCombineOverlayPos", x, y )
 	
 	self:DrawCombineOverlay( newX or x, newY or y )
 end
 
-function Schema:OWHUDPaint( )
-	self.ow_hudData = self.ow_hudData or { }
+function Schema:OverwatchHUDBackgroundDraw( )
+	self.overwatchHUDData = self.overwatchHUDData or { }
 	
 	for i = 1, 100 do
-		self.ow_hudData[ i ] = self.ow_hudData[ i ] or {
+		self.overwatchHUDData[ i ] = self.overwatchHUDData[ i ] or {
 			w = 0,
 			targetW = math.random( 1, 150 ),
 			a = math.Rand( 0, 5 )
 		}
 		
-		local data = self.ow_hudData[ i ]
+		local data = self.overwatchHUDData[ i ]
 
 		data.w = Lerp( 0.01, data.w, data.targetW + ( 10 / 1 ) * math.sin( CurTime( ) + math.Rand( 0, 2 ) ) )
 		
-		self.ow_hudData[ i ] = data
+		self.overwatchHUDData[ i ] = data
 		
 		local h = ScrH( ) * 0.05 + ( ScrH( ) * ( i / 100 ) )
+		
 		draw.RoundedBox( 0, 0, h, data.w, 5, Color( 255, 255, 255, data.a ) )
 		draw.RoundedBox( 0, ScrW( ) - data.w, h, data.w, 5, Color( 255, 255, 255, data.a ) )
 	end
@@ -193,7 +198,7 @@ function Schema:HUDBackgroundDraw( )
 	surface.DrawTexturedRect( 0, 0, ScrW( ), ScrH( ) )
 	
 	if ( catherine.pl:Team( ) == FACTION_OW ) then
-		self:OWHUDPaint( )
+		hook.Run( "OverwatchHUDBackgroundDraw" )
 	end
 end
 

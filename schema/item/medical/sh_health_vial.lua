@@ -23,7 +23,6 @@ ITEM.cost = 100
 ITEM.model = "models/healthvial.mdl"
 ITEM.weight = 0.4
 ITEM.category = "^Item_Category_Medical"
-ITEM.useSound = "^Item_Category_Medical"
 ITEM.func = { }
 ITEM.func.use = {
 	text = "^Item_FuncStr01_Medical",

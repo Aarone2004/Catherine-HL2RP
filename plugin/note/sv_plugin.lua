@@ -32,7 +32,10 @@ function PLUGIN:DataSave( )
 			pos = v:GetPos( ),
 			ang = v:GetAngles( ),
 			uniqueID = v:GetUniqueID( ),
-			owner = v:GetNetVar( "owner" )
+			owner = v:GetNetVar( "owner" ),
+			skin = v:GetSkin( ),
+			col = v:GetColor( ),
+			mat = v:GetMaterial( )
 		}
 	end
 	
@@ -49,6 +52,9 @@ function PLUGIN:DataLoad( )
 		ent:SetPos( v.pos )
 		ent:SetAngles( v.ang )
 		ent:Spawn( )
+		ent:SetSkin( v.skin or 0 )
+		ent:SetColor( v.col or Color( 255, 255, 255, 255 ) )
+		ent:SetMaterial( v.mat or "" )
 		
 		ent:SetNetVar( "uniqueID", v.uniqueID )
 		
@@ -90,7 +96,7 @@ function PLUGIN:WriteNote( pl, ent, text )
 			text = "^Note_ViewStr",
 			icon = "icon16/note.png",
 			func = function( pl, ent )
-				netstream.Start( pl, "catherine_hl2rp.plugin.note.OpenPanel", {
+				netstream.Start( pl, "catherine.hl2rp.plugin.note.OpenPanel", {
 					ent:EntIndex( ),
 					PLUGIN:GetText( ent:GetUniqueID( ) )
 				} )
@@ -98,9 +104,11 @@ function PLUGIN:WriteNote( pl, ent, text )
 		}
 	} )
 	
+	catherine.log.Add( CAT_LOG_FLAG_BASIC, pl:Name( ) .. ", " .. pl:SteamName( ) .. ", " .. pl:SteamID( ) .. " has writed a new note. < Value : " .. text .. " >" )
+	
 	PLUGIN:DataSave( )
 end
 
-netstream.Hook( "catherine_hl2rp.plugin.note.Write", function( pl, data )
+netstream.Hook( "catherine.hl2rp.plugin.note.Write", function( pl, data )
 	PLUGIN:WriteNote( pl, data[ 1 ], data[ 2 ] )
 end )

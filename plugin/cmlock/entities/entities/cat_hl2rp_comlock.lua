@@ -18,8 +18,6 @@ along with Catherine.  If not, see <http://www.gnu.org/licenses/>.
 
 AddCSLuaFile( )
 
-DEFINE_BASECLASS( "base_gmodentity" )
-
 ENT.Type = "anim"
 ENT.PrintName = "Catherine HL2RP Combine Lock"
 ENT.Author = "Chessnut"
@@ -43,9 +41,7 @@ if ( SERVER ) then
 	end
 	
 	function ENT:Use( pl )
-		if ( self:GetError( ) ) then
-			return
-		end
+		if ( self:GetError( ) ) then return end
 		
 		if ( ( pl.CAT_HL2RP_nextcomLUse or 0 ) <= CurTime( ) ) then
 			pl.CAT_HL2RP_nextcomLUse = CurTime( ) + 1
@@ -75,9 +71,7 @@ if ( SERVER ) then
 	function ENT:Toggle( )
 		if ( !IsValid( self.doorParent ) ) then return end
 		
-		if ( ( self.CAT_HL2RP_nextToggle or CurTime( ) ) > CurTime( ) ) then
-			return
-		end
+		if ( ( self.CAT_HL2RP_nextToggle or CurTime( ) ) > CurTime( ) ) then return end
 		
 		local partner = catherine.util.GetDoorPartner( self.doorParent )
 		local typ = 0
@@ -155,7 +149,7 @@ if ( SERVER ) then
 		
 		self:EmitSound( "physics/body/body_medium_impact_soft" .. math.random( 1, 7 ) .. ".wav" )
 	end
-
+	
 	function ENT:OnTakeDamage( dmg )
 		self:SetHealth( math.max( self:Health( ) - dmg:GetDamage( ), 0 ) )
 		
@@ -169,17 +163,17 @@ else
 	local co = Color( 255, 125, 0 )
 	local cg = Color( 0, 255, 0 )
 	local cr = Color( 255, 0, 0 )
-
-	function ENT:Draw()
+	
+	function ENT:Draw( )
 		self:DrawModel( )
-
+		
 		local pos = self:GetPos( ) + self:GetUp( ) * -8.7 + self:GetForward( ) * -3.85 + self:GetRight( ) * -6
 		local col = self:GetLocked( ) and co or cg
-
+		
 		if ( self:GetError( ) ) then
 			col = cr
 		end
-
+		
 		render.SetMaterial( mat )
 		render.DrawSprite( pos, 14, 14, col )
 	end

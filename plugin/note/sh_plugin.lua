@@ -57,7 +57,7 @@ catherine.language.Merge( "korean", {
 } )
 
 if ( CLIENT ) then
-	netstream.Hook( "catherine_hl2rp.plugin.note.OpenPanel", function( data )
+	netstream.Hook( "catherine.hl2rp.plugin.note.OpenPanel", function( data )
 		if ( IsValid( catherine.vgui.note ) ) then
 			catherine.vgui.note:Remove( )
 			catherine.vgui.note = nil

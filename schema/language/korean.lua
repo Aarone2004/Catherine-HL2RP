@@ -16,19 +16,13 @@ You should have received a copy of the GNU General Public License
 along with Catherine.  If not, see <http://www.gnu.org/licenses/>.
 ]]--
 
-local cashName = catherine.cash.GetOnlyName( )
-
 catherine.language.Merge( "korean", {
 	// Basic
 	[ "Basic_Schema_Title" ] = "하프-라이프 2",
 	[ "Basic_Schema_Desc" ] = "이곳은 안전합니다.",
 	[ "Basic_Schema_IntroTitle" ] = "2016 년, 17번 지구",
 	[ "Basic_Schema_IntroDesc" ] = "이곳은 안전합니다.",
-	[ "Basic_Schema_Author" ] = "개발 및 디자인 - %s.",
-	
-	// Cash
-	[ "Cash_UI_HasStr" ] = "당신은 %s " .. cashName .. " 를 가지고 있습니다.",
-	[ "Cash_Notify_HasNot" ] = "당신은 충분한 " .. cashName .. " 가 없습니다!",
+	[ "Basic_Schema_Author" ] = "'%s' 에 의해 하프-라이프 2 스키마 개발 및 디자인 ...",
 	
 	// Faction Name
 	[ "Faction_Name_Citizen" ] = "시민",
@@ -40,15 +34,11 @@ catherine.language.Merge( "korean", {
 	// Faction Description
 	[ "Faction_Desc_Citizen" ] = "더러운 옷을 입고 있습니다.",
 	[ "Faction_Desc_CWU" ] = "깨끗한 옷을 입고 있습니다.",
-	[ "Faction_Desc_Administrator" ] = "이 도시의 관리자 입니다.",
-	[ "Faction_Desc_OW" ] = "콤바인에 의해 강제로 개조당한 기계 인간 입니다.",
+	[ "Faction_Desc_Administrator" ] = "이 도시의 관리자입니다.",
+	[ "Faction_Desc_OW" ] = "콤바인에 의해 강제로 개조당한 기계 인간입니다.",
 	[ "Faction_Desc_CP" ] = "시민들을 보호합니다.",
 
 	// Item
-	[ "Item_Desc_Wallet" ] = cashName .. " 가 쌓여있습니다.",
-	[ "Item_FuncStr01_Wallet" ] = cashName .. " 가지기",
-	[ "Item_FuncStr02_Wallet" ] = cashName .. " 떨어트리기",
-	
 	[ "Item_Name_LargeBag" ] = "큰 가방",
 	[ "Item_Desc_LargeBag" ] = "당신의 인벤토리의 공간을 많이 늘려줍니다.",
 	
@@ -92,7 +82,7 @@ catherine.language.Merge( "korean", {
 	[ "Item_Desc_GBW" ] = "흔들어서 드세요.",
 	
 	[ "Item_Name_ChineseT" ] = "즉석 중국 요리",
-	[ "Item_Desc_ChineseT" ] = "차가운 인스턴트 중국 요리 입니다.",
+	[ "Item_Desc_ChineseT" ] = "차가운 인스턴트 중국 요리입니다.",
 	
 	[ "Item_Name_LargeS" ] = "큰 소다",
 	[ "Item_Desc_LargeS" ] = "큰 통에 소다 음료수가 들어있습니다.",
@@ -107,28 +97,28 @@ catherine.language.Merge( "korean", {
 	[ "Item_Desc_MilkJ" ] = "병에 몸에 건강한 우유가 들어있습니다.",
 	
 	[ "Item_Name_VegetableO" ] = "식물성 기름",
-	[ "Item_Desc_VegetableO" ] = "매우 맛이 없는 식물성 기름 입니다.",
+	[ "Item_Desc_VegetableO" ] = "매우 맛이 없는 식물성 기름입니다.",
 	
 	[ "Item_Name_9MM" ] = ".9mm 피스톨",
-	[ "Item_Desc_9MM" ] = "기본적인 .9mm 피스톨 입니다.",
+	[ "Item_Desc_9MM" ] = "기본적인 .9mm 피스톨입니다.",
 	
 	[ "Item_Name_AR2" ] = "AR2",
 	[ "Item_Desc_AR2" ] = "강력한 화력을 자랑합니다.",
 	
 	[ "Item_Name_SMG" ] = "SMG",
-	[ "Item_Desc_SMG" ] = "기본적인 SMG 입니다.",
+	[ "Item_Desc_SMG" ] = "기본적인 SMG입니다.",
 	
 	[ "Item_Name_357" ] = ".357 매그넘",
-	[ "Item_Desc_357" ] = "6발의 .357 매그넘 입니다.",
+	[ "Item_Desc_357" ] = "6발의 .357 매그넘입니다.",
 	
 	[ "Item_Name_CB" ] = "크로스보우",
 	[ "Item_Desc_CB" ] = "크로스보우 입니다, 반시민들이 사용합니다.",
 	
 	[ "Item_Name_Buckshot" ] = "샷건",
-	[ "Item_Desc_Buckshot" ] = "산탄이 날라가는 강력한 위력의 샷건 입니다.",
+	[ "Item_Desc_Buckshot" ] = "산탄이 날라가는 강력한 위력의 샷건입니다.",
 	
 	[ "Item_Name_RPG" ] = "로켓 런처",
-	[ "Item_Desc_RPG" ] = "강력한 화력을 자랑하는 로켓 런처 입니다.",
+	[ "Item_Desc_RPG" ] = "강력한 화력을 자랑하는 로켓 런처입니다.",
 	
 	[ "Item_Name_CrowB" ] = "크로우 바",
 	[ "Item_Desc_CrowB" ] = "녹슬어 보이는 이 도구에는 추억이 깃들어 있습니다.",
@@ -141,10 +131,10 @@ catherine.language.Merge( "korean", {
 	[ "Item_FuncStr01_Ration" ] = "개봉하기",
 	
 	[ "Item_Name_CitizenS" ] = "시민 보급식",
-	[ "Item_Desc_CitizenS" ] = "시민들의 생계를 이어가기 위해 기본적으로 제공되는 보급식 입니다.",
+	[ "Item_Desc_CitizenS" ] = "시민들의 생계를 이어가기 위해 기본적으로 제공되는 보급식입니다.",
 	
 	[ "Item_Name_Bleach" ] = "표백제",
-	[ "Item_Desc_Bleach" ] = "치명적인 독성이 있는 표백제 입니다.",
+	[ "Item_Desc_Bleach" ] = "치명적인 독성이 있는 표백제입니다.",
 	
 	[ "Item_Name_ZT" ] = "수갑",
 	[ "Item_Desc_ZT" ] = "사람을 묶을 수 있습니다.",
@@ -165,55 +155,60 @@ catherine.language.Merge( "korean", {
 	[ "Item_Desc_SMGAmmo" ] = "SMG 탄약이 상자안에 들어있습니다.",
 	
 	[ "Item_Name_SMG_G_Ammo" ] = "SMG 유탄",
-	[ "Item_Desc_SMG_G_Ammo" ] = "SMG 유탄 입니다, 터지면서 피해를 줍니다.",
+	[ "Item_Desc_SMG_G_Ammo" ] = "SMG 유탄입니다, 터지면서 피해를 줍니다.",
 	
 	[ "Item_Name_Buckshot_Ammo" ] = "샷건 탄약",
 	[ "Item_Desc_Buckshot_Ammo" ] = "샷건 탄약이 상자안에 들어있습니다.",
 	
 	[ "Item_Name_Crossbow_Ammo" ] = "크로스 보우 탄약",
-	[ "Item_Desc_Crossbow_Ammo" ] = "크로스 보우 탄약 입니다.",
+	[ "Item_Desc_Crossbow_Ammo" ] = "크로스 보우 탄약입니다.",
 	
 	[ "Item_Name_RPGAmmo" ] = "RPG 로켓",
-	[ "Item_Desc_RPGAmmo" ] = "RPG 로켓 발사기에 들어가는 로켓 입니다.",
+	[ "Item_Desc_RPGAmmo" ] = "RPG 로켓 발사기에 들어가는 로켓입니다.",
 
 	[ "Item_Name_357Ammo" ] = ".357 매그넘 탄약",
-	[ "Item_Desc_357Ammo" ] = ".357 매그넘 탄약 입니다.",
+	[ "Item_Desc_357Ammo" ] = ".357 매그넘 탄약입니다.",
 	
 	[ "Item_Name_CBAmmo" ] = "에너지 오브",
-	[ "Item_Desc_CBAmmo" ] = "펄스 라이플에 들어가는 에너지 오브 입니다.",
+	[ "Item_Desc_CBAmmo" ] = "펄스 라이플에 들어가는 에너지 오브입니다.",
 	
 	[ "Item_Name_Breach" ] = "문 돌파기",
-	[ "Item_Desc_Breach" ] = "문을 돌파할 수 있는 기구 입니다.",
+	[ "Item_Desc_Breach" ] = "문을 돌파할 수 있는 기구입니다.",
 	[ "Item_FuncStr01_Breach" ] = "장치",
 	[ "Item_Notify_ComLock_Breach" ] = "이 문에는 장치할 수 없습니다!",
 	[ "Breach_BlastStr" ] = "문 돌파",
 	
 	[ "Item_Name_CWUShirt" ] = "CWU 상의",
-	[ "Item_Desc_CWUShirt" ] = "CWU가 입는 깨끗한 상의 입니다.",
+	[ "Item_Desc_CWUShirt" ] = "CWU가 입는 깨끗한 상의입니다.",
 	
 	[ "Item_Name_CWUPants" ] = "CWU 바지",
-	[ "Item_Desc_CWUPants" ] = "CWU가 입는 깨끗한 바지 입니다.",
+	[ "Item_Desc_CWUPants" ] = "CWU가 입는 깨끗한 바지입니다.",
 	
 	[ "Item_Name_RebelShirt" ] = "반시민 상의",
-	[ "Item_Desc_RebelShirt" ] = "반시민들이 입는 전투복 입니다.",
+	[ "Item_Desc_RebelShirt" ] = "반시민들이 입는 전투복입니다.",
 	
 	[ "Item_Name_RebelPants" ] = "반시민 바지",
-	[ "Item_Desc_RebelPants" ] = "반시민들이 입는 바지 입니다.",
+	[ "Item_Desc_RebelPants" ] = "반시민들이 입는 바지입니다.",
 	
 	[ "Item_Name_RebelMedicShirt" ] = "반시민 메딕 상의",
-	[ "Item_Desc_RebelMedicShirt" ] = "반시민 메딕들이 입는 전투복 입니다.",
+	[ "Item_Desc_RebelMedicShirt" ] = "반시민 메딕들이 입는 전투복입니다.",
 	
 	[ "Item_Name_RebelMedicPants" ] = "반시민 메딕 바지",
-	[ "Item_Desc_RebelMedicPants" ] = "반시민 메딕들이 입는 바지 입니다.",
+	[ "Item_Desc_RebelMedicPants" ] = "반시민 메딕들이 입는 바지입니다.",
 	
 	// Medical
 	[ "Item_Category_Medical" ] = "의료",
 	
 	[ "Item_Name_HealthK" ] = "구급 상자",
-	[ "Item_Desc_HealthK" ] = "여러가지 구급품들이 들어있는 구급 상자 입니다.",
+	[ "Item_Desc_HealthK" ] = "여러가지 구급품들이 들어있는 구급 상자입니다.",
 	
 	[ "Item_Name_HealthV" ] = "구급 주사",
-	[ "Item_Desc_HealthV" ] = "몸에 주사하는 구급 주사 입니다.",
+	[ "Item_Desc_HealthV" ] = "몸에 주사하는 구급 주사입니다.",
+	
+	[ "Item_Name_AntideP" ] = "항 우울제",
+	[ "Item_Desc_AntideP" ] = "우울증을 치료하는 데 쓰이는 항 우울제입니다.",
+	[ "Item_FuncStr01_AntideP" ] = "사용",
+	[ "Item_Notify_Error01_AntideP" ] = "죽은 상태에서는 사용할 수 없습니다!",
 	
 	[ "Item_FuncStr01_Medical" ] = "사용",
 	[ "Item_FuncStr02_Medical" ] = "치료",
@@ -275,7 +270,7 @@ catherine.language.Merge( "korean", {
 	[ "CombineOverlay_PlayerDeath_CP" ] = "경고 ! 유닛 '%s' 의 신호가 소멸, 주의 요망 ...",
 	[ "CombineOverlay_PlayerDeath_OW" ] = "경고 ! 오버와치 유닛 '%s' 의 신호가 소멸, 주의 요망 ...",
 	[ "CombineOverlay_Online" ] = "온라인 ...",
-	[ "CombineOverlay_RFCitizens" ] = "시민 리스트 새로고침 중 ...",
+	[ "CombineOverlay_RFCitizens" ] = "시민 목록 새로고침 중 ...",
 	
 	// Attribute
 	[ "Jump_Title" ] = "점프력",
@@ -287,9 +282,15 @@ catherine.language.Merge( "korean", {
 	[ "Medical_Title" ] = "의료 기술",
 	[ "Medical_Desc" ] = "높을 경우 체력 회복량이 늘어납니다.",
 	
+	[ "Power_Title" ] = "힘",
+	[ "Power_Desc" ] = "높을 경우 주먹의 데미지가 높아집니다.",
+	
 	// Help Category
 	[ "Help_Category_CombineVoice" ] = "콤바인 보이스",
 	[ "Help_Desc_CombineVoice" ] = "콤바인 보이스를 나열합니다 ...",
+	
+	[ "Help_Category_CitizenVoice" ] = "시민 보이스",
+	[ "Help_Desc_CitizenVoice" ] = "시민 보이스를 나열합니다 ...",
 	
 	// Command
 	[ "Command_SpawnDispenser_Fin" ] = "당신은 배급기를 추가했습니다.",

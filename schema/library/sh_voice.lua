@@ -206,10 +206,10 @@ Schema.vo.RegisterNormal( COMBINE, "Zero", "Zero!", "npc/metropolice/vo/zero.wav
 Schema.vo.RegisterNormal( COMBINE, "Zone", "Zone!", "npc/metropolice/vo/zone.wav" )
 
 // Citizen voice stuff.
-//Schema.vo.RegisterNormal( CITIZEN, "Command", "Answer", "Sound" )
+//Schema.vo.RegisterNormal( CITIZEN, "Command", "Answer", "vo/npc/male01/answer01.wav", true )
 
 if ( CLIENT ) then
-	local combineVoice_htmlValue = [[
+	local voiceHTMLBase = [[
 	<!DOCTYPE html>
 	<html lang="ko">
 	<head>
@@ -239,10 +239,13 @@ if ( CLIENT ) then
 	
 	function Schema.vo.RegisterHelp( )
 		local title_voice = LANG( "Help_Category_CombineVoice" )
-		local html = Format( combineVoice_htmlValue, title_voice, LANG( "Help_Desc_CombineVoice" ) )
-
+		local html = Format( voiceHTMLBase, title_voice, LANG( "Help_Desc_CombineVoice" ) )
+		local haveCombineVoice = false
+		
 		for k, v in pairs( Schema.vo.normalVoice ) do
-			if ( table.HasValue( v.faction, FACTION_CP, FACTION_OW ) ) then
+			if ( table.HasValue( v.faction, FACTION_CP ) or table.HasValue( v.faction, FACTION_OW ) ) then
+				haveCombineVoice = true
+				
 				html = html .. [[
 					<ul class="list-group">
 						<li class="list-group-item">]] .. v.command .. [[<br> : ]] .. v.output .. [[</li>
@@ -253,7 +256,31 @@ if ( CLIENT ) then
 		
 		html = html .. [[</body></html>]]
 		
-		catherine.help.Register( CAT_HELP_HTML, title_voice, html, true )
+		if ( haveCombineVoice ) then
+			catherine.help.Register( CAT_HELP_HTML, title_voice, html, true )
+		end
+		
+		local title_voice = LANG( "Help_Category_CitizenVoice" )
+		local html = Format( voiceHTMLBase, title_voice, LANG( "Help_Desc_CitizenVoice" ) )
+		local haveCitizenVoice = false
+		
+		for k, v in pairs( Schema.vo.normalVoice ) do
+			if ( table.HasValue( v.faction, FACTION_CITIZEN ) or table.HasValue( v.faction, FACTION_CWU ) ) then
+				haveCitizenVoice = true
+				
+				html = html .. [[
+					<ul class="list-group">
+						<li class="list-group-item">]] .. v.command .. [[<br> : ]] .. v.output .. [[</li>
+					</ul>
+				]]
+			end
+		end
+		
+		html = html .. [[</body></html>]]
+		
+		if ( haveCitizenVoice ) then
+			catherine.help.Register( CAT_HELP_HTML, title_voice, html, true )
+		end
 	end
 	
 	Schema.vo.RegisterHelp( )

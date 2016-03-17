@@ -23,7 +23,7 @@ local function checkStaticRadio( pl, text )
 			return true
 		end
 	end
-
+	
 	return false
 end
 
@@ -37,6 +37,7 @@ catherine.command.Register( {
 		
 		if ( text == "" ) then
 			catherine.util.NotifyLang( pl, "Basic_Notify_InputText" )
+			return
 		end
 		
 		if ( pl:HasItem( "portable_radio" ) ) then
@@ -54,14 +55,14 @@ catherine.command.Register( {
 				end
 			else
 				local success = checkStaticRadio( pl, text )
-					
+				
 				if ( !success ) then
 					catherine.util.NotifyLang( pl, "Item_Notify_Error04_PR" )
 				end
 			end
 		else
 			local success = checkStaticRadio( pl, text )
-					
+			
 			if ( !success ) then
 				catherine.util.NotifyLang( pl, "Item_Notify_Error03_PR" )
 			end
@@ -96,7 +97,7 @@ catherine.command.Register( {
 	desc = "Run a Dispatch chat.",
 	runFunc = function( pl, args )
 		local team = pl:Team( )
-	
+		
 		if (
 			pl:Class( ) == CLASS_CP_SCN or
 			team == FACTION_ADMIN or

@@ -28,7 +28,7 @@ ITEM.thirstyRemove = 30
 ITEM.attributeAdd = {
 	{
 		uniqueID = "stamina",
-		boost = 10,
+		amount = 10,
 		removeTime = 300
 	}
 }

@@ -16,19 +16,13 @@ You should have received a copy of the GNU General Public License
 along with Catherine.  If not, see <http://www.gnu.org/licenses/>.
 ]]--
 
-local cashName = catherine.cash.GetOnlyName( )
-
 catherine.language.Merge( "english", {
 	// Basic
 	[ "Basic_Schema_Title" ] = "HALF-LIFE 2",
 	[ "Basic_Schema_Desc" ] = "This place is safe.",
 	[ "Basic_Schema_IntroTitle" ] = "City 17, 2016",
 	[ "Basic_Schema_IntroDesc" ] = "This place is safe.",
-	[ "Basic_Schema_Author" ] = "Development and design by %s.",
-	
-	// Cash
-	[ "Cash_UI_HasStr" ] = "You have a %s " .. cashName ..".",
-	[ "Cash_Notify_HasNot" ] = "You don't have a enough " .. cashName .. "!",
+	[ "Basic_Schema_Author" ] = "Half-Life 2 schema development and design by '%s'",
 	
 	// Faction Name
 	[ "Faction_Name_Citizen" ] = "Citizen",
@@ -45,10 +39,6 @@ catherine.language.Merge( "english", {
 	[ "Faction_Desc_CP" ] = "These units are the brunt of the combine's forces. These units are well-trained military units but they also take part policing the population.",
 
 	// Item
-	[ "Item_Desc_Wallet" ] = cashName .. " in a small stack.",
-	[ "Item_FuncStr01_Wallet" ] = "Take " .. cashName,
-	[ "Item_FuncStr02_Wallet" ] = "Drop " .. cashName,
-	
 	[ "Item_Name_LargeBag" ] = "Large bag",
 	[ "Item_Desc_LargeBag" ] = "This item adds more inventory space!",
 	
@@ -215,6 +205,11 @@ catherine.language.Merge( "english", {
 	[ "Item_Name_HealthV" ] = "Health Vial",
 	[ "Item_Desc_HealthV" ] = "A vial filled with green liquid.",
 	
+	[ "Item_Name_AntideP" ] = "Antidepressants",
+	[ "Item_Desc_AntideP" ] = "Heal the Depressive.",
+	[ "Item_FuncStr01_AntideP" ] = "Use",
+	[ "Item_Notify_Error01_AntideP" ] = "You can not use while dead!",
+	
 	[ "Item_FuncStr01_Medical" ] = "Use",
 	[ "Item_FuncStr02_Medical" ] = "Heal",
 	[ "Item_Notify_Error01_Medical" ] = "This person doesn't need heal!",
@@ -269,7 +264,7 @@ catherine.language.Merge( "english", {
 	[ "CombineOverlay_HealthFullRecovered" ] = "Vital signs recovered ...",
 	[ "CombineOverlay_TakeDmg_Local" ] = "WARNING ! Physical bodily trauma detected ...",
 	[ "CombineOverlay_TakeDmg_NoLocal" ] = "WARNING ! Unit '%s' has damaged by unknown problems ...",
-	[ "CombineOverlay_HealthRecovering" ] = "Vital signs recovering [%s%] ...",
+	[ "CombineOverlay_HealthRecovering" ] = "Vital signs recovering [%s] ...",
 	[ "CombineOverlay_LocalPlayerDeath_CP" ] = "ERROR ! Shut Down - ...",
 	[ "CombineOverlay_LocalPlayerDeath_OW" ] = "Critical Error - ...",
 	[ "CombineOverlay_PlayerDeath_CP" ] = "WARNING ! Unit '%s' vital signs absent, alerting dispatch ...",
@@ -287,9 +282,15 @@ catherine.language.Merge( "english", {
 	[ "Medical_Title" ] = "Medical",
 	[ "Medical_Desc" ] = "A high amount of health recovery will increase.",
 	
+	[ "Power_Title" ] = "Power",
+	[ "Power_Desc" ] = "A high amount of Punch damage will increase.",
+	
 	// Help Category
 	[ "Help_Category_CombineVoice" ] = "Combine Voice",
 	[ "Help_Desc_CombineVoice" ] = "The listed of Combine Voices ...",
+	
+	[ "Help_Category_CitizenVoice" ] = "Citizen Voice",
+	[ "Help_Desc_CitizenVoice" ] = "The listed of Citizen Voices ...",
 	
 	// Command
 	[ "Command_SpawnDispenser_Fin" ] = "You are added Dispenser.",
