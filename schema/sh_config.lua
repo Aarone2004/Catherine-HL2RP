@@ -16,6 +16,7 @@ You should have received a copy of the GNU General Public License
 along with Catherine.  If not, see <http://www.gnu.org/licenses/>.
 ]]--
 
+catherine.configs.Font = "Consolas"
 catherine.configs.characterMenuMusic = "sound/music/hl2_song19.mp3"
 catherine.configs.enabledCharacterMenuMusicLooping = true
 catherine.configs.defaultRPInformation = {
@@ -27,4 +28,4 @@ catherine.configs.defaultRPInformation = {
 	second = 1,
 	temperature = 23
 }
-catherine.configs.schemaLogo = "CAT_HL2RP/symbol/cat_hl2rp.png"
+catherine.configs.schemaLogo = "CAT_HL2RP/logos/main001.png"

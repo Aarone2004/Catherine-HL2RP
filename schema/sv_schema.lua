@@ -128,7 +128,7 @@ function Schema:GetUnlockTime( pl )
 end
 
 function Schema:GetHealthRecoverInterval( pl )
-
+	return 8 - ( 4 * ( catherine.attribute.GetProgress( pl, CAT_ATT_MEDICAL ) / 100 ) )
 end
 
 function Schema:PlayerTied( pl, target )
@@ -679,6 +679,16 @@ function Schema:ChatTypingChanged( pl, bool )
 	pl:EmitSound( self:GetBeepSound( pl, !bool ), 40 )
 end
 
+function Schema:PostItemTake( pl, itemTable )
+	if ( itemTable.uniqueID != "cid" ) then return end
+	
+	if ( tonumber( pl:GetCharVar( "cid" ) ) == tonumber( pl:GetInvItemData( "cid", "cid" ) ) ) then
+		if ( pl:Name( ) != pl:GetInvItemData( "cid", "name" ) ) then
+			pl:SetInvItemData( "cid", "name", pl:Name( ) )
+		end
+	end
+end
+
 function Schema:CharacterNameChanged( pl, newName )
 	if ( pl:Team( ) == FACTION_CP ) then
 		local rankID, classID = self:GetRankByName( pl:Name( ) )
@@ -719,6 +729,8 @@ function Schema:CharacterNameChanged( pl, newName )
 		if ( rankID ) then
 			pl:SetModel( self:GetModelByRank( rankID, true ) )
 		end
+	elseif ( pl:Team( ) == FACTION_CITIZEN ) then
+		catherine.inventory.SetItemData( pl, "cid", "name", newName )
 	end
 end
 

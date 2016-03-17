@@ -30,11 +30,13 @@ function PANEL:Init( )
 	self.title = ""
 	
 	self:SetSize( self.w, self.h )
-	self:SetPos( ScrW( ), self.y )
+	self:SetPos( self.x, self.y )
 	self:SetTitle( "" )
 	self:MakePopup( )
+	self:SetDraggable( false )
 	self:ShowCloseButton( false )
-	self:MoveTo( ScrW( ) / 2 - self.w / 2, self.y, 0.2, 0 )
+	self:SetAlpha( 0 )
+	self:AlphaTo( 255, 0.2, 0 )
 	
 	self.html = vgui.Create( "DHTML", self )
 	self.html:SetPos( 10, 35 )
@@ -42,14 +44,11 @@ function PANEL:Init( )
 	
 	self.close = vgui.Create( "catherine.vgui.button", self )
 	self.close:SetPos( self.w - 30, 0 )
-	self.close:SetSize( 30, 25 )
+	self.close:SetSize( 30, 23 )
 	self.close:SetStr( "X" )
-	self.close:SetStrFont( "catherine_normal35" )
-	self.close:SetStrColor( Color( 255, 255, 255, 255 ) )
-	self.close:SetGradientColor( Color( 255, 255, 255, 255 ) )
+	self.close:SetStrFont( "catherine_normal30" )
+	self.close:SetStrColor( Color( 0, 0, 0, 255 ) )
 	self.close.Click = function( )
-		if ( self.closing ) then return end
-		
 		self:Close( )
 	end
 end
@@ -67,8 +66,9 @@ end
 
 function PANEL:Paint( w, h )
 	catherine.theme.Draw( CAT_THEME_MENU_BACKGROUND, w, h )
+	draw.RoundedBox( 0, 0, 0, w, 25, Color( 255, 255, 255, 255 ) )
 	
-	draw.SimpleText( self.title, "catherine_normal20", 0, 5, Color( 255, 255, 255, 255 ), TEXT_ALIGN_LEFT, TEXT_ALIGN_RIGHT )
+	draw.SimpleText( self.title, "catherine_lightUI20", 10, 13, Color( 0, 0, 0, 255 ), TEXT_ALIGN_LEFT, 1 )
 end
 
 function PANEL:Think( )
@@ -83,12 +83,18 @@ function PANEL:Think( )
 end
 
 function PANEL:Close( )
-	self.closing = true
+	if ( self.closing ) then return end
 	
-	self:MoveTo( ScrW( ), self.y, 0.2, 0, nil, function( )
+	self.closing = true
+	self:Remove( )
+	self = nil
+	
+	--[[ // ?;
+	self:AlphaTo( 0, 0,2, 0, function( )
 		self:Remove( )
 		self = nil
 	end )
+	--]]
 end
 
 vgui.Register( "catherine.vgui.book", PANEL, "DFrame" )

@@ -264,7 +264,7 @@ catherine.language.Merge( "english", {
 	[ "CombineOverlay_HealthFullRecovered" ] = "Vital signs recovered ...",
 	[ "CombineOverlay_TakeDmg_Local" ] = "WARNING ! Physical bodily trauma detected ...",
 	[ "CombineOverlay_TakeDmg_NoLocal" ] = "WARNING ! Unit '%s' has damaged by unknown problems ...",
-	[ "CombineOverlay_HealthRecovering" ] = "Vital signs recovering [%s%] ...",
+	[ "CombineOverlay_HealthRecovering" ] = "Vital signs recovering [%s] ...",
 	[ "CombineOverlay_LocalPlayerDeath_CP" ] = "ERROR ! Shut Down - ...",
 	[ "CombineOverlay_LocalPlayerDeath_OW" ] = "Critical Error - ...",
 	[ "CombineOverlay_PlayerDeath_CP" ] = "WARNING ! Unit '%s' vital signs absent, alerting dispatch ...",

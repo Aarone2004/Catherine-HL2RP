@@ -35,11 +35,8 @@ catherine.util.Include( "sv_plugin.lua" )
 
 catherine.language.Merge( "english", {
 	[ "BVM_Notify_RefillQ" ] = "Are you sure refill this beverage?, this work is spend %s.",
-	[ "BVM_UI_OnlineStr" ] = "ONLINE",
-	[ "BVM_UI_OfflineStr" ] = "OFFLINE",
-	[ "BVM_Name" ] = "Beverage Vending Machine",
-	[ "BVM_UI_NoStockStr" ] = "No Stock",
 	[ "BVM_UI_OfflineNotifyStr" ] = "This vending machine is offline.",
+	[ "BVM_UI_Thx" ] = "Thank you!",
 	[ "BVM_Notify_Add" ] = "You are added beverage vending machine.",
 	[ "BVM_Notify_Remove" ] = "You are removed this beverage vending machine.",
 	[ "BVM_Notify_NotValid" ] = "This is not vendor!",
@@ -49,11 +46,8 @@ catherine.language.Merge( "english", {
 
 catherine.language.Merge( "korean", {
 	[ "BVM_Notify_RefillQ" ] = "당신은 정말로 이 음료를 리필하시겠습니까?, %s 가 소모됩니다.",
-	[ "BVM_UI_OnlineStr" ] = "판매중",
-	[ "BVM_UI_OfflineStr" ] = "판매 중지",
-	[ "BVM_Name" ] = "음료 자동 판매기",
-	[ "BVM_UI_NoStockStr" ] = "재고 없음",
 	[ "BVM_UI_OfflineNotifyStr" ] = "이 판매기는 판매 중지 되었습니다.",
+	[ "BVM_UI_Thx" ] = "고맙습니다!",
 	[ "BVM_Notify_Add" ] = "당신은 음료 자동 판매기를 추가했습니다.",
 	[ "BVM_Notify_Remove" ] = "당신은 이 음료 자동 판매기를 지우셨습니다.",
 	[ "BVM_Notify_NotValid" ] = "이 물체는 음료 자동 판매기가 아닙니다!",
@@ -107,27 +101,3 @@ catherine.command.Register( {
 function PLUGIN:IsActive( ent )
 	return !ent:GetNetVar( "offline" )
 end
-
-if ( SERVER ) then return end
-
-netstream.Hook( "catherine.hl2rp.plugin.beverage_vm.MachineUse", function( data )
-	if ( IsValid( catherine.vgui.beverage_vm ) ) then
-		catherine.vgui.beverage_vm:Remove( )
-		catherine.vgui.beverage_vm = nil
-	end
-	
-	catherine.vgui.beverage_vm = vgui.Create( "catherine.vgui.beverage_vm" )
-	catherine.vgui.beverage_vm:InitializeBeverageVM( Entity( data ) )
-end )
-
-netstream.Hook( "catherine.hl2rp.plugin.beverage_vm.CloseMenu", function( )
-	if ( IsValid( catherine.vgui.beverage_vm ) ) then
-		catherine.vgui.beverage_vm:Close( )
-	end
-end )
-
-netstream.Hook( "catherine.hl2rp.plugin.beverage_vm.RefreshList", function( )
-	if ( IsValid( catherine.vgui.beverage_vm ) ) then
-		catherine.vgui.beverage_vm:RefreshList( )
-	end
-end )
