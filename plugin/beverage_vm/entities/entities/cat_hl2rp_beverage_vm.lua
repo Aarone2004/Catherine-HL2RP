@@ -222,27 +222,27 @@ else
 						local stock = data[ v[ 2 ] ]
 						
 						if ( selectID == v[ 2 ] ) then
-							draw.RoundedBox( 0, 5, 28 + ( 25 * i ), 310, 1, Color( 255, 255, 255, 255 ) )
+							draw.RoundedBox( 0, 5, 28 + ( 35 * i ), 310, 1, Color( 255, 255, 255, 255 ) )
 						else
-							draw.RoundedBox( 0, 5, 28 + ( 25 * i ), 310, 1, Color( 0, 0, 0, 255 ) )
+							draw.RoundedBox( 0, 5, 28 + ( 35 * i ), 310, 1, Color( 0, 0, 0, 255 ) )
 						end
 						
 						if ( stock == 0 ) then
 							draw.NoTexture( )
 							surface.SetDrawColor( 255, 20, 20, 255 )
-							catherine.geometry.DrawCircle( 300, 17 + ( 25 * i ), 3, 5, 90, 360, 100 )
+							catherine.geometry.DrawCircle( 300, 17 + ( 35 * i ), 3, 5, 90, 360, 100 )
 						else
 							draw.NoTexture( )
 							surface.SetDrawColor( 20, 20, 20, 255 )
-							catherine.geometry.DrawCircle( 300, 17 + ( 25 * i ), 3, 5, 90, 360, 100 )
+							catherine.geometry.DrawCircle( 300, 17 + ( 35 * i ), 3, 5, 90, 360, 100 )
 							
 							draw.NoTexture( )
 							surface.SetDrawColor( 255, 255, 255, 255 )
-							catherine.geometry.DrawCircle( 300, 17 + ( 25 * i ), 3, 5, 90, stock / PLUGIN.maxItemStockCount * 360, 100 )
+							catherine.geometry.DrawCircle( 300, 17 + ( 35 * i ), 3, 5, 90, stock / PLUGIN.maxItemStockCount * 360, 100 )
 						end
 						
-						draw.SimpleText( itemName, "catherine_normal15", 10, 10 + ( 25 * i ), Color( 255, 255, 255, 255 ), 0, 0 )
-						draw.SimpleText( catherine.cash.GetCompleteName( itemCost ), "catherine_normal15", 280, 10 + ( 25 * i ), Color( 255, 255, 255, 255 ), TEXT_ALIGN_RIGHT, 0 )
+						draw.SimpleText( itemName, "catherine_normal15", 10, 10 + ( 35 * i ), Color( 255, 255, 255, 255 ), 0, 0 )
+						draw.SimpleText( catherine.cash.GetCompleteName( itemCost ), "catherine_normal15", 280, 10 + ( 35 * i ), Color( 255, 255, 255, 255 ), TEXT_ALIGN_RIGHT, 0 )
 						i = i + 1
 					end
 				elseif ( mode == 1 ) then

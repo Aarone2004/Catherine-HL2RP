@@ -324,6 +324,12 @@ function Schema:OnChatControl( chatInformation )
 		local ex = string.Explode( ", ", text )
 		local vol = true
 		
+		if ( #ex > 5 ) then
+			for i = 5, #ex do
+				ex[ i ] = nil
+			end
+		end
+		
 		if ( uniqueID == "ic" ) then
 			vol = 80
 		elseif ( uniqueID == "yell" ) then
@@ -424,6 +430,12 @@ function Schema:ChatPosted( chatInformation )
 	if ( !chatInformation.voice ) then return end
 	local pl = chatInformation.pl
 	local len = 0
+	
+	if ( #chatInformation.voice > 5 ) then
+		for i = 5, #chatInformation.voice do
+			chatInformation.voice[ i ] = nil
+		end
+	end
 	
 	for k, v in pairs( chatInformation.voice ) do
 		len = len + ( k == 1 and 0 or v.len + 0.5 )

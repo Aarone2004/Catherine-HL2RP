@@ -81,7 +81,7 @@ if ( SERVER ) then
 		local playerPos = pl:GetPos( )
 		
 		if ( isCritical ) then
-			for k, v in pairs( ents.FindInSphere( playerPos, 200 + math.random( 10, 100 ) ) ) do
+			for k, v in pairs( ents.FindInSphere( playerPos, 50 + math.random( 5, 25 ) ) ) do
 				if ( IsValid( v ) and v:IsPlayer( ) and pl != v and v:IsCharacterLoaded( ) and v:Alive( ) ) then
 					local tr = util.TraceLine( {
 						start = playerPos,
@@ -95,7 +95,7 @@ if ( SERVER ) then
 				end
 			end
 		else
-			for k, v in pairs( ents.FindInSphere( playerPos, 100 + math.random( 10, 50 ) ) ) do
+			for k, v in pairs( ents.FindInSphere( playerPos, 30 + math.random( 5, 20 ) ) ) do
 				if ( IsValid( v ) and v:IsPlayer( ) and pl != v and v:IsCharacterLoaded( ) and v:Alive( ) ) then
 					local tr = util.TraceLine( {
 						start = playerPos,
@@ -156,7 +156,7 @@ if ( SERVER ) then
 		
 		local charID = pl:GetCharacterID( )
 		local timerID = "Catherine.HL2RP.plugin.disease.AutoHealCold." .. charID
-		local time = isCritical and 3000 or ( 1000 + math.random( 100, 1000 ) )
+		local time = isCritical and 1500 or ( 100 + math.random( 10, 100 ) )
 		
 		timer.Remove( timerID )
 		timer.Create( timerID, 5, 0, function( )
@@ -217,24 +217,24 @@ if ( SERVER ) then
 		
 		if ( ( pl.CAT_HL2RP_nextDisease or 0 ) <= CurTime( ) ) then
 			if ( pl.CAT_HL2RP_diseaseInfect ) then
-				if ( math.random( 1, 150 ) >= 125 + math.random( 1, 10 ) ) then
+				if ( math.random( 1, 800 ) >= 775 ) then
 					catherine.util.StartMotionBlur( pl, 0.4, 1, 0.02 )
 					catherine.character.SetCharVar( pl, "disease_cold_active", true )
 					self:CreateColdAutoHealTimer( pl )
 				end
 				
-				pl.CAT_HL2RP_nextDisease = CurTime( ) + math.random( 5, 30 )
+				pl.CAT_HL2RP_nextDisease = CurTime( ) + math.random( 200, 400 )
 				
 				return
 			else
-				if ( math.random( 1, 200 ) >= 195 ) then
+				if ( math.random( 1, 1000 ) >= 995 ) then
 					catherine.util.StartMotionBlur( pl, 0.4, 1, 0.02 )
 					catherine.character.SetCharVar( pl, "disease_cold_active", true )
 					self:CreateColdAutoHealTimer( pl )
 				end
 			end
 			
-			pl.CAT_HL2RP_nextDisease = CurTime( ) + 300
+			pl.CAT_HL2RP_nextDisease = CurTime( ) + 400
 		end
 	end
 	
