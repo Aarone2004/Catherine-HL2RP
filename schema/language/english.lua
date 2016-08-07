@@ -19,9 +19,9 @@ along with Catherine.  If not, see <http://www.gnu.org/licenses/>.
 catherine.language.Merge( "english", {
 	// Basic
 	[ "Basic_Schema_Title" ] = "HALF-LIFE 2",
-	[ "Basic_Schema_Desc" ] = "This place is safe.",
+	[ "Basic_Schema_Desc" ] = "It's safer here.",
 	[ "Basic_Schema_IntroTitle" ] = "City 17, 2016",
-	[ "Basic_Schema_IntroDesc" ] = "This place is safe.",
+	[ "Basic_Schema_IntroDesc" ] = "It's safer here.",
 	[ "Basic_Schema_Author" ] = "Half-Life 2 schema development and design by '%s'",
 	
 	// Faction Name
@@ -32,21 +32,21 @@ catherine.language.Merge( "english", {
 	[ "Faction_Name_CP" ] = "Civil Protection",
 	
 	// Faction Description
-	[ "Faction_Desc_Citizen" ] = "He wears a dirty shirt.",
+	[ "Faction_Desc_Citizen" ] = "He wears a dirty and torn shirt.",
 	[ "Faction_Desc_CWU" ] = "He wears a clean shirt.",
-	[ "Faction_Desc_Administrator" ] = "A city administrator.",
-	[ "Faction_Desc_OW" ] = "Mechanised Infantry units utilized to combat the ongoing insurgency, these units are the elite of the combine's forces.",
-	[ "Faction_Desc_CP" ] = "These units are the brunt of the combine's forces. These units are well-trained military units but they also take part policing the population.",
+	[ "Faction_Desc_Administrator" ] = "A City Administrator.",
+	[ "Faction_Desc_OW" ] = "Mechanised Infantry units utilized to combat the ongoing insurgency, these units are the Elite of Combine Forces.",
+	[ "Faction_Desc_CP" ] = "The Civil Protection are the policing force of the combine, they patrol the cities looking for anyone who's acting uncivil.",
 
 	// Item
 	[ "Item_Name_LargeBag" ] = "Large bag",
-	[ "Item_Desc_LargeBag" ] = "This item adds more inventory space!",
+	[ "Item_Desc_LargeBag" ] = "It seems to make your inventory's space larger.",
 	
 	[ "Item_Name_SmallBag" ] = "Small bag",
-	[ "Item_Desc_SmallBag" ] = "This item adds more inventory space!",
+	[ "Item_Desc_SmallBag" ] = "It seems to make your inventory's space larger. You can barely even notice it though.",
 	
 	[ "Item_Name_CID" ] = "Citizen ID Card",
-	[ "Item_Desc_CID" ] = "The Citizen ID Card.",
+	[ "Item_Desc_CID" ] = "A Citizen ID Card.",
 	
 	[ "Item_Name_PR" ] = "Portable Radio",
 	[ "Item_Desc_PR" ] = "Communication to other humans.",
@@ -66,20 +66,20 @@ catherine.language.Merge( "english", {
 	[ "Item_Notify_Error05_PR" ] = "Please set a Portable Radio frequency!",
 	
 	[ "Item_Name_RD" ] = "Request Device",
-	[ "Item_Desc_RD" ] = "If you have this, your can request it to combine.",
+	[ "Item_Desc_RD" ] = "A Request Device, to request the CCA.",
 	[ "Item_Notify_Error01_RD" ] = "You don't have a Request Device!",
 
 	[ "Item_Name_SC" ] = "Spray Can",
-	[ "Item_Desc_SC" ] = "If you have this, your can spray it to wall.",
+	[ "Item_Desc_SC" ] = "If you have this, you can paint on a wall. This is uncivil though.",
 	
 	[ "Item_Name_BW" ] = "Breen Water",
-	[ "Item_Desc_BW" ] = "Shake and eat!",
+	[ "Item_Desc_BW" ] = "Slushy drink. Tastes bad.",
 	
 	[ "Item_Name_RBW" ] = "Red Breen Water",
-	[ "Item_Desc_RBW" ] = "Shake and eat!",
+	[ "Item_Desc_RBW" ] = "Slushy drink. Tastes normal.",
 	
 	[ "Item_Name_GBW" ] = "Golden Breen Water",
-	[ "Item_Desc_GBW" ] = "Shake and eat!",
+	[ "Item_Desc_GBW" ] = "Slushy drink. Tastes sorta good...",
 	
 	[ "Item_Name_ChineseT" ] = "Chinese Takeout",
 	[ "Item_Desc_ChineseT" ] = "It's filled with cold noodles.",
@@ -91,10 +91,10 @@ catherine.language.Merge( "english", {
 	[ "Item_Desc_Melon" ] = "A big and green fruit.",
 	
 	[ "Item_Name_MilkC" ] = "Milk Carton",
-	[ "Item_Desc_MilkC" ] = "A carton filled with delicious milk.",
+	[ "Item_Desc_MilkC" ] = "A carton filled with milk.",
 	
 	[ "Item_Name_MilkJ" ] = "Milk Jugs",
-	[ "Item_Desc_MilkJ" ] = "A jug filled with delicious milk.",
+	[ "Item_Desc_MilkJ" ] = "A jug filled with milk.",
 	
 	[ "Item_Name_VegetableO" ] = "Vegetable Oil",
 	[ "Item_Desc_VegetableO" ] = "It isn't very tasty.",
@@ -103,21 +103,21 @@ catherine.language.Merge( "english", {
 	[ "Item_Desc_9MM" ] = "A standard .9mm Pistol.",
 	
 	[ "Item_Name_AR2" ] = "AR2",
-	[ "Item_Desc_AR2" ] = "The corp combine.",
+	[ "Item_Desc_AR2" ] = "A Combine gun. It has a small charger filled with electricity, which an arm rapidly triggers when pressing the trigger, firing plasma bullets.",
 	
 	[ "Item_Name_SMG" ] = "SMG",
 	[ "Item_Desc_SMG" ] = "The simple sub machine gun.",
 	
 	[ "Item_Name_357" ] = ".357 Magnum",
-	[ "Item_Desc_357" ] = "A shiny pistol with 6 chambers that appear to rotate.",
+	[ "Item_Desc_357" ] = "A shiny revolver. Strong kickback...",
 	
 	[ "Item_Name_CB" ] = "Crossbow",
-	[ "Item_Desc_CB" ] = "A massive crossbow that seems to have the ability to heat up metal bars.",
+	[ "Item_Desc_CB" ] = "A massive crossbow that seems to have the ability to shoot hot metal bolts at incredible speeds.",
 	
 	[ "Item_Name_Buckshot" ] = "Shotgun",
 	[ "Item_Desc_Buckshot" ] = "A metallic shotgun that has some sort of combine materials added onto the gun near the trigger.",
 	
-	[ "Item_Name_RPG" ] = "Rocket Lancher",
+	[ "Item_Name_RPG" ] = "RPG",
 	[ "Item_Desc_RPG" ] = "A large black tube containing a lot of firepower.",
 	
 	[ "Item_Name_CrowB" ] = "Crowbar",
@@ -134,7 +134,7 @@ catherine.language.Merge( "english", {
 	[ "Item_Desc_CitizenS" ] = "Raw nutrients with slight flavoring provided by the Combine.",
 	
 	[ "Item_Name_Bleach" ] = "Bleach",
-	[ "Item_Desc_Bleach" ] = "A bottle of bleach, this is dangerous stuff.",
+	[ "Item_Desc_Bleach" ] = "A bottle of bleach, often used for cleaning.",
 	
 	[ "Item_Name_ZT" ] = "Zip Tie",
 	[ "Item_Desc_ZT" ] = "Tie to player.",
@@ -149,7 +149,7 @@ catherine.language.Merge( "english", {
 	[ "Item_Desc_PistolAmmo" ] = "A greenish catridge with the 9mm label on the side.",
 	
 	[ "Item_Name_AR2Ammo" ] = "Pulse Energy Cartridge",
-	[ "Item_Desc_AR2Ammo" ] = "A curved piece of metal with glowing blue pieces.",
+	[ "Item_Desc_AR2Ammo" ] = "A curved piece of metal with glowing blue small chargers.",
 	
 	[ "Item_Name_SMGAmmo" ] = "SMG Round",
 	[ "Item_Desc_SMGAmmo" ] = "A light teal box with some inscriptions on the side.",
@@ -182,7 +182,7 @@ catherine.language.Merge( "english", {
 	[ "Item_Desc_CWUShirt" ] = "A clean shirt of the CWU.",
 	
 	[ "Item_Name_CWUPants" ] = "CWU Pants",
-	[ "Item_Desc_CWUPants" ] = "A clean pants of the CWU.",
+	[ "Item_Desc_CWUPants" ] = "Clean pants of the CWU.",
 	
 	[ "Item_Name_RebelShirt" ] = "Rebel Shirt",
 	[ "Item_Desc_RebelShirt" ] = "A shirt of the Rebels.",
@@ -206,20 +206,20 @@ catherine.language.Merge( "english", {
 	[ "Item_Desc_HealthV" ] = "A vial filled with green liquid.",
 	
 	[ "Item_Name_AntideP" ] = "Antidepressants",
-	[ "Item_Desc_AntideP" ] = "Heal the Depressive.",
+	[ "Item_Desc_AntideP" ] = "Its formula seems to make depression lower for a few hours. This is uncivil contraband.",
 	[ "Item_FuncStr01_AntideP" ] = "Use",
 	[ "Item_Notify_Error01_AntideP" ] = "You can not use while dead!",
 	
 	[ "Item_FuncStr01_Medical" ] = "Use",
 	[ "Item_FuncStr02_Medical" ] = "Heal",
-	[ "Item_Notify_Error01_Medical" ] = "This person doesn't need heal!",
-	[ "Item_Notify_Error02_Medical" ] = "You are doesn't need heal!",
-	[ "Item_Notify_Error03_Medical" ] = "This person already died!",
-	[ "Item_Notify_Error04_Medical" ] = "You are already died!",
+	[ "Item_Notify_Error01_Medical" ] = "This person doesn't need to be healed!",
+	[ "Item_Notify_Error02_Medical" ] = "You don't need to be healed!",
+	[ "Item_Notify_Error03_Medical" ] = "This person has already died!",
+	[ "Item_Notify_Error04_Medical" ] = "You have already died!",
 	
 	// Radio
 	[ "Item_Name_SR" ] = "Static Radio",
-	[ "Item_Desc_SR" ] = "Communication to other humans.",
+	[ "Item_Desc_SR" ] = "Communication to other people.",
 	[ "Item_NoFreq" ] = "No frequency has been set.",
 	[ "Item_Freq" ] = "Frequency set to %s.",
 	[ "Item_FuncStr01_SR" ] = "Set Frequency",
@@ -227,35 +227,35 @@ catherine.language.Merge( "english", {
 	[ "Item_FuncStr03_SR" ] = "Place Radio",
 	[ "Item_RadioFreqQ_SR" ] = "Would you like to setting frequency for radio?",
 	[ "Item_Notify_FreqSet_SR" ] = "You are set portable radio frequency to %s.",
-	[ "Item_Notify_Error01_SR" ] = "Radio frequency is must be 101.1 ~ 199.9!",
-	[ "Item_Notify_Error02_SR" ] = "Radio frequency is must be XXX.X!",
+	[ "Item_Notify_Error01_SR" ] = "Radio frequency must be 101.1 ~ 199.9!",
+	[ "Item_Notify_Error02_SR" ] = "Radio frequency must be XXX.X!",
 	
 	// Alcohol
 	[ "Item_Name_Beer" ] = "Beer",
-	[ "Item_Desc_Beer" ] = "A bottle filled cool beer.",
+	[ "Item_Desc_Beer" ] = "A bottle filled with cool beer.",
 	
 	[ "Item_Name_Whisky" ] = "Whisky",
-	[ "Item_Desc_Whisky" ] = "A bottle filled advanced whisky.",
+	[ "Item_Desc_Whisky" ] = "A bottle filled with advanced whisky.",
 	
 	[ "Item_Name_Wine" ] = "Wine",
-	[ "Item_Desc_Wine" ] = "A bottle filled advanced wine.",
+	[ "Item_Desc_Wine" ] = "A bottle filled with advanced wine.",
 	
 	// Chat
 	[ "Chat_Dispatch" ] = "Combine Dispatch - %s",
 	[ "Chat_Radio" ] = "%s radio says %s",
-	[ "Chat_Request" ] = "%s reqeust says %s",
-	[ "Chat_Breencast" ] = "Breen Cast - %s",
+	[ "Chat_Request" ] = "%s request says %s",
+	[ "Chat_Breencast" ] = "The breencast screen says: %s",
 	
 	// Basic
-	[ "Basic_Notify_IsNotCombine" ] = "You are a not Combine!",
+	[ "Basic_Notify_IsNotCombine" ] = "You are not a Combine!",
 	
 	// Combine Overlay
-	[ "CombineOverlay_Str01" ] = "Waiting for biosignal ...",
+	[ "CombineOverlay_Str01" ] = "Waiting for a biosignal ...",
 	[ "CombineOverlay_Str02" ] = "Initializing Heads-up-display ...",
 	[ "CombineOverlay_Str03" ] = "Ascertaining low-wave radio frequency ...",
 	[ "CombineOverlay_Str04" ] = "Finding seeders ...",
 	[ "CombineOverlay_Str05" ] = "Finding peers ...",
-	[ "CombineOverlay_Str06" ] = "Regaining CAT-equalization ...",
+	[ "CombineOverlay_Str06" ] = "Regaining equalization modules ...",
 	[ "CombineOverlay_Str07" ] = "Receiving network messages ...",
 	[ "CombineOverlay_Str08" ] = "Registering Citadel messages ...",
 	[ "CombineOverlay_Str09" ] = "Idle state ...",
@@ -263,7 +263,7 @@ catherine.language.Merge( "english", {
 	[ "CombineOverlay_Request" ] = "%s's request - %s ( AREA : %s )",
 	[ "CombineOverlay_HealthFullRecovered" ] = "Vital signs recovered ...",
 	[ "CombineOverlay_TakeDmg_Local" ] = "WARNING ! Physical bodily trauma detected ...",
-	[ "CombineOverlay_TakeDmg_NoLocal" ] = "WARNING ! Unit '%s' has damaged by unknown problems ...",
+	[ "CombineOverlay_TakeDmg_NoLocal" ] = "WARNING ! Unit '%s' has been damaged by unknown problems ...",
 	[ "CombineOverlay_HealthRecovering" ] = "Vital signs recovering [%s] ...",
 	[ "CombineOverlay_LocalPlayerDeath_CP" ] = "ERROR ! Shut Down - ...",
 	[ "CombineOverlay_LocalPlayerDeath_OW" ] = "Critical Error - ...",
@@ -274,26 +274,26 @@ catherine.language.Merge( "english", {
 	
 	// Attribute
 	[ "Jump_Title" ] = "Jump",
-	[ "Jump_Desc" ] = "How high you can jump for.",
+	[ "Jump_Desc" ] = "How high you are able to jump.",
 	
 	[ "Deftness_Title" ] = "Deftness",
-	[ "Deftness_Desc" ] = "For faster speed use hands.",
+	[ "Deftness_Desc" ] = "Your speed.",
 	
 	[ "Medical_Title" ] = "Medical",
-	[ "Medical_Desc" ] = "A high amount of health recovery will increase.",
+	[ "Medical_Desc" ] = "The amount your health can increase.",
 	
 	[ "Power_Title" ] = "Power",
-	[ "Power_Desc" ] = "A high amount of Punch damage will increase.",
+	[ "Power_Desc" ] = "The amount your punch damage can increase.",
 	
 	// Help Category
-	[ "Help_Category_CombineVoice" ] = "Combine Voice",
-	[ "Help_Desc_CombineVoice" ] = "The listed of Combine Voices ...",
+	[ "Help_Category_CombineVoice" ] = "Combine Voices",
+	[ "Help_Desc_CombineVoice" ] = "The list of Combine Voices ...",
 	
-	[ "Help_Category_CitizenVoice" ] = "Citizen Voice",
-	[ "Help_Desc_CitizenVoice" ] = "The listed of Citizen Voices ...",
+	[ "Help_Category_CitizenVoice" ] = "Citizen Voices",
+	[ "Help_Desc_CitizenVoice" ] = "The list of Citizen Voices ...",
 	
 	// Command
-	[ "Command_SpawnDispenser_Fin" ] = "You are added Dispenser.",
+	[ "Command_SpawnDispenser_Fin" ] = "You have added Dispenser.",
 	
 	// Weapon
 	[ "Weapon_Stunstick_Name" ] = "Stunstick",
